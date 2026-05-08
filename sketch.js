@@ -32,7 +32,7 @@ function drawPiechartone() {
   let arcY = windowHeight/1.41;
   let arcS = windowWidth/4.5;
   
-  let startwinkel = -HALF_PI;
+  let startwinkel = -HALF_PI/1.6;
   segmente = []; 
   
   for (let i = 0; i < werte.length; i++) {
@@ -74,10 +74,10 @@ function getHoverSegment(arcX, arcY, arcS) {
   }
   
   // Wichtig: Startwinkel von -HALF_PI (oben) auf 0 bis TWO_PI umrechnen
-  let angepassterMausWinkel = (mausWinkel + HALF_PI) % TWO_PI;
+  let angepassterMausWinkel = (mausWinkel + HALF_PI/1.6) % TWO_PI;
   
   for (let i = 0; i < segmente.length; i++) {
-    let start = segmente[i].start + HALF_PI;
+    let start = segmente[i].start + HALF_PI/1.6;
     if (start < 0) start += TWO_PI;
     
     let ende = segmente[i].ende + HALF_PI;
