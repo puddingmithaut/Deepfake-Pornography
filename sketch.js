@@ -1,27 +1,55 @@
 //hallo test
 
+//Hintergrund
 let backgroundsketch
+
+//Fonts
+let headline;
+let fließtext;
+
 
 
 function preload(){
 
 backgroundsketch= loadImage('assets/backgroundsketch.jpeg')
+headline= loadFont("assets/Avenir Heavy.ttf")
+fließtext= loadFont("assets/Avenir Regular.ttf")
+
 
 }
 
 
 function setup() {
   createCanvas(windowWidth,windowHeight);
-  background(119, 89, 91);
+  background(47, 45, 45);
   image(backgroundsketch,0,0,windowWidth,windowHeight);
 
 }
 
 function draw() {
 
+//text
+
+fill(255,80,255);
+textFont(headline);
+textSize(windowHeight/10.8);
+text('Deepfake', windowWidth/23, windowHeight/6.5);
+
+
+fill(255,80,255);
+textFont(fließtext);
+textSize(windowWidth/79);
+textLeading(windowWidth/70);
+text('Deepfake is a form of artificial intelligence (AI)\nthat can be used to create compelling images,\nsounds and video.\nAs a result, it creates people and events that\ndo not exist or that did not actually occur',
+windowWidth/23, windowHeight/ 4.2); 
+
+textFont(headline);
+text("Deepfake Videos", windowWidth/23, windowHeight/2);
+
 drawPiechartone();
 drawPiecharttwo();
 drawPiechartthree();
+
 
 }
 
