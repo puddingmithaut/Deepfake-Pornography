@@ -1,7 +1,7 @@
 //hallo test
 
 //Hintergrund
-let backgroundsketch
+let testseite
 
 //Fonts
 let headline;
@@ -11,7 +11,7 @@ let fließtext;
 
 function preload(){
 
-backgroundsketch= loadImage('assets/backgroundsketch.jpeg')
+testseite= loadImage('assets/testseite.jpg')
 headline= loadFont("assets/Avenir Heavy.ttf")
 fließtext= loadFont("assets/Avenir Regular.ttf")
 
@@ -20,35 +20,51 @@ fließtext= loadFont("assets/Avenir Regular.ttf")
 
 
 function setup() {
-  createCanvas(windowWidth,windowHeight);
+  createCanvas(windowWidth,windowHeight*6);
   background(47, 45, 45);
-  image(backgroundsketch,0,0,windowWidth,windowHeight);
 
 }
 
+
+
+
+
 function draw() {
 
+ ///Hintergrund Sketch///    
+
+  push();
+  scale(0.93);
+  let bildBreite = testseite.width;
+  let bildHoehe = testseite.height;
+  let scaleFaktor = width / bildBreite;
+  let neueHoehe = bildHoehe * scaleFaktor;
+  
+  // Durch scale(0.9) wird das Bild jetzt bei 0,0 gezeichnet
+  // aber nur 90% so groß wie das Original
+  image(testseite, 0, 0, width, neueHoehe);
+  pop();
 //text
 
-fill(255,80,255);
-textFont(headline);
-textSize(windowHeight/10.8);
-text('Deepfake', windowWidth/23, windowHeight/6.5);
+//fill(255,80,255);
+//textFont(headline);
+//textSize(windowHeight/10.8);
+//text('Deepfake', windowWidth/23, windowHeight/6.5);
 
 
-fill(255,80,255);
-textFont(fließtext);
-textSize(windowWidth/79);
-textLeading(windowWidth/70);
-text('Deepfake is a form of artificial intelligence (AI)\nthat can be used to create compelling images,\nsounds and video.\nAs a result, it creates people and events that\ndo not exist or that did not actually occur',
-windowWidth/23, windowHeight/ 4.2); 
+//fill(255,80,255);
+//textFont(fließtext);
+//textSize(windowWidth/79);
+//textLeading(windowWidth/70);
+//text('Deepfake is a form of artificial intelligence (AI)\nthat can be used to create compelling images,\nsounds and video.\nAs a result, it creates people and events that\ndo not exist or that did not actually occur',
+//windowWidth/23, windowHeight/ 4.2); 
 
-textFont(headline);
-text("Deepfake Videos", windowWidth/23, windowHeight/2);
+//textFont(headline);
+//text("Deepfake Videos", windowWidth/23, windowHeight/2);
 
-drawPiechartone();
-drawPiecharttwo();
-drawPiechartthree();
+//drawPiechartone();
+//drawPiecharttwo();
+//drawPiechartthree();
 
 
 }
