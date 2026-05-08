@@ -62,9 +62,9 @@ function draw() {
 //textFont(headline);
 //text("Deepfake Videos", windowWidth/23, windowHeight/2);
 
-//drawPiechartone();
-//drawPiecharttwo();
-//drawPiechartthree();
+drawPiechartone();
+drawPiecharttwo();
+drawPiechartthree();
 
 
 }
@@ -73,14 +73,16 @@ function draw() {
 function drawPiechartone() {
 
   let segmente = []; 
-  let farben = ["#F44336", "#673AB7", "#03A9F4"];
+  let farben = [color(255, 0, 0, 100),
+   color(0, 255, 0, 150),
+  ];
   let werte = [0.02, 0.98];
 
-  let arcX = windowWidth/5.8;
-  let arcY = windowHeight/1.41;
+  let arcX = windowWidth/6.6;
+  let arcY = windowHeight/1.375;
   let arcS = windowWidth/4.5;
   
-  let startwinkel = -HALF_PI/1.6;
+  let startwinkel = -HALF_PI/1.57;
   segmente = []; 
   
   
@@ -118,12 +120,12 @@ function drawPiechartone() {
   }
   
     // Wichtig: Startwinkel von -HALF_PI (oben) auf 0 bis TWO_PI umrechnen
-    let angepassterMausWinkel = (mausWinkel + HALF_PI/1.6) % TWO_PI;
+    let angepassterMausWinkel = (mausWinkel + HALF_PI/1.57) % TWO_PI;
   
     for (let i = 0; i < segmente.length; i++) {
-    let start = segmente[i].start + HALF_PI/1.6;
+    let start = segmente[i].start + HALF_PI/1.57;
     if (start < 0) start += TWO_PI;
-    let ende = segmente[i].ende + HALF_PI/1.6;
+    let ende = segmente[i].ende + HALF_PI/1.57;
     if (ende < 0) ende += TWO_PI;
     
     // Prüfen ob Mauswinkel im Segment liegt
@@ -157,14 +159,16 @@ function drawPiechartone() {
 
 function drawPiecharttwo(){
   let segmente = []; 
-  let farben = ["#F44336", "#673AB7", "#03A9F4"];
+   let farben = [color(255, 0, 0, 100),
+   color(0, 255, 0, 150),
+  ];
   let werte = [0.01, 0.99];
 
-  let arcX = windowWidth/1.64;
-  let arcY = windowHeight/3.4;
+  let arcX = windowWidth/1.45 ;
+  let arcY = windowHeight/1.302;
   let arcS = windowWidth/5;
   
-  let startwinkel = -HALF_PI/1.6;
+  let startwinkel = -HALF_PI/2.07;
   segmente = []; 
   
   
@@ -200,12 +204,12 @@ function drawPiecharttwo(){
   }
   
   // Wichtig: Startwinkel von -HALF_PI (oben) auf 0 bis TWO_PI umrechnen
-  let angepassterMausWinkel = (mausWinkel + HALF_PI/1.6) % TWO_PI;
+  let angepassterMausWinkel = (mausWinkel + HALF_PI/2.07) % TWO_PI;
   
   for (let i = 0; i < segmente.length; i++) {
-    let start = segmente[i].start + HALF_PI/1.6;
+    let start = segmente[i].start + HALF_PI/2.07;
     if (start < 0) start += TWO_PI;
-    let ende = segmente[i].ende + HALF_PI/1.6;
+    let ende = segmente[i].ende + HALF_PI/2.07;
     if (ende < 0) ende += TWO_PI;
     
     // Prüfen ob Mauswinkel im Segment liegt
@@ -227,14 +231,18 @@ function drawPiecharttwo(){
 
 function drawPiechartthree(){
 let segmente = []; 
-  let farben = ["#F44336", "#673AB7", "#03A9F4"];
+    let farben = [color(255, 0, 0, 100),
+   color(0, 255, 0, 150),
+  ];
   let werte = [0.02, 0.98];
 
-  let arcX = windowWidth/1.408 ;
-  let arcY = windowHeight/1.33;
+
+  let arcX = windowWidth/1.62;
+  let arcY = windowHeight/3.2;
   let arcS = windowWidth/5;
   
-  let startwinkel = -HALF_PI/1.6;
+  
+  let startwinkel = -HALF_PI/1.258;
   segmente = []; 
   
   
@@ -272,12 +280,12 @@ let segmente = [];
   }
   
     // Wichtig: Startwinkel von -HALF_PI (oben) auf 0 bis TWO_PI umrechnen
-    let angepassterMausWinkel = (mausWinkel + HALF_PI/1.6) % TWO_PI;
+    let angepassterMausWinkel = (mausWinkel + HALF_PI/1.258) % TWO_PI;
   
     for (let i = 0; i < segmente.length; i++) {
-    let start = segmente[i].start + HALF_PI/1.6;
+    let start = segmente[i].start + HALF_PI/1.258;
     if (start < 0) start += TWO_PI;
-    let ende = segmente[i].ende + HALF_PI/1.6;
+    let ende = segmente[i].ende + HALF_PI/1.258;
     if (ende < 0) ende += TWO_PI;
     
     // Prüfen ob Mauswinkel im Segment liegt
