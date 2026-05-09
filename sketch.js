@@ -11,7 +11,7 @@ let fließtext;
 
 function preload(){
 
-testseite= loadImage('assets/testseite.jpg')
+testseite= loadImage('assets/testseite3.jpg')
 headline= loadFont("assets/Avenir Heavy.ttf")
 fließtext= loadFont("assets/Avenir Regular.ttf")
 
@@ -34,10 +34,10 @@ function draw() {
  ///Hintergrund Sketch///    
 
   push();
-  scale(0.93);
+  scale();
   let bildBreite = testseite.width;
   let bildHoehe = testseite.height;
-  let scaleFaktor = width / bildBreite;
+  let scaleFaktor = windowWidth / bildBreite;
   let neueHoehe = bildHoehe * scaleFaktor;
   image(testseite, 0, 0, width, neueHoehe);
   pop();
@@ -47,25 +47,31 @@ function draw() {
 //headline
 fill(255,80,255);
 textFont(headline);
-textSize(windowHeight/9.5);
+textSize(windowHeight/8.78);
 text('Deepfake', windowWidth/24.9, windowHeight/6.4);
 
 //definition
 textFont(fließtext);
-textSize(windowWidth/85.8);
+textSize(windowWidth/86.021505);
 textLeading(windowWidth/71.6);
-text('Deepfake is a form of artificial intelligence (AI)\nthat can be used to create compelling images,\nsounds and video.\nAs a result, it creates people and events that\ndo not exist or that did not actually occur.',
-windowWidth/23, windowHeight/ 4.6); 
+text('Deepfake is a form of artificial intelligence (AI)\nthat can be used to create compelling images,\nsounds and video. As a result, it creates people\nand events that do not exist or that did not\nactually occur.',
+windowWidth/22.71, windowHeight/ 4.522); 
 
 //diagramm eins
 
 textFont(headline);
-textSize(windowHeight/23.4);
-text('Deepfake Videos', windowWidth/25.7, windowHeight/2.2)
+textSize(windowHeight/29.1);
+text('Deepfake Videos', windowWidth/23.25 , windowHeight/2.12)
 
-
+textFont(fließtext); 
+textSize(windowWidth/32);
+text('2%', windowWidth/3.385,windowHeight/1.921);
 
 //diagramm zwei
+
+textFont(fließtext);
+textSize(windowWidth/32);
+text('2%',1536.2,148.2);
 
 //diagramm drei
 
@@ -76,7 +82,6 @@ drawPiechartthree();
 
 
 }
-
 
 function drawPiechartone() {
 
@@ -161,16 +166,16 @@ function drawPiechartone() {
 
 function drawPiecharttwo(){
   let segmente = []; 
-   let farben = [color(255, 0, 0, 100),
-   color(0, 255, 0, 150),
+   let farben = [color(255, 0, 0, 50),
+   color(0, 255, 0, 50),
   ];
   let werte = [0.01, 0.99];
 
-  let arcX = windowWidth/1.45 ;
-  let arcY = windowHeight/1.302;
-  let arcS = windowWidth/5;
+  let arcX = windowWidth/1.482 ;
+  let arcY = windowHeight/1.335;
+  let arcS = windowWidth/5.7;
   
-  let rotation= HALF_PI/2.07;
+  let rotation= HALF_PI/2.1;
   let startwinkel = -rotation
   segmente = []; 
   
@@ -234,16 +239,16 @@ function drawPiecharttwo(){
 
 function drawPiechartthree(){
 let segmente = []; 
-    let farben = [color(255, 0, 0, 100),
-   color(0, 255, 0, 150),
+    let farben = [color(255, 0, 0, 50),
+   color(0, 255, 0, 50),
   ];
   let werte = [0.02, 0.98];
 
 
-  let arcX = windowWidth/1.62;
-  let arcY = windowHeight/3.2;
-  let arcS = windowWidth/5;
-  let rotation= HALF_PI/1.258;
+  let arcX = windowWidth/1.64;
+  let arcY = windowHeight/3.7;
+  let arcS = windowWidth/5.7;
+  let rotation= HALF_PI/1.24;
   
   let startwinkel = -rotation;
   segmente = []; 
