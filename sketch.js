@@ -39,28 +39,36 @@ function draw() {
   let bildHoehe = testseite.height;
   let scaleFaktor = width / bildBreite;
   let neueHoehe = bildHoehe * scaleFaktor;
-  
-  // Durch scale(0.9) wird das Bild jetzt bei 0,0 gezeichnet
-  // aber nur 90% so groß wie das Original
   image(testseite, 0, 0, width, neueHoehe);
   pop();
-//text
 
-//fill(255,80,255);
-//textFont(headline);
-//textSize(windowHeight/10.8);
-//text('Deepfake', windowWidth/23, windowHeight/6.5);
+//text seite eins
+
+//headline
+fill(255,80,255);
+textFont(headline);
+textSize(windowHeight/9.5);
+text('Deepfake', windowWidth/24.9, windowHeight/6.4);
+
+//definition
+textFont(fließtext);
+textSize(windowWidth/85.8);
+textLeading(windowWidth/71.6);
+text('Deepfake is a form of artificial intelligence (AI)\nthat can be used to create compelling images,\nsounds and video.\nAs a result, it creates people and events that\ndo not exist or that did not actually occur.',
+windowWidth/23, windowHeight/ 4.6); 
+
+//diagramm eins
+
+textFont(headline);
+textSize(windowHeight/23.4);
+text('Deepfake Videos', windowWidth/25.7, windowHeight/2.2)
 
 
-//fill(255,80,255);
-//textFont(fließtext);
-//textSize(windowWidth/79);
-//textLeading(windowWidth/70);
-//text('Deepfake is a form of artificial intelligence (AI)\nthat can be used to create compelling images,\nsounds and video.\nAs a result, it creates people and events that\ndo not exist or that did not actually occur',
-//windowWidth/23, windowHeight/ 4.2); 
 
-//textFont(headline);
-//text("Deepfake Videos", windowWidth/23, windowHeight/2);
+//diagramm zwei
+
+//diagramm drei
+
 
 drawPiechartone();
 drawPiecharttwo();
@@ -124,7 +132,7 @@ function drawPiechartone() {
     let angepassterMausWinkel = (mausWinkel + rotation) % TWO_PI;
   
     for (let i = 0; i < segmente.length; i++) {
-    let start = segmente[i].start + rotatino;
+    let start = segmente[i].start + rotation;
     if (start < 0) start += TWO_PI;
     let ende = segmente[i].ende + rotation;
     if (ende < 0) ende += TWO_PI;
