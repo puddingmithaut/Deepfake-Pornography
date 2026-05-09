@@ -82,7 +82,8 @@ function drawPiechartone() {
   let arcY = windowHeight/1.375;
   let arcS = windowWidth/4.5;
   
-  let startwinkel = -HALF_PI/1.57;
+  let rotation=  -HALF_PI/1.57;
+  let startwinkel = -rotation
   segmente = []; 
   
   
@@ -120,12 +121,12 @@ function drawPiechartone() {
   }
   
     // Wichtig: Startwinkel von -HALF_PI (oben) auf 0 bis TWO_PI umrechnen
-    let angepassterMausWinkel = (mausWinkel + HALF_PI/1.57) % TWO_PI;
+    let angepassterMausWinkel = (mausWinkel + rotation) % TWO_PI;
   
     for (let i = 0; i < segmente.length; i++) {
-    let start = segmente[i].start + HALF_PI/1.57;
+    let start = segmente[i].start + rotatino;
     if (start < 0) start += TWO_PI;
-    let ende = segmente[i].ende + HALF_PI/1.57;
+    let ende = segmente[i].ende + rotation;
     if (ende < 0) ende += TWO_PI;
     
     // Prüfen ob Mauswinkel im Segment liegt
@@ -148,13 +149,6 @@ function drawPiechartone() {
 
 
 
-
-
-
-
-
-
-
 }
 
 function drawPiecharttwo(){
@@ -168,7 +162,8 @@ function drawPiecharttwo(){
   let arcY = windowHeight/1.302;
   let arcS = windowWidth/5;
   
-  let startwinkel = -HALF_PI/2.07;
+  let rotation= HALF_PI/2.07;
+  let startwinkel = -rotation
   segmente = []; 
   
   
@@ -204,12 +199,12 @@ function drawPiecharttwo(){
   }
   
   // Wichtig: Startwinkel von -HALF_PI (oben) auf 0 bis TWO_PI umrechnen
-  let angepassterMausWinkel = (mausWinkel + HALF_PI/2.07) % TWO_PI;
+  let angepassterMausWinkel = (mausWinkel + rotation) % TWO_PI;
   
   for (let i = 0; i < segmente.length; i++) {
-    let start = segmente[i].start + HALF_PI/2.07;
+    let start = segmente[i].start + rotation;
     if (start < 0) start += TWO_PI;
-    let ende = segmente[i].ende + HALF_PI/2.07;
+    let ende = segmente[i].ende + rotation;
     if (ende < 0) ende += TWO_PI;
     
     // Prüfen ob Mauswinkel im Segment liegt
@@ -240,9 +235,9 @@ let segmente = [];
   let arcX = windowWidth/1.62;
   let arcY = windowHeight/3.2;
   let arcS = windowWidth/5;
+  let rotation= HALF_PI/1.258;
   
-  
-  let startwinkel = -HALF_PI/1.258;
+  let startwinkel = -rotation;
   segmente = []; 
   
   
@@ -280,12 +275,12 @@ let segmente = [];
   }
   
     // Wichtig: Startwinkel von -HALF_PI (oben) auf 0 bis TWO_PI umrechnen
-    let angepassterMausWinkel = (mausWinkel + HALF_PI/1.258) % TWO_PI;
+    let angepassterMausWinkel = (mausWinkel + rotation) % TWO_PI;
   
     for (let i = 0; i < segmente.length; i++) {
-    let start = segmente[i].start + HALF_PI/1.258;
+    let start = segmente[i].start + rotation;
     if (start < 0) start += TWO_PI;
-    let ende = segmente[i].ende + HALF_PI/1.258;
+    let ende = segmente[i].ende + rotation;
     if (ende < 0) ende += TWO_PI;
     
     // Prüfen ob Mauswinkel im Segment liegt
