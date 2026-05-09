@@ -34,7 +34,7 @@ function draw() {
  ///Hintergrund Sketch///    
 
   push();
-  scale();
+  scale(0.93);
   let bildBreite = testseite.width;
   let bildHoehe = testseite.height;
   let scaleFaktor = windowWidth / bildBreite;
@@ -43,6 +43,10 @@ function draw() {
   pop();
 
 //text seite eins
+
+
+let fontmittel= windowWidth/32;
+
 
 //headline
 fill(255,80,255);
@@ -64,17 +68,20 @@ textSize(windowHeight/29.1);
 text('Deepfake Videos', windowWidth/23.25 , windowHeight/2.12)
 
 textFont(fließtext); 
-textSize(windowWidth/32);
-text('2%', windowWidth/3.385,windowHeight/1.921);
+textSize(fontmittel);
+text('2%', windowWidth/3.385,windowWidth/3.77);
 
 //diagramm zwei
 
 textFont(fließtext);
-textSize(windowWidth/32);
-text('2%',1536.2,148.2);
+textSize(fontmittel);
+text('2%',windowWidth/1.3456678, windowWidth/13.973929);
 
 //diagramm drei
 
+textFont(fließtext); 
+textSize(fontmittel);
+text('1%', windowWidth/1.2855947,windowWidth/3.0120349);
 
 drawPiechartone();
 drawPiecharttwo();
