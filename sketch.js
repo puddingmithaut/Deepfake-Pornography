@@ -82,7 +82,7 @@ function drawPiechartone() {
   let arcY = windowHeight/1.375;
   let arcS = windowWidth/4.5;
   
-  let rotation=  -HALF_PI/1.57;
+  let rotation=  HALF_PI/1.57;
   let startwinkel = -rotation
   segmente = []; 
   
