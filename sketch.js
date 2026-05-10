@@ -60,7 +60,7 @@ text('Deepfake', windowWidth/15.72,windowWidth/19.160305);
 
 //definition
 textFont(fließtext);
-textSize(fontklein);
+textSize(windowWidth/114.89675);
 textLeading(windowWidth/96);
 text('A deepfake is a piece of media - such as a photo,\naudio or video, that has been altered, generated\nor falsified using artificial intelligence (AI) \ntechniques, to convincingly replace one person’s \nface or voice. As a result, it creates people and \nevents that´do not exist or that did not actually \noccur.',
 windowWidth/14.940476, windowWidth/11.331828); 
@@ -72,14 +72,17 @@ textSize(windowHeight/35);
 text('Deepfake Videos', windowWidth/15.3 , windowHeight/2.22)
 
 textFont(fließtext); 
-textSize(fontmittel);
+textSize(windowWidth/28.8);
 text('2%', windowWidth/2.985,windowWidth/3.93);
 
-textSize(fontmittelklein); 
+textSize(windowWidth/66.755319); 
 text('non pornographic', windowWidth/2.985, windowWidth/3.689);
 
+textSize(windowWidth/112);
+text ('Political, entertainment,\nfraud and scams, fake news\nand false information.', windowWidth/2.982, windowWidth/3.515)
+
 textFont(headline);
-textSize(fontbig); 
+textSize(windowWidth/17.310344); 
 text('98%',windowWidth/2.986,windowWidth/2.469)
 
 textFont(fließtext);
@@ -90,7 +93,7 @@ text('are pornographic', windowWidth/2.988, windowWidth/2.365);
 //diagramm zwei
 
 textFont(fließtext);
-textSize(fontmittel);
+textSize( windowWidth/28.8);
 text('2%',windowWidth/1.4014517, windowWidth/12.364532);
 
 textFont(fließtext);
@@ -103,28 +106,28 @@ textSize(fontbig);
 text('98%',windowWidth/1.404,windowWidth/4.9882816)
 
 textFont(fließtext);
-textSize(windowWidth/73); 
-text('are non consensual', windowWidth/1.404, windowWidth/4.58);
+textSize(windowWidth/69); 
+text('are non consensual', windowWidth/1.405, windowWidth/4.58);
 
 
 //diagramm drei
 
 textFont(fließtext); 
-textSize(fontmittel);
+textSize( windowWidth/28.8);
 text('1%', windowWidth/1.2378,windowWidth/3.1631386);
 
 textFont(fließtext);
-textSize(fontmittelklein); 
-text('are male', windowWidth/1.2378, windowWidth/3);
+textSize(windowWidth/69); 
+text('are male', windowWidth/1.2375, windowWidth/3.009);
 
 
 textFont(headline);
-textSize(fontbig); 
+textSize(windowWidth/17.310344); 
 text('99%',windowWidth/1.238,windowWidth/2.37)
 
 textFont(fließtext);
-textSize(fontmittelklein); 
-text('are female', windowWidth/1.238, windowWidth/2);
+textSize(windowWidth/69); 
+text('are female', windowWidth/1.239, windowWidth/2.274);
 
 
 drawPiechartone();
