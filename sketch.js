@@ -36,6 +36,8 @@ function setup() {
   createCanvas(windowWidth,windowHeight*6);
   background(47, 45, 45);
 
+
+  
 }
 
 function draw() {
@@ -66,7 +68,7 @@ function draw() {
 
   push(); 
   scale(0.93);
-  image(pfeil1, windowWidth/40.48387,0,windowWidth,neueHoehe); 
+  image(pfeil1, windowWidth/38,windowWidth/53.404255,windowWidth,neueHoehe); 
   pop();
 
   push();
@@ -103,7 +105,7 @@ headline
 fill(255,80,255);
 textFont(headline);
 textSize(windowWidth/22.979);
-text('Deepfake', windowWidth/15.72,windowWidth/19.160305);
+text('Deepfake', windowWidth/33,windowWidth/19.160305);
 
 
 //definition
@@ -111,13 +113,13 @@ textFont(fließtext);
 textSize(windowWidth/114.89675);
 textLeading(windowWidth/96);
 text('A deepfake is a piece of media - such as a photo,\naudio or video, that has been altered, generated\nor falsified using artificial intelligence (AI) \ntechniques, to convincingly replace one person’s \nface or voice. As a result, it creates people and \nevents that´do not exist or that did not actually \noccur.',
-windowWidth/14.940476, windowWidth/11.331828); 
+windowWidth/29.8, windowWidth/10.9); 
 
 //diagramm eins
 
 textFont(headline);
 textSize(windowWidth/68.5);
-text('Deepfake Videos', windowWidth/15.3 , windowWidth/4.351)
+text('Deepfake Videos', windowWidth/31 , windowWidth/4.399)
 
 textFont(fließtext); 
 textSize(windowWidth/28.8);
@@ -131,11 +133,11 @@ text ('Political, entertainment,\nfraud and scams, fake news\nand false informat
 
 textFont(headline);
 textSize(windowWidth/17.310344); 
-text('98%',windowWidth/2.986,windowWidth/2.469)
+text('98%',windowWidth/2.97,windowWidth/2.37)
 
 textFont(fließtext);
 textSize(windowWidth/69); 
-text('are pornographic', windowWidth/2.988, windowWidth/2.365);
+text('are pornographic', windowWidth/2.97, windowWidth/2.275);
 
 
 //diagramm zwei
@@ -196,9 +198,9 @@ function drawPiechartone() {
   ];
   let werte = [0.02, 0.98];
 
-  let arcX = windowWidth/5.5;
-  let arcY = windowWidth/2.7;
-  let arcS = windowWidth/4.3;
+  let arcX = windowWidth/7;
+  let arcY = windowWidth/2.4;
+  let arcS = windowWidth/2.886044;
   
   let rotation=  HALF_PI/1.57;
   let startwinkel = -rotation
