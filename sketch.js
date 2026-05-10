@@ -6,6 +6,13 @@ let test
 //Fonts
 let headline;
 let fließtext;
+let arrows;
+let pfeil; 
+let pfeil1; 
+let pfeil2; 
+let pfeil3;
+let pfeil4;
+let pfeil5;
 
 
 
@@ -14,7 +21,13 @@ function preload(){
 test= loadImage('assets/hintergrundskizze.jpg')
 headline= loadFont("assets/Avenir Heavy.ttf")
 fließtext= loadFont("assets/Avenir Regular.ttf")
-
+arrows= loadImage("assets/arrows.png")
+pfeil= loadImage("assets/3.png")
+pfeil1= loadImage("assets/4.png")
+pfeil2= loadImage("assets/1.png")
+pfeil3=loadImage("assets/2.png")
+pfeil4= loadImage("assets/5.png")
+pfeil5=loadImage("assets/6.png")
 
 }
 
@@ -25,22 +38,57 @@ function setup() {
 
 }
 
-
-
-
-
 function draw() {
 
  ///Hintergrund Sketch///    
-
-  push();
-  scale(0.93);
   let bildBreite = test.width;
   let bildHoehe = test.height;
   let scaleFaktor = windowWidth / bildBreite;
   let neueHoehe = bildHoehe * scaleFaktor;
+  push();
+  scale(0.93);
   image(test, windowWidth/40, 0, windowWidth, neueHoehe);
   pop();
+
+
+
+///images///
+  push();
+  scale(0.93);
+  image(arrows, windowWidth/41.833333,0, windowWidth, neueHoehe);
+  pop();
+
+
+  push();
+  scale(0.93);
+  image(pfeil, windowWidth/40.48387,0,windowWidth,neueHoehe);
+  pop();
+
+  push(); 
+  scale(0.93);
+  image(pfeil1, windowWidth/40.48387,0,windowWidth,neueHoehe); 
+  pop();
+
+  push();
+  scale(0.93); 
+  image(pfeil2, windowWidth/39.841269,0,windowWidth,neueHoehe);
+  pop();
+
+  push();
+  scale(0.93); 
+  image(pfeil3,windowWidth/39.841269,0,windowWidth,neueHoehe);
+  pop();
+
+  push();
+  scale(0.93); 
+  image(pfeil4,windowWidth/39.841269,0,windowWidth,neueHoehe);
+  pop();
+
+  push();
+  scale(0.93); 
+  image(pfeil5,windowWidth/39.841269,0,windowWidth,neueHoehe);
+  pop();
+
 
 //text seite eins
 
@@ -68,7 +116,7 @@ windowWidth/14.940476, windowWidth/11.331828);
 //diagramm eins
 
 textFont(headline);
-textSize(windowHeight/35);
+textSize(windowWidth/68.5);
 text('Deepfake Videos', windowWidth/15.3 , windowWidth/4.351)
 
 textFont(fließtext); 
@@ -102,7 +150,7 @@ text('are consensual', windowWidth/1.4014517, windowWidth/10.25);
 
 
 textFont(headline);
-textSize(fontbig); 
+textSize(windowWidth/17.310344); 
 text('98%',windowWidth/1.404,windowWidth/4.9882816)
 
 textFont(fließtext);
@@ -133,6 +181,9 @@ text('are female', windowWidth/1.239, windowWidth/2.274);
 drawPiechartone();
 drawPiecharttwo();
 drawPiechartthree();
+
+
+
 
 
 }
