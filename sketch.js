@@ -45,7 +45,7 @@ function draw() {
 //text seite eins
 
 
-let fontmittel= windowWidth/32;
+let fontmittel= windowWidth/28.8;
 
 
 headline
@@ -53,40 +53,38 @@ fill(255,80,255);
 textFont(headline);
 textSize(windowWidth/22.979);
 text('Deepfake', windowWidth/15.72,windowWidth/19.160305);
-//textSize(109.2285);
-//text('Deepfake', 160,131);
 
 
 //definition
-//textFont(fließtext);
-//textSize(windowWidth/86.021505);
-//textLeading(windowWidth/71.6);
-//text('Deepfake is a form of artificial intelligence (AI)\nthat can be used to create compelling images,\nsounds and video. As a result, it creates people\nand events that do not exist or that did not\nactually occur.',
-//windowWidth/22.71, windowHeight/ 4.522); 
+textFont(fließtext);
+textSize(21.8457);
+textLeading(windowWidth/96);
+text('A deepfake is a piece of media - such as a photo,\naudio or video, that has been altered, generated\nor falsified using artificial intelligence (AI) \ntechniques, to convincingly replace one person’s \nface or voice. As a result, it creates people and \nevents that´do not exist or that did not actually \noccur.',
+windowWidth/14.940476, windowWidth/11.331828); 
 
 //diagramm eins
 
-//textFont(headline);
-//textSize(windowHeight/29.1);
-//text('Deepfake Videos', windowWidth/23.25 , windowHeight/2.12)
+textFont(headline);
+textSize(windowHeight/35);
+text('Deepfake Videos', windowWidth/15.3 , windowHeight/2.22)
 
-//textFont(fließtext); 
-//textSize(fontmittel);
-//text('2%', windowWidth/3.385,windowWidth/3.77);
+textFont(fließtext); 
+textSize(fontmittel);
+text('2%', windowWidth/2.985,windowWidth/3.93);
 
 
 
 //diagramm zwei
 
-//textFont(fließtext);
-//textSize(fontmittel);
-//text('2%',windowWidth/1.3456678, windowWidth/13.973929);
+textFont(fließtext);
+textSize(fontmittel);
+text('2%',windowWidth/1.4014517, windowWidth/12.364532);
 
 //diagramm drei
 
-//textFont(fließtext); 
-//textSize(fontmittel);
-//text('1%', windowWidth/1.2855947,windowWidth/3.0120349);
+textFont(fließtext); 
+textSize(fontmittel);
+text('1%', windowWidth/1.2855947,windowWidth/3.0120349);
 
 drawPiechartone();
 drawPiecharttwo();
