@@ -1,7 +1,7 @@
 //hallo test
 
 //Hintergrund
-let testseite
+let test
 
 //Fonts
 let headline;
@@ -11,7 +11,7 @@ let fließtext;
 
 function preload(){
 
-testseite= loadImage('assets/testseite3.jpg')
+test= loadImage('assets/hintergrundskizze.jpg')
 headline= loadFont("assets/Avenir Heavy.ttf")
 fließtext= loadFont("assets/Avenir Regular.ttf")
 
@@ -35,11 +35,11 @@ function draw() {
 
   push();
   scale(0.93);
-  let bildBreite = testseite.width;
-  let bildHoehe = testseite.height;
+  let bildBreite = test.width;
+  let bildHoehe = test.height;
   let scaleFaktor = windowWidth / bildBreite;
   let neueHoehe = bildHoehe * scaleFaktor;
-  image(testseite, 0, 0, width, neueHoehe);
+  image(test, windowWidth/40, 0, windowWidth, neueHoehe);
   pop();
 
 //text seite eins
@@ -49,43 +49,45 @@ let fontmittel= windowWidth/32;
 
 
 //headline
-fill(255,80,255);
-textFont(headline);
-textSize(windowHeight/8.78);
-text('Deepfake', windowWidth/24.9, windowHeight/6.4);
+//fill(255,80,255);
+//textFont(headline);
+//textSize(windowHeight/8.78);
+//text('Deepfake', windowWidth/24.9, windowHeight/6.4);
 
 //definition
-textFont(fließtext);
-textSize(windowWidth/86.021505);
-textLeading(windowWidth/71.6);
-text('Deepfake is a form of artificial intelligence (AI)\nthat can be used to create compelling images,\nsounds and video. As a result, it creates people\nand events that do not exist or that did not\nactually occur.',
-windowWidth/22.71, windowHeight/ 4.522); 
+//textFont(fließtext);
+//textSize(windowWidth/86.021505);
+//textLeading(windowWidth/71.6);
+//text('Deepfake is a form of artificial intelligence (AI)\nthat can be used to create compelling images,\nsounds and video. As a result, it creates people\nand events that do not exist or that did not\nactually occur.',
+//windowWidth/22.71, windowHeight/ 4.522); 
 
 //diagramm eins
 
-textFont(headline);
-textSize(windowHeight/29.1);
-text('Deepfake Videos', windowWidth/23.25 , windowHeight/2.12)
+//textFont(headline);
+//textSize(windowHeight/29.1);
+//text('Deepfake Videos', windowWidth/23.25 , windowHeight/2.12)
 
-textFont(fließtext); 
-textSize(fontmittel);
-text('2%', windowWidth/3.385,windowWidth/3.77);
+//textFont(fließtext); 
+//textSize(fontmittel);
+//text('2%', windowWidth/3.385,windowWidth/3.77);
+
+
 
 //diagramm zwei
 
-textFont(fließtext);
-textSize(fontmittel);
-text('2%',windowWidth/1.3456678, windowWidth/13.973929);
+//textFont(fließtext);
+//textSize(fontmittel);
+//text('2%',windowWidth/1.3456678, windowWidth/13.973929);
 
 //diagramm drei
 
-textFont(fließtext); 
-textSize(fontmittel);
-text('1%', windowWidth/1.2855947,windowWidth/3.0120349);
+//textFont(fließtext); 
+//textSize(fontmittel);
+//text('1%', windowWidth/1.2855947,windowWidth/3.0120349);
 
-drawPiechartone();
-drawPiecharttwo();
-drawPiechartthree();
+//drawPiechartone();
+//drawPiecharttwo();
+//drawPiechartthree();
 
 
 }
