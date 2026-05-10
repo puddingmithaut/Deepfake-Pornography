@@ -47,6 +47,8 @@ function draw() {
 
 let fontmittel= windowWidth/28.8;
 let fontbig= windowWidth/17.310344;
+let fontmittelklein= windowWidth/66.755319;
+let fontklein= windowWidth/114.89675; 
 
 
 headline
@@ -58,7 +60,7 @@ text('Deepfake', windowWidth/15.72,windowWidth/19.160305);
 
 //definition
 textFont(fließtext);
-textSize(21.8457);
+textSize(fontklein);
 textLeading(windowWidth/96);
 text('A deepfake is a piece of media - such as a photo,\naudio or video, that has been altered, generated\nor falsified using artificial intelligence (AI) \ntechniques, to convincingly replace one person’s \nface or voice. As a result, it creates people and \nevents that´do not exist or that did not actually \noccur.',
 windowWidth/14.940476, windowWidth/11.331828); 
@@ -73,9 +75,16 @@ textFont(fließtext);
 textSize(fontmittel);
 text('2%', windowWidth/2.985,windowWidth/3.93);
 
+textSize(fontmittelklein); 
+text('non pornographic', windowWidth/2.985, windowWidth/3.689);
+
 textFont(headline);
 textSize(fontbig); 
 text('98%',windowWidth/2.986,windowWidth/2.469)
+
+textFont(fließtext);
+textSize(windowWidth/69); 
+text('are pornographic', windowWidth/2.988, windowWidth/2.365);
 
 
 //diagramm zwei
@@ -84,9 +93,19 @@ textFont(fließtext);
 textSize(fontmittel);
 text('2%',windowWidth/1.4014517, windowWidth/12.364532);
 
+textFont(fließtext);
+textSize(windowWidth/66.985319); 
+text('are consensual', windowWidth/1.4014517, windowWidth/10.25);
+
+
 textFont(headline);
 textSize(fontbig); 
 text('98%',windowWidth/1.404,windowWidth/4.9882816)
+
+textFont(fließtext);
+textSize(windowWidth/73); 
+text('are non consensual', windowWidth/1.404, windowWidth/4.58);
+
 
 //diagramm drei
 
@@ -94,11 +113,18 @@ textFont(fließtext);
 textSize(fontmittel);
 text('1%', windowWidth/1.2378,windowWidth/3.1631386);
 
+textFont(fließtext);
+textSize(fontmittelklein); 
+text('are male', windowWidth/1.2378, windowWidth/3);
+
+
 textFont(headline);
 textSize(fontbig); 
 text('99%',windowWidth/1.238,windowWidth/2.37)
 
-
+textFont(fließtext);
+textSize(fontmittelklein); 
+text('are female', windowWidth/1.238, windowWidth/2);
 
 
 drawPiechartone();
