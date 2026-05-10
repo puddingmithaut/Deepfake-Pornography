@@ -46,6 +46,7 @@ function draw() {
 
 
 let fontmittel= windowWidth/28.8;
+let fontbig= windowWidth/17.310344;
 
 
 headline
@@ -72,6 +73,9 @@ textFont(fließtext);
 textSize(fontmittel);
 text('2%', windowWidth/2.985,windowWidth/3.93);
 
+textFont(headline);
+textSize(fontbig); 
+text('98%',windowWidth/2.986,windowWidth/2.469)
 
 
 //diagramm zwei
@@ -80,11 +84,22 @@ textFont(fließtext);
 textSize(fontmittel);
 text('2%',windowWidth/1.4014517, windowWidth/12.364532);
 
+textFont(headline);
+textSize(fontbig); 
+text('98%',windowWidth/1.404,windowWidth/4.9882816)
+
 //diagramm drei
 
 textFont(fließtext); 
 textSize(fontmittel);
-text('1%', windowWidth/1.2855947,windowWidth/3.0120349);
+text('1%', windowWidth/1.2378,windowWidth/3.1631386);
+
+textFont(headline);
+textSize(fontbig); 
+text('99%',windowWidth/1.238,windowWidth/2.37)
+
+
+
 
 drawPiechartone();
 drawPiecharttwo();
