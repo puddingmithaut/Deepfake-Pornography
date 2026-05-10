@@ -48,11 +48,14 @@ function draw() {
 let fontmittel= windowWidth/32;
 
 
-//headline
-//fill(255,80,255);
-//textFont(headline);
-//textSize(windowHeight/8.78);
-//text('Deepfake', windowWidth/24.9, windowHeight/6.4);
+headline
+fill(255,80,255);
+textFont(headline);
+textSize(windowWidth/22.979);
+text('Deepfake', windowWidth/15.72,windowWidth/19.160305);
+//textSize(109.2285);
+//text('Deepfake', 160,131);
+
 
 //definition
 //textFont(fließtext);
@@ -85,9 +88,9 @@ let fontmittel= windowWidth/32;
 //textSize(fontmittel);
 //text('1%', windowWidth/1.2855947,windowWidth/3.0120349);
 
-//drawPiechartone();
-//drawPiecharttwo();
-//drawPiechartthree();
+drawPiechartone();
+drawPiecharttwo();
+drawPiechartthree();
 
 
 }
@@ -100,9 +103,9 @@ function drawPiechartone() {
   ];
   let werte = [0.02, 0.98];
 
-  let arcX = windowWidth/6.6;
+  let arcX = windowWidth/5.5;
   let arcY = windowHeight/1.375;
-  let arcS = windowWidth/4.5;
+  let arcS = windowWidth/4.3;
   
   let rotation=  HALF_PI/1.57;
   let startwinkel = -rotation
@@ -175,14 +178,14 @@ function drawPiechartone() {
 
 function drawPiecharttwo(){
   let segmente = []; 
-   let farben = [color(255, 0, 0, 50),
+  let farben = [color(255, 0, 0, 50),
    color(0, 255, 0, 50),
   ];
   let werte = [0.01, 0.99];
 
-  let arcX = windowWidth/1.482 ;
-  let arcY = windowHeight/1.335;
-  let arcS = windowWidth/5.7;
+  let arcX = windowWidth/1.46 ;
+  let arcY = windowHeight/1.39;
+  let arcS = windowWidth/4.8;
   
   let rotation= HALF_PI/2.1;
   let startwinkel = -rotation
@@ -254,9 +257,9 @@ let segmente = [];
   let werte = [0.02, 0.98];
 
 
-  let arcX = windowWidth/1.64;
-  let arcY = windowHeight/3.7;
-  let arcS = windowWidth/5.7;
+  let arcX = windowWidth/1.69;
+  let arcY = windowHeight/3.4;
+  let arcS = windowWidth/4.8;
   let rotation= HALF_PI/1.24;
   
   let startwinkel = -rotation;
