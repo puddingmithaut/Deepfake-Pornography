@@ -69,7 +69,7 @@ windowWidth/14.940476, windowWidth/11.331828);
 
 textFont(headline);
 textSize(windowHeight/35);
-text('Deepfake Videos', windowWidth/15.3 , windowHeight/2.22)
+text('Deepfake Videos', windowWidth/15.3 , windowWidth/4.351)
 
 textFont(fließtext); 
 textSize(windowWidth/28.8);
@@ -146,7 +146,7 @@ function drawPiechartone() {
   let werte = [0.02, 0.98];
 
   let arcX = windowWidth/5.5;
-  let arcY = windowHeight/1.375;
+  let arcY = windowWidth/2.7;
   let arcS = windowWidth/4.3;
   
   let rotation=  HALF_PI/1.57;
@@ -226,7 +226,7 @@ function drawPiecharttwo(){
   let werte = [0.01, 0.99];
 
   let arcX = windowWidth/1.46 ;
-  let arcY = windowHeight/1.39;
+  let arcY = windowWidth/2.73;
   let arcS = windowWidth/4.8;
   
   let rotation= HALF_PI/2.1;
@@ -300,7 +300,7 @@ let segmente = [];
 
 
   let arcX = windowWidth/1.69;
-  let arcY = windowHeight/3.4;
+  let arcY = windowWidth/6.6;
   let arcS = windowWidth/4.8;
   let rotation= HALF_PI/1.24;
   
