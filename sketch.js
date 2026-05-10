@@ -1,211 +1,180 @@
-//hallo test
-
-//Hintergrund
-let test
-
-//Fonts
+let test;
 let headline;
 let fließtext;
 let arrows;
-let pfeil; 
-let pfeil1; 
-let pfeil2; 
+let pfeil;
+let pfeil1;
+let pfeil2;
 let pfeil3;
 let pfeil4;
 let pfeil5;
 
+// Cache für skalierte Werte
+let scaleFaktor;
+let neueHoehe;
+let bildBreite;
+let bildHoehe;
 
-
-function preload(){
-
-test= loadImage('assets/hintergrundskizze.jpg')
-headline= loadFont("assets/Avenir Heavy.ttf")
-fließtext= loadFont("assets/Avenir Regular.ttf")
-arrows= loadImage("assets/arrows.png")
-pfeil= loadImage("assets/3.png")
-pfeil1= loadImage("assets/4.png")
-pfeil2= loadImage("assets/1.png")
-pfeil3=loadImage("assets/2.png")
-pfeil4= loadImage("assets/5.png")
-pfeil5=loadImage("assets/6.png")
-
+function preload() {
+  test = loadImage('assets/hintergrundskizze.jpg');
+  headline = loadFont("assets/Avenir Heavy.ttf");
+  fließtext = loadFont("assets/Avenir Regular.ttf");
+  arrows = loadImage("assets/arrows.png");
+  pfeil = loadImage("assets/3.png");
+  pfeil1 = loadImage("assets/4.png");
+  pfeil2 = loadImage("assets/1.png");
+  pfeil3 = loadImage("assets/2.png");
+  pfeil4 = loadImage("assets/5.png");
+  pfeil5 = loadImage("assets/6.png");
 }
 
-
 function setup() {
-  createCanvas(windowWidth,windowHeight*6);
+  createCanvas(windowWidth, windowHeight * 6);
   background(47, 45, 45);
-
-
   
+  // Skalierungsfaktoren einmal berechnen
+  bildBreite = test.width;
+  bildHoehe = test.height;
+  scaleFaktor = windowWidth / bildBreite;
+  neueHoehe = bildHoehe * scaleFaktor;
+  
+  // Alle statischen Elemente einmal zeichnen
+  drawStaticElements();
 }
 
 function draw() {
+  // Nur Piecharts mit Hover-Erkennung jeden Frame neu zeichnen
+  drawPiechartone();
+  drawPiecharttwo();
+  drawPiechartthree();
+}
 
- ///Hintergrund Sketch///    
-  let bildBreite = test.width;
-  let bildHoehe = test.height;
-  let scaleFaktor = windowWidth / bildBreite;
-  let neueHoehe = bildHoehe * scaleFaktor;
+function drawStaticElements() {
+  // Hintergrund Sketch
   push();
   scale(0.93);
   image(test, windowWidth/40, 0, windowWidth, neueHoehe);
   pop();
 
-
-
-///images///
+  // Images
   push();
   scale(0.93);
-  image(arrows, windowWidth/41.833333,0, windowWidth, neueHoehe);
+  image(arrows, windowWidth/41.833333, 0, windowWidth, neueHoehe);
   pop();
-
 
   push();
   scale(0.93);
-  image(pfeil, windowWidth/40.48387,0,windowWidth,neueHoehe);
+  image(pfeil, windowWidth/40.48387, 0, windowWidth, neueHoehe);
   pop();
 
-  push(); 
+  push();
   scale(0.93);
-  image(pfeil1, windowWidth/38,windowWidth/53.404255,windowWidth,neueHoehe); 
+  image(pfeil1, windowWidth/38, windowWidth/53.404255, windowWidth, neueHoehe);
   pop();
 
   push();
-  scale(0.93); 
-  image(pfeil2, windowWidth/39.841269,0,windowWidth,neueHoehe);
+  scale(0.93);
+  image(pfeil2, windowWidth/39.841269, 0, windowWidth, neueHoehe);
   pop();
 
   push();
-  scale(0.93); 
-  image(pfeil3,windowWidth/39.841269,0,windowWidth,neueHoehe);
+  scale(0.93);
+  image(pfeil3, windowWidth/39.841269, 0, windowWidth, neueHoehe);
   pop();
 
   push();
-  scale(0.93); 
-  image(pfeil4,windowWidth/39.841269,0,windowWidth,neueHoehe);
+  scale(0.93);
+  image(pfeil4, windowWidth/39.841269, 0, windowWidth, neueHoehe);
   pop();
 
   push();
-  scale(0.93); 
-  image(pfeil5,windowWidth/39.841269,0,windowWidth,neueHoehe);
+  scale(0.93);
+  image(pfeil5, windowWidth/39.841269, 0, windowWidth, neueHoehe);
   pop();
 
+  // Texte
+  drawTexts();
+}
 
-//text seite eins
-
-
-let fontmittel= windowWidth/28.8;
-let fontbig= windowWidth/17.310344;
-let fontmittelklein= windowWidth/66.755319;
-let fontklein= windowWidth/114.89675; 
-
-
-headline
-fill(255,80,255);
-textFont(headline);
-textSize(windowWidth/22.979);
-text('Deepfake', windowWidth/33,windowWidth/19.160305);
-
-
-//definition
-textFont(fließtext);
-textSize(windowWidth/114.89675);
-textLeading(windowWidth/96);
-text('A deepfake is a piece of media - such as a photo,\naudio or video, that has been altered, generated\nor falsified using artificial intelligence (AI) \ntechniques, to convincingly replace one person’s \nface or voice. As a result, it creates people and \nevents that´do not exist or that did not actually \noccur.',
-windowWidth/29.8, windowWidth/10.9); 
-
-//diagramm eins
-
-textFont(headline);
-textSize(windowWidth/68.5);
-text('Deepfake Videos', windowWidth/31 , windowWidth/4.399)
-
-textFont(fließtext); 
-textSize(windowWidth/28.8);
-text('2%', windowWidth/2.985,windowWidth/3.93);
-
-textSize(windowWidth/66.755319); 
-text('non pornographic', windowWidth/2.985, windowWidth/3.689);
-
-textSize(windowWidth/112);
-text ('Political, entertainment,\nfraud and scams, fake news\nand false information.', windowWidth/2.982, windowWidth/3.515)
-
-textFont(headline);
-textSize(windowWidth/17.310344); 
-text('98%',windowWidth/2.97,windowWidth/2.37)
-
-textFont(fließtext);
-textSize(windowWidth/69); 
-text('are pornographic', windowWidth/2.97, windowWidth/2.275);
-
-
-//diagramm zwei
-
-textFont(fließtext);
-textSize( windowWidth/28.8);
-text('2%',windowWidth/1.4014517, windowWidth/12.364532);
-
-textFont(fließtext);
-textSize(windowWidth/66.985319); 
-text('are consensual', windowWidth/1.4014517, windowWidth/10.25);
-
-
-textFont(headline);
-textSize(windowWidth/17.310344); 
-text('98%',windowWidth/1.404,windowWidth/4.9882816)
-
-textFont(fließtext);
-textSize(windowWidth/69); 
-text('are non consensual', windowWidth/1.405, windowWidth/4.58);
-
-
-//diagramm drei
-
-textFont(fließtext); 
-textSize( windowWidth/28.8);
-text('1%', windowWidth/1.2378,windowWidth/3.1631386);
-
-textFont(fließtext);
-textSize(windowWidth/69); 
-text('are male', windowWidth/1.2375, windowWidth/3.009);
-
-
-textFont(headline);
-textSize(windowWidth/17.310344); 
-text('99%',windowWidth/1.238,windowWidth/2.37)
-
-textFont(fließtext);
-textSize(windowWidth/69); 
-text('are female', windowWidth/1.239, windowWidth/2.274);
-
-
-drawPiechartone();
-drawPiecharttwo();
-drawPiechartthree();
-
-
-
-
-
+function drawTexts() {
+  let fontmittel = windowWidth/28.8;
+  let fontbig = windowWidth/17.310344;
+  let fontmittelklein = windowWidth/66.755319;
+  let fontklein = windowWidth/114.89675;
+  
+  // Deepfake Titel
+  fill(255, 80, 255);
+  textFont(headline);
+  textSize(windowWidth/22.979);
+  text('Deepfake', windowWidth/33, windowWidth/19.160305);
+  
+  // Definition
+  textFont(fließtext);
+  textSize(windowWidth/114.89675);
+  textLeading(windowWidth/96);
+  text('A deepfake is a piece of media - such as a photo,\naudio or video, that has been altered, generated\nor falsified using artificial intelligence (AI) \ntechniques, to convincingly replace one person’s \nface or voice. As a result, it creates people and \nevents that´do not exist or that did not actually \noccur.',
+  windowWidth/29.8, windowWidth/10.9);
+  
+  // Diagramm Eins
+  textFont(headline);
+  textSize(windowWidth/68.5);
+  text('Deepfake Videos', windowWidth/31, windowWidth/4.399);
+  
+  textFont(fließtext);
+  textSize(windowWidth/28.8);
+  text('2%', windowWidth/2.985, windowWidth/3.93);
+  textSize(windowWidth/66.755319);
+  text('non pornographic', windowWidth/2.985, windowWidth/3.689);
+  textSize(windowWidth/112);
+  text('Political, entertainment,\nfraud and scams, fake news\nand false information.', windowWidth/2.982, windowWidth/3.515);
+  
+  textFont(headline);
+  textSize(windowWidth/17.310344);
+  text('98%', windowWidth/2.97, windowWidth/2.37);
+  textFont(fließtext);
+  textSize(windowWidth/69);
+  text('are pornographic', windowWidth/2.97, windowWidth/2.275);
+  
+  // Diagramm Zwei
+  textFont(fließtext);
+  textSize(windowWidth/28.8);
+  text('2%', windowWidth/1.4014517, windowWidth/12.364532);
+  textSize(windowWidth/66.985319);
+  text('are consensual', windowWidth/1.4014517, windowWidth/10.25);
+  
+  textFont(headline);
+  textSize(windowWidth/17.310344);
+  text('98%', windowWidth/1.404, windowWidth/4.9882816);
+  textFont(fließtext);
+  textSize(windowWidth/69);
+  text('are non consensual', windowWidth/1.405, windowWidth/4.58);
+  
+  // Diagramm Drei
+  textFont(fließtext);
+  textSize(windowWidth/28.8);
+  text('1%', windowWidth/1.2378, windowWidth/3.1631386);
+  textSize(windowWidth/69);
+  text('are male', windowWidth/1.2375, windowWidth/3.009);
+  
+  textFont(headline);
+  textSize(windowWidth/17.310344);
+  text('99%', windowWidth/1.238, windowWidth/2.37);
+  textFont(fließtext);
+  textSize(windowWidth/69);
+  text('are female', windowWidth/1.239, windowWidth/2.274);
 }
 
 function drawPiechartone() {
-
-  let segmente = []; 
-  let farben = [color(255, 0, 0, 100),
-   color(0, 255, 0, 150),
-  ];
+  let segmente = [];
+  let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
   let werte = [0.02, 0.98];
 
   let arcX = windowWidth/7;
   let arcY = windowWidth/2.4;
   let arcS = windowWidth/2.886044;
-  
-  let rotation=  HALF_PI/1.57;
-  let startwinkel = -rotation
-  segmente = []; 
-  
+  let rotation = HALF_PI/1.57;
+  let startwinkel = -rotation;
+  segmente = [];
   
   for (let i = 0; i < werte.length; i++) {
     let winkel = werte[i] * TWO_PI;
@@ -217,75 +186,27 @@ function drawPiechartone() {
     startwinkel += winkel;
   }
   
-  // Segmente zeichnen
   for (let i = 0; i < segmente.length; i++) {
-    if (i === getHoverSegment(arcX, arcY, arcS)) {
+    if (i === getHoverSegment(arcX, arcY, arcS, segmente, rotation)) {
       fill(255);
     } else {
       fill(farben[i]);
     }
     arc(arcX, arcY, arcS, arcS, segmente[i].start, segmente[i].ende, PIE);
   }
-
-
-  function getHoverSegment(arcX, arcY, arcS) {
-   let abstand = dist(mouseX, mouseY, arcX, arcY);
-    if (abstand > arcS / 2) {
-    return -1;
-  }
-  
-  let mausWinkel = atan2(mouseY - arcY, mouseX - arcX);
-  // Umwandeln in Bereich 0 bis TWO_PI
-  if (mausWinkel < 0) {
-    mausWinkel += TWO_PI;
-  }
-  
-    // Wichtig: Startwinkel von -HALF_PI (oben) auf 0 bis TWO_PI umrechnen
-    let angepassterMausWinkel = (mausWinkel + rotation) % TWO_PI;
-  
-    for (let i = 0; i < segmente.length; i++) {
-    let start = segmente[i].start + rotation;
-    if (start < 0) start += TWO_PI;
-    let ende = segmente[i].ende + rotation;
-    if (ende < 0) ende += TWO_PI;
-    
-    // Prüfen ob Mauswinkel im Segment liegt
-    if (start < ende) {
-      if (angepassterMausWinkel >= start && angepassterMausWinkel < ende) {
-        return i;
-      }
-    } else {
-      // Über den 2π-Grenzfall
-      if (angepassterMausWinkel >= start || angepassterMausWinkel < ende) {
-        return i;
-      }
-    }
-  }
-  return -1;
 }
 
-
-
-
-
-
-}
-
-function drawPiecharttwo(){
-  let segmente = []; 
-  let farben = [color(255, 0, 0, 50),
-   color(0, 255, 0, 50),
-  ];
+function drawPiecharttwo() {
+  let segmente = [];
+  let farben = [color(255, 0, 0, 50), color(0, 255, 0, 50)];
   let werte = [0.01, 0.99];
 
-  let arcX = windowWidth/1.46 ;
+  let arcX = windowWidth/1.46;
   let arcY = windowWidth/2.73;
   let arcS = windowWidth/4.8;
-  
-  let rotation= HALF_PI/2.1;
-  let startwinkel = -rotation
-  segmente = []; 
-  
+  let rotation = HALF_PI/2.1;
+  let startwinkel = -rotation;
+  segmente = [];
   
   for (let i = 0; i < werte.length; i++) {
     let winkel = werte[i] * TWO_PI;
@@ -297,28 +218,59 @@ function drawPiecharttwo(){
     startwinkel += winkel;
   }
   
-  // Segmente zeichnen
   for (let i = 0; i < segmente.length; i++) {
-    if (i === getHoverSegment(arcX, arcY, arcS)) {
+    if (i === getHoverSegment(arcX, arcY, arcS, segmente, rotation)) {
       fill(255);
     } else {
       fill(farben[i]);
     }
     arc(arcX, arcY, arcS, arcS, segmente[i].start, segmente[i].ende, PIE);
   }
-  function getHoverSegment(arcX, arcY, arcS) {
+}
+
+function drawPiechartthree() {
+  let segmente = [];
+  let farben = [color(255, 0, 0, 50), color(0, 255, 0, 50)];
+  let werte = [0.02, 0.98];
+
+  let arcX = windowWidth/1.69;
+  let arcY = windowWidth/6.6;
+  let arcS = windowWidth/4.8;
+  let rotation = HALF_PI/1.24;
+  let startwinkel = -rotation;
+  segmente = [];
+  
+  for (let i = 0; i < werte.length; i++) {
+    let winkel = werte[i] * TWO_PI;
+    segmente.push({
+      start: startwinkel,
+      ende: startwinkel + winkel,
+      wert: werte[i],
+    });
+    startwinkel += winkel;
+  }
+  
+  for (let i = 0; i < segmente.length; i++) {
+    if (i === getHoverSegment(arcX, arcY, arcS, segmente, rotation)) {
+      fill(255);
+    } else {
+      fill(farben[i]);
+    }
+    arc(arcX, arcY, arcS, arcS, segmente[i].start, segmente[i].ende, PIE);
+  }
+}
+
+function getHoverSegment(arcX, arcY, arcS, segmente, rotation) {
   let abstand = dist(mouseX, mouseY, arcX, arcY);
   if (abstand > arcS / 2) {
     return -1;
   }
   
   let mausWinkel = atan2(mouseY - arcY, mouseX - arcX);
-  // Umwandeln in Bereich 0 bis TWO_PI
   if (mausWinkel < 0) {
     mausWinkel += TWO_PI;
   }
   
-  // Wichtig: Startwinkel von -HALF_PI (oben) auf 0 bis TWO_PI umrechnen
   let angepassterMausWinkel = (mausWinkel + rotation) % TWO_PI;
   
   for (let i = 0; i < segmente.length; i++) {
@@ -327,89 +279,11 @@ function drawPiecharttwo(){
     let ende = segmente[i].ende + rotation;
     if (ende < 0) ende += TWO_PI;
     
-    // Prüfen ob Mauswinkel im Segment liegt
     if (start < ende) {
       if (angepassterMausWinkel >= start && angepassterMausWinkel < ende) {
         return i;
       }
     } else {
-      // Über den 2π-Grenzfall
-      if (angepassterMausWinkel >= start || angepassterMausWinkel < ende) {
-        return i;
-      }
-    }
-  }
-  return -1;
-
-}
-}
-
-function drawPiechartthree(){
-let segmente = []; 
-    let farben = [color(255, 0, 0, 50),
-   color(0, 255, 0, 50),
-  ];
-  let werte = [0.02, 0.98];
-
-
-  let arcX = windowWidth/1.69;
-  let arcY = windowWidth/6.6;
-  let arcS = windowWidth/4.8;
-  let rotation= HALF_PI/1.24;
-  
-  let startwinkel = -rotation;
-  segmente = []; 
-  
-  
-  for (let i = 0; i < werte.length; i++) {
-    let winkel = werte[i] * TWO_PI;
-    segmente.push({
-      start: startwinkel,
-      ende: startwinkel + winkel,
-      wert: werte[i],
-    });
-    startwinkel += winkel;
-  }
-  
-  // Segmente zeichnen
-  for (let i = 0; i < segmente.length; i++) {
-    if (i === getHoverSegment(arcX, arcY, arcS)) {
-      fill(255);
-    } else {
-      fill(farben[i]);
-    }
-    arc(arcX, arcY, arcS, arcS, segmente[i].start, segmente[i].ende, PIE);
-  }
-
-
-  function getHoverSegment(arcX, arcY, arcS) {
-   let abstand = dist(mouseX, mouseY, arcX, arcY);
-    if (abstand > arcS / 2) {
-    return -1;
-  }
-  
-  let mausWinkel = atan2(mouseY - arcY, mouseX - arcX);
-  // Umwandeln in Bereich 0 bis TWO_PI
-  if (mausWinkel < 0) {
-    mausWinkel += TWO_PI;
-  }
-  
-    // Wichtig: Startwinkel von -HALF_PI (oben) auf 0 bis TWO_PI umrechnen
-    let angepassterMausWinkel = (mausWinkel + rotation) % TWO_PI;
-  
-    for (let i = 0; i < segmente.length; i++) {
-    let start = segmente[i].start + rotation;
-    if (start < 0) start += TWO_PI;
-    let ende = segmente[i].ende + rotation;
-    if (ende < 0) ende += TWO_PI;
-    
-    // Prüfen ob Mauswinkel im Segment liegt
-    if (start < ende) {
-      if (angepassterMausWinkel >= start && angepassterMausWinkel < ende) {
-        return i;
-      }
-    } else {
-      // Über den 2π-Grenzfall
       if (angepassterMausWinkel >= start || angepassterMausWinkel < ende) {
         return i;
       }
@@ -418,4 +292,16 @@ let segmente = [];
   return -1;
 }
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight * 6);
+  
+  // Skalierung neu berechnen
+  bildBreite = test.width;
+  bildHoehe = test.height;
+  scaleFaktor = windowWidth / bildBreite;
+  neueHoehe = bildHoehe * scaleFaktor;
+  
+  // Alles neu zeichnen
+  background(47, 45, 45);
+  drawStaticElements();
 }
