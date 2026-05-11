@@ -19,6 +19,14 @@ let bildHoehe;
 let diagram1_2_percent_clicked = false;
 let diagram1_98_percent_clicked = false;
 
+// Status für Diagramm 2
+let diagram2_2_percent_clicked = false;
+let diagram2_98_percent_clicked = false;
+
+// Status für Diagramm 3
+let diagram3_1_percent_clicked = false;
+let diagram3_99_percent_clicked = false;
+
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
   headline = loadFont("assets/Avenir Heavy.ttf");
@@ -59,7 +67,7 @@ function drawStaticElements() {
   //image(test, windowWidth/40, 0, windowWidth, neueHoehe);
   pop();
 
-  // Images - Standardmäßig sichtbare Pfeile (arrows)
+  // Images - Standardmäßig sichtbarer Pfeil (arrows)
   push();
   scale(0.93);
   image(arrows, windowWidth/41.833333, 0, windowWidth, neueHoehe);
@@ -80,37 +88,41 @@ function drawStaticElements() {
     pop();
   }
 
-  // Diese Pfeile bleiben immer sichtbar (für Diagramm 2 und 3)
-  push();
-  scale(0.93);
-  image(pfeil2, windowWidth/39.841269, 0, windowWidth, neueHoehe);
-  pop();
+  // Diagramm 2 - Bedingte Pfeile basierend auf Klicks
+  if(diagram3_1_percent_clicked) {
+    push();
+    scale(0.93);
+    image(pfeil2, windowWidth/39.841269, 0, windowWidth, neueHoehe);
+    pop();
+  }
+  
+  if(diagram3_99_percent_clicked) {
+    push();
+    scale(0.93);
+    image(pfeil3, windowWidth/39.841269, 0, windowWidth, neueHoehe);
+    pop();
+  }
 
-  push();
-  scale(0.93);
-  image(pfeil3, windowWidth/39.841269, 0, windowWidth, neueHoehe);
-  pop();
-
-  push();
-  scale(0.93);
-  image(pfeil4, windowWidth/39.841269, 0, windowWidth, neueHoehe);
-  pop();
-
-  push();
-  scale(0.93);
-  image(pfeil5, windowWidth/39.841269, 0, windowWidth, neueHoehe);
-  pop();
+  // Diagramm 3 - Bedingte Pfeile basierend auf Klicks
+  if(diagram2_2_percent_clicked) {
+    push();
+    scale(0.93);
+    image(pfeil4, windowWidth/39.841269, 0, windowWidth, neueHoehe);
+    pop();
+  }
+  
+  if(diagram2_98_percent_clicked) {
+    push();
+    scale(0.93);
+    image(pfeil5, windowWidth/39.841269, 0, windowWidth, neueHoehe);
+    pop();
+  }
 
   // Texte
   drawTexts();
 }
 
 function drawTexts() {
-  let fontmittel = windowWidth/28.8;
-  let fontbig = windowWidth/17.310344;
-  let fontmittelklein = windowWidth/66.755319;
-  let fontklein = windowWidth/114.89675;
-  
   // Deepfake Titel
   fill(255, 80, 255);
   textFont(headline);
@@ -129,7 +141,6 @@ function drawTexts() {
   textSize(windowWidth/68.5);
   text('Deepfake Videos', windowWidth/31, windowWidth/4.399);
   
-  // Diagramm Eins - 2% Informationen (nur wenn auf 2% geklickt wurde)
   if(diagram1_2_percent_clicked) {
     textFont(fließtext);
     textSize(windowWidth/28.8);
@@ -140,7 +151,6 @@ function drawTexts() {
     text('Political, entertainment,\nfraud and scams, fake news\nand false information.', windowWidth/2.982, windowWidth/3.515);
   }
   
-  // Diagramm Eins - 98% Informationen (nur wenn auf 98% geklickt wurde)
   if(diagram1_98_percent_clicked) {
     textFont(headline);
     textSize(windowWidth/17.310344);
@@ -150,33 +160,39 @@ function drawTexts() {
     text('are pornographic', windowWidth/2.97, windowWidth/2.275);
   }
   
-  // Diagramm Zwei (immer sichtbar)
-  textFont(fließtext);
-  textSize(windowWidth/28.8);
-  text('2%', windowWidth/1.4014517, windowWidth/12.364532);
-  textSize(windowWidth/66.985319);
-  text('are consensual', windowWidth/1.4014517, windowWidth/10.25);
+  if(diagram3_1_percent_clicked) {
+    textFont(fließtext);
+    textSize(windowWidth/28.8);
+    text('2%', windowWidth/1.4014517, windowWidth/12.364532);
+    textSize(windowWidth/66.985319);
+    text('are consensual', windowWidth/1.4014517, windowWidth/10.25);
+  }
   
-  textFont(headline);
-  textSize(windowWidth/17.310344);
-  text('98%', windowWidth/1.404, windowWidth/4.9882816);
-  textFont(fließtext);
-  textSize(windowWidth/69);
-  text('are non consensual', windowWidth/1.405, windowWidth/4.58);
+  if(diagram3_99_percent_clicked) {
+    textFont(headline);
+    textSize(windowWidth/17.310344);
+    text('98%', windowWidth/1.404, windowWidth/4.9882816);
+    textFont(fließtext);
+    textSize(windowWidth/69);
+    text('are non consensual', windowWidth/1.405, windowWidth/4.58);
+  }
   
-  // Diagramm Drei (immer sichtbar)
-  textFont(fließtext);
-  textSize(windowWidth/28.8);
-  text('1%', windowWidth/1.2378, windowWidth/3.1631386);
-  textSize(windowWidth/69);
-  text('are male', windowWidth/1.2375, windowWidth/3.009);
+  if(diagram2_2_percent_clicked) {
+    textFont(fließtext);
+    textSize(windowWidth/28.8);
+    text('1%', windowWidth/1.2378, windowWidth/3.1631386);
+    textSize(windowWidth/69);
+    text('are male', windowWidth/1.2375, windowWidth/3.009);
+  }
   
-  textFont(headline);
-  textSize(windowWidth/17.310344);
-  text('99%', windowWidth/1.238, windowWidth/2.37);
-  textFont(fließtext);
-  textSize(windowWidth/69);
-  text('are female', windowWidth/1.239, windowWidth/2.274);
+  if(diagram2_98_percent_clicked) {
+    textFont(headline);
+    textSize(windowWidth/17.310344);
+    text('99%', windowWidth/1.238, windowWidth/2.37);
+    textFont(fließtext);
+    textSize(windowWidth/69);
+    text('are female', windowWidth/1.239, windowWidth/2.274);
+  }
 }
 
 function drawPiechartone() {
@@ -213,8 +229,8 @@ function drawPiechartone() {
 
 function drawPiecharttwo() {
   let segmente = [];
-  let farben = [color(255, 0, 0, 50), color(0, 255, 0, 50)];
-  let werte = [0.01, 0.99];
+  let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
+  let werte = [0.02, 0.98];
 
   let arcX = windowWidth/1.46;
   let arcY = windowWidth/2.73;
@@ -245,8 +261,8 @@ function drawPiecharttwo() {
 
 function drawPiechartthree() {
   let segmente = [];
-  let farben = [color(255, 0, 0, 50), color(0, 255, 0, 50)];
-  let werte = [0.02, 0.98];
+  let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
+  let werte = [0.01, 0.99];
 
   let arcX = windowWidth/1.69;
   let arcY = windowWidth/6.6;
@@ -308,9 +324,7 @@ function getHoverSegment(arcX, arcY, arcS, segmente, rotation) {
 }
 
 function mousePressed() {
-  console.log("Mouse clicked"); // Debug-Ausgabe
-  
-  // Nur Diagramm 1 prüfen
+  // Diagramm 1 prüfen
   let segmente1 = [];
   let werte1 = [0.02, 0.98];
   let arcX1 = windowWidth/7;
@@ -330,18 +344,77 @@ function mousePressed() {
   }
   
   let hoverSegment1 = getHoverSegment(arcX1, arcY1, arcS1, segmente1, rotation1);
-  console.log("Hover segment:", hoverSegment1); // Debug-Ausgabe
   
-  // 2% Segment (non-pornographic)
+  // Diagramm 1 - 2% Segment
   if (hoverSegment1 === 0 && !diagram1_2_percent_clicked) {
-    console.log("2% clicked"); // Debug-Ausgabe
     diagram1_2_percent_clicked = true;
   }
   
-  // 98% Segment (pornographic)
+  // Diagramm 1 - 98% Segment
   if (hoverSegment1 === 1 && !diagram1_98_percent_clicked) {
-    console.log("98% clicked"); // Debug-Ausgabe
     diagram1_98_percent_clicked = true;
+  }
+  
+  // Diagramm 2 prüfen
+  let segmente2 = [];
+  let werte2 = [0.02, 0.98];
+  let arcX2 = windowWidth/1.46;
+  let arcY2 = windowWidth/2.73;
+  let arcS2 = windowWidth/4.8;
+  let rotation2 = HALF_PI/2.1;
+  let startwinkel2 = -rotation2;
+  
+  for (let i = 0; i < werte2.length; i++) {
+    let winkel = werte2[i] * TWO_PI;
+    segmente2.push({
+      start: startwinkel2,
+      ende: startwinkel2 + winkel,
+      wert: werte2[i],
+    });
+    startwinkel2 += winkel;
+  }
+  
+  let hoverSegment2 = getHoverSegment(arcX2, arcY2, arcS2, segmente2, rotation2);
+  
+  // Diagramm 2 - 2% Segment
+  if (hoverSegment2 === 0 && !diagram2_2_percent_clicked) {
+    diagram2_2_percent_clicked = true;
+  }
+  
+  // Diagramm 2 - 98% Segment
+  if (hoverSegment2 === 1 && !diagram2_98_percent_clicked) {
+    diagram2_98_percent_clicked = true;
+  }
+  
+  // Diagramm 3 prüfen
+  let segmente3 = [];
+  let werte3 = [0.01, 0.99];
+  let arcX3 = windowWidth/1.69;
+  let arcY3 = windowWidth/6.6;
+  let arcS3 = windowWidth/4.8;
+  let rotation3 = HALF_PI/1.24;
+  let startwinkel3 = -rotation3;
+  
+  for (let i = 0; i < werte3.length; i++) {
+    let winkel = werte3[i] * TWO_PI;
+    segmente3.push({
+      start: startwinkel3,
+      ende: startwinkel3 + winkel,
+      wert: werte3[i],
+    });
+    startwinkel3 += winkel;
+  }
+  
+  let hoverSegment3 = getHoverSegment(arcX3, arcY3, arcS3, segmente3, rotation3);
+  
+  // Diagramm 3 - 1% Segment
+  if (hoverSegment3 === 0 && !diagram3_1_percent_clicked) {
+    diagram3_1_percent_clicked = true;
+  }
+  
+  // Diagramm 3 - 99% Segment
+  if (hoverSegment3 === 1 && !diagram3_99_percent_clicked) {
+    diagram3_99_percent_clicked = true;
   }
 }
 
