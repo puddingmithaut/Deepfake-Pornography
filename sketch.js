@@ -15,6 +15,10 @@ let neueHoehe;
 let bildBreite;
 let bildHoehe;
 
+// Status für Diagramm 1
+let diagram1_2_percent_clicked = false;
+let diagram1_98_percent_clicked = false;
+
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
   headline = loadFont("assets/Avenir Heavy.ttf");
@@ -30,48 +34,53 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight * 6);
-  background(47, 45, 45);
   
   // Skalierungsfaktoren einmal berechnen
   bildBreite = test.width;
   bildHoehe = test.height;
   scaleFaktor = windowWidth / bildBreite;
   neueHoehe = bildHoehe * scaleFaktor;
-  
-  // Alle statischen Elemente einmal zeichnen
-  drawStaticElements();
 }
 
 function draw() {
-  // Nur Piecharts mit Hover-Erkennung jeden Frame neu zeichnen
+  background(47, 45, 45);
+  
+  // ALLES jeden Frame neu zeichnen
   drawPiechartone();
   drawPiecharttwo();
   drawPiechartthree();
+  drawStaticElements();
 }
 
 function drawStaticElements() {
   // Hintergrund Sketch
   push();
   scale(0.93);
-  image(test, windowWidth/40, 0, windowWidth, neueHoehe);
+  //image(test, windowWidth/40, 0, windowWidth, neueHoehe);
   pop();
 
-  // Images
+  // Images - Standardmäßig sichtbare Pfeile (arrows)
   push();
   scale(0.93);
   image(arrows, windowWidth/41.833333, 0, windowWidth, neueHoehe);
   pop();
 
-  push();
-  scale(0.93);
-  image(pfeil, windowWidth/40.48387, 0, windowWidth, neueHoehe);
-  pop();
+  // Diagramm 1 - Bedingte Pfeile basierend auf Klicks
+  if(diagram1_2_percent_clicked) {
+    push();
+    scale(0.93);
+    image(pfeil, windowWidth/40.48387, 0, windowWidth, neueHoehe);
+    pop();
+  }
+  
+  if(diagram1_98_percent_clicked) {
+    push();
+    scale(0.93);
+    image(pfeil1, windowWidth/38, windowWidth/53.404255, windowWidth, neueHoehe);
+    pop();
+  }
 
-  push();
-  scale(0.93);
-  image(pfeil1, windowWidth/38, windowWidth/53.404255, windowWidth, neueHoehe);
-  pop();
-
+  // Diese Pfeile bleiben immer sichtbar (für Diagramm 2 und 3)
   push();
   scale(0.93);
   image(pfeil2, windowWidth/39.841269, 0, windowWidth, neueHoehe);
@@ -115,27 +124,33 @@ function drawTexts() {
   text('A deepfake is a piece of media - such as a photo,\naudio or video, that has been altered, generated\nor falsified using artificial intelligence (AI) \ntechniques, to convincingly replace one person’s \nface or voice. As a result, it creates people and \nevents that´do not exist or that did not actually \noccur.',
   windowWidth/29.8, windowWidth/10.9);
   
-  // Diagramm Eins
+  // Diagramm Eins Titel (immer sichtbar)
   textFont(headline);
   textSize(windowWidth/68.5);
   text('Deepfake Videos', windowWidth/31, windowWidth/4.399);
   
-  textFont(fließtext);
-  textSize(windowWidth/28.8);
-  text('2%', windowWidth/2.985, windowWidth/3.93);
-  textSize(windowWidth/66.755319);
-  text('non pornographic', windowWidth/2.985, windowWidth/3.689);
-  textSize(windowWidth/112);
-  text('Political, entertainment,\nfraud and scams, fake news\nand false information.', windowWidth/2.982, windowWidth/3.515);
+  // Diagramm Eins - 2% Informationen (nur wenn auf 2% geklickt wurde)
+  if(diagram1_2_percent_clicked) {
+    textFont(fließtext);
+    textSize(windowWidth/28.8);
+    text('2%', windowWidth/2.985, windowWidth/3.93);
+    textSize(windowWidth/66.755319);
+    text('non pornographic', windowWidth/2.985, windowWidth/3.689);
+    textSize(windowWidth/112);
+    text('Political, entertainment,\nfraud and scams, fake news\nand false information.', windowWidth/2.982, windowWidth/3.515);
+  }
   
-  textFont(headline);
-  textSize(windowWidth/17.310344);
-  text('98%', windowWidth/2.97, windowWidth/2.37);
-  textFont(fließtext);
-  textSize(windowWidth/69);
-  text('are pornographic', windowWidth/2.97, windowWidth/2.275);
+  // Diagramm Eins - 98% Informationen (nur wenn auf 98% geklickt wurde)
+  if(diagram1_98_percent_clicked) {
+    textFont(headline);
+    textSize(windowWidth/17.310344);
+    text('98%', windowWidth/2.97, windowWidth/2.37);
+    textFont(fließtext);
+    textSize(windowWidth/69);
+    text('are pornographic', windowWidth/2.97, windowWidth/2.275);
+  }
   
-  // Diagramm Zwei
+  // Diagramm Zwei (immer sichtbar)
   textFont(fließtext);
   textSize(windowWidth/28.8);
   text('2%', windowWidth/1.4014517, windowWidth/12.364532);
@@ -149,7 +164,7 @@ function drawTexts() {
   textSize(windowWidth/69);
   text('are non consensual', windowWidth/1.405, windowWidth/4.58);
   
-  // Diagramm Drei
+  // Diagramm Drei (immer sichtbar)
   textFont(fließtext);
   textSize(windowWidth/28.8);
   text('1%', windowWidth/1.2378, windowWidth/3.1631386);
@@ -292,6 +307,44 @@ function getHoverSegment(arcX, arcY, arcS, segmente, rotation) {
   return -1;
 }
 
+function mousePressed() {
+  console.log("Mouse clicked"); // Debug-Ausgabe
+  
+  // Nur Diagramm 1 prüfen
+  let segmente1 = [];
+  let werte1 = [0.02, 0.98];
+  let arcX1 = windowWidth/7;
+  let arcY1 = windowWidth/2.4;
+  let arcS1 = windowWidth/2.886044;
+  let rotation1 = HALF_PI/1.57;
+  let startwinkel1 = -rotation1;
+  
+  for (let i = 0; i < werte1.length; i++) {
+    let winkel = werte1[i] * TWO_PI;
+    segmente1.push({
+      start: startwinkel1,
+      ende: startwinkel1 + winkel,
+      wert: werte1[i],
+    });
+    startwinkel1 += winkel;
+  }
+  
+  let hoverSegment1 = getHoverSegment(arcX1, arcY1, arcS1, segmente1, rotation1);
+  console.log("Hover segment:", hoverSegment1); // Debug-Ausgabe
+  
+  // 2% Segment (non-pornographic)
+  if (hoverSegment1 === 0 && !diagram1_2_percent_clicked) {
+    console.log("2% clicked"); // Debug-Ausgabe
+    diagram1_2_percent_clicked = true;
+  }
+  
+  // 98% Segment (pornographic)
+  if (hoverSegment1 === 1 && !diagram1_98_percent_clicked) {
+    console.log("98% clicked"); // Debug-Ausgabe
+    diagram1_98_percent_clicked = true;
+  }
+}
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight * 6);
   
@@ -300,8 +353,4 @@ function windowResized() {
   bildHoehe = test.height;
   scaleFaktor = windowWidth / bildBreite;
   neueHoehe = bildHoehe * scaleFaktor;
-  
-  // Alles neu zeichnen
-  background(47, 45, 45);
-  drawStaticElements();
 }
