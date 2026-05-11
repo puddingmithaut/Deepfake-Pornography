@@ -52,8 +52,10 @@ function setup() {
 
 function draw() {
   background(47, 45, 45);
-  
-  // ALLES jeden Frame neu zeichnen
+  push();
+  scale(0.93);
+  //image(test,windowWidth/40,0, windowWidth,neueHoehe);
+  pop();
   drawPiechartone();
   drawPiecharttwo();
   drawPiechartthree();
