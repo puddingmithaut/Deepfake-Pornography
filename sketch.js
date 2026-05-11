@@ -196,53 +196,59 @@ function draw() {
   
   drawStaticElements();
 }
-
 function drawStaticElements() {
   // Arrow2 erscheint nachdem beide Segmente in Diagramm 1 geklickt wurden
   if (showDiagram1 && arrow2Appeared) {
-    drawScaledImage(arrow2);
+    drawScaledImage(arrow2, windowWidth/41.833333);
   }
   
   // Arrow1 erscheint nachdem beide Segmente in Diagramm 3 geklickt wurden
   if (showDiagram3 && arrow1Appeared) {
-    drawScaledImage(arrows);
+    drawScaledImage(arrows, windowWidth/41.833333);
   }
 
   // Diagramm 1 - Bedingte Pfeile basierend auf Klicks
   if(showDiagram1 && diagram1_2_percent_clicked) {
-    drawScaledImage(pfeil);
+    drawScaledImage(pfeil, windowWidth/40.48387);
   }
   
   if(showDiagram1 && diagram1_98_percent_clicked) {
-    drawScaledImage(pfeil1);
+    drawScaledImage(pfeil1, windowWidth/38, windowWidth/53.404255);
   }
 
-  // Diagramm 2 (Konsens) - Bedingte Pfeile
   if(showDiagram2 && diagram2_2_percent_clicked) {
-    drawScaledImage(pfeil4);
+    drawScaledImage(pfeil4, windowWidth/39.841269, 0, ); 
   }
   
   if(showDiagram2 && diagram2_98_percent_clicked) {
-    drawScaledImage(pfeil5);
+    drawScaledImage(pfeil5, windowWidth/39.841269, 0); 
   }
 
   // Diagramm 3 (Geschlecht) - Bedingte Pfeile
   if(showDiagram3 && diagram3_1_percent_clicked) {
-    drawScaledImage(pfeil2);
+    drawScaledImage(pfeil2, windowWidth/39.841269);
   }
   
   if(showDiagram3 && diagram3_99_percent_clicked) {
-    drawScaledImage(pfeil3);
+    drawScaledImage(pfeil3, windowWidth/39.841269);
   }
 
   drawTexts();
 }
 
-// Hilfsfunktion für skalierte Bilder
-function drawScaledImage(img) {
+// Hilfsfunktion für skalierte Bilder (Standard)
+function drawScaledImage(img, xOffset = windowWidth/41.833333, yOffset = 0) {
   push();
   scale(0.93);
-  image(img, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  image(img, xOffset, yOffset, windowWidth, neueHoehe);
+  pop();
+}
+
+// Neue Hilfsfunktion für Bilder mit zusätzlichem Offset
+function drawScaledImageWithOffset(img, xOffset, yOffset, extraXOffset = 0) {
+  push();
+  scale(0.93);
+  image(img, xOffset + extraXOffset, yOffset, windowWidth, neueHoehe);
   pop();
 }
 
