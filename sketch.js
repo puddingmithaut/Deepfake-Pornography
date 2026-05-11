@@ -2,6 +2,7 @@ let test;
 let headline;
 let fließtext;
 let arrows;
+let arrow2;
 let pfeil;
 let pfeil1;
 let pfeil2;
@@ -15,15 +16,15 @@ let neueHoehe;
 let bildBreite;
 let bildHoehe;
 
-// Status für Diagramm 1
+// Status für Diagramm 1 (Deepfake Videos)
 let diagram1_2_percent_clicked = false;
 let diagram1_98_percent_clicked = false;
 
-// Status für Diagramm 2
+// Status für Diagramm 2 (Konsens - 2% consensual, 98% non-consensual)
 let diagram2_2_percent_clicked = false;
 let diagram2_98_percent_clicked = false;
 
-// Status für Diagramm 3
+// Status für Diagramm 3 (Geschlecht - 1% male, 99% female)
 let diagram3_1_percent_clicked = false;
 let diagram3_99_percent_clicked = false;
 
@@ -40,16 +41,23 @@ let diagram3Opacity = 0;
 // Startzeit
 let startTime;
 
-// Status für Arrow in Diagramm 1
+// Status für Arrows
+let arrow2Appeared = false;
 let arrow1Appeared = false;
-let diagram1_98_clickTime = 0;  // Zeitpunkt des Klicks auf 98%
-let arrowDelay = 3;              // 3 Sekunden Verzögerung für Arrow
+let diagram1BothClicked = false;
+let diagram3BothClicked = false;
+let arrowDelay = 3;
+
+// Zeitpunkte für Klicks
+let diagram1_98_clickTime = 0;
+let diagram3_99_clickTime = 0;
 
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
   headline = loadFont("assets/Avenir Heavy.ttf");
   fließtext = loadFont("assets/Avenir Regular.ttf");
-  arrows = loadImage("assets/arrows.png");
+  arrows = loadImage("assets/arrows1.png");
+  arrow2 = loadImage("assets/arrows2.png");
   pfeil = loadImage("assets/3.png");
   pfeil1 = loadImage("assets/4.png");
   pfeil2 = loadImage("assets/1.png");
@@ -62,7 +70,6 @@ function setup() {
   createCanvas(windowWidth, windowHeight * 6);
   startTime = millis();
   
-  // Skalierungsfaktoren einmal berechnen
   bildBreite = test.width;
   bildHoehe = test.height;
   scaleFaktor = windowWidth / bildBreite;
@@ -79,22 +86,40 @@ function draw() {
     showDiagram1 = true;
   }
   
-  // Prüfen ob Arrow 1 erscheinen soll (3 Sekunden nach Klick auf 98%)
-  if (diagram1_98_percent_clicked && !arrow1Appeared) {
-    let timeSince98Click = (millis() - diagram1_98_clickTime) / 1000;
-    if (timeSince98Click >= arrowDelay) {
+  // Prüfen ob beide Segmente in Diagramm 1 geklickt wurden
+  if (diagram1_2_percent_clicked && diagram1_98_percent_clicked && !diagram1BothClicked) {
+    diagram1BothClicked = true;
+  }
+  
+  // Arrow2 erscheint 3 Sekunden nachdem beide Segmente in Diagramm 1 geklickt wurden
+  if (diagram1BothClicked && !arrow2Appeared) {
+    let timeSinceBothClicked = (millis() - diagram1_98_clickTime) / 1000;
+    if (timeSinceBothClicked >= arrowDelay) {
+      arrow2Appeared = true;
+    }
+  }
+  
+  // Diagramm 3 erscheint NACH Arrow2
+  if (arrow2Appeared && !showDiagram3) {
+    showDiagram3 = true;
+  }
+  
+  // Prüfen ob beide Segmente in Diagramm 3 geklickt wurden
+  if (diagram3_1_percent_clicked && diagram3_99_percent_clicked && !diagram3BothClicked) {
+    diagram3BothClicked = true;
+  }
+  
+  // Arrow1 erscheint 3 Sekunden nachdem beide Segmente in Diagramm 3 geklickt wurden
+  if (diagram3BothClicked && !arrow1Appeared) {
+    let timeSinceDiagram3Both = (millis() - diagram3_99_clickTime) / 1000;
+    if (timeSinceDiagram3Both >= arrowDelay) {
       arrow1Appeared = true;
     }
   }
   
-  // Diagramm 2 erst nach Arrow 1 einblenden
+  // Diagramm 2 erscheint NACH Arrow1
   if (arrow1Appeared && !showDiagram2) {
     showDiagram2 = true;
-  }
-  
-  // Diagramm 3 erst nach Arrow 1 einblenden
-  if (arrow1Appeared && !showDiagram3) {
-    showDiagram3 = true;
   }
   
   // Opacity für Fade-In
@@ -108,11 +133,6 @@ function draw() {
     diagram3Opacity = min(255, diagram3Opacity + 15);
   }
   
-  push();
-  scale(0.93);
-  pop();
-  
-
   if (showDiagram1) {
     drawPiechartoneWithOpacity(diagram1Opacity);
   }
@@ -129,13 +149,16 @@ function draw() {
 }
 
 function drawStaticElements() {
-  // Hintergrund Sketch
-  push();
-  scale(0.93);
-  pop();
-
-  // Images - Arrow erscheint erst nach 3 Sekunden
-  if (showDiagram1 && arrow1Appeared) {
+  // Arrow2 erscheint nachdem beide Segmente in Diagramm 1 geklickt wurden
+  if (showDiagram1 && arrow2Appeared) {
+    push();
+    scale(0.93);
+    image(arrow2, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+    pop();
+  }
+  
+  // Arrow1 erscheint nachdem beide Segmente in Diagramm 3 geklickt wurden
+  if (showDiagram3 && arrow1Appeared) {
     push();
     scale(0.93);
     image(arrows, windowWidth/41.833333, 0, windowWidth, neueHoehe);
@@ -157,37 +180,36 @@ function drawStaticElements() {
     pop();
   }
 
-  // Diagramm 2 - Bedingte Pfeile basierend auf Klicks (nur wenn Diagramm 2 sichtbar)
-  if(showDiagram2 && diagram3_1_percent_clicked) {
-    push();
-    scale(0.93);
-    image(pfeil2, windowWidth/39.841269, 0, windowWidth, neueHoehe);
-    pop();
-  }
-  
-  if(showDiagram2 && diagram3_99_percent_clicked) {
-    push();
-    scale(0.93);
-    image(pfeil3, windowWidth/39.841269, 0, windowWidth, neueHoehe);
-    pop();
-  }
-
-  // Diagramm 3 - Bedingte Pfeile basierend auf Klicks (nur wenn Diagramm 3 sichtbar)
-  if(showDiagram3 && diagram2_2_percent_clicked) {
+  // Diagramm 2 (Konsens) - Bedingte Pfeile
+  if(showDiagram2 && diagram2_2_percent_clicked) {
     push();
     scale(0.93);
     image(pfeil4, windowWidth/39.841269, 0, windowWidth, neueHoehe);
     pop();
   }
   
-  if(showDiagram3 && diagram2_98_percent_clicked) {
+  if(showDiagram2 && diagram2_98_percent_clicked) {
     push();
     scale(0.93);
     image(pfeil5, windowWidth/39.841269, 0, windowWidth, neueHoehe);
     pop();
   }
 
-  // Texte (immer sichtbar)
+  // Diagramm 3 (Geschlecht) - Bedingte Pfeile
+  if(showDiagram3 && diagram3_1_percent_clicked) {
+    push();
+    scale(0.93);
+    image(pfeil2, windowWidth/39.841269, 0, windowWidth, neueHoehe);
+    pop();
+  }
+  
+  if(showDiagram3 && diagram3_99_percent_clicked) {
+    push();
+    scale(0.93);
+    image(pfeil3, windowWidth/39.841269, 0, windowWidth, neueHoehe);
+    pop();
+  }
+
   drawTexts();
 }
 
@@ -205,13 +227,14 @@ function drawTexts() {
   text('A deepfake is a piece of media - such as a photo,\naudio or video, that has been altered, generated\nor falsified using artificial intelligence (AI) \ntechniques, to convincingly replace one person’s \nface or voice. As a result, it creates people and \nevents that´do not exist or that did not actually \noccur.',
   windowWidth/29.8, windowWidth/10.9);
   
-  // Diagramm Eins Titel (nur sichtbar wenn Diagramm sichtbar)
+  // Diagramm 1 Titel
   if(showDiagram1) {
     textFont(headline);
     textSize(windowWidth/68.5);
     text('Deepfake Videos', windowWidth/31, windowWidth/4.399);
   }
   
+  // Diagramm 1 Texte
   if(showDiagram1 && diagram1_2_percent_clicked) {
     textFont(fließtext);
     textSize(windowWidth/28.8);
@@ -231,24 +254,8 @@ function drawTexts() {
     text('are pornographic', windowWidth/2.97, windowWidth/2.275);
   }
   
-  if(showDiagram2 && diagram3_1_percent_clicked) {
-    textFont(fließtext);
-    textSize(windowWidth/28.8);
-    text('2%', windowWidth/1.4014517, windowWidth/12.364532);
-    textSize(windowWidth/66.985319);
-    text('are consensual', windowWidth/1.4014517, windowWidth/10.25);
-  }
-  
-  if(showDiagram2 && diagram3_99_percent_clicked) {
-    textFont(headline);
-    textSize(windowWidth/17.310344);
-    text('98%', windowWidth/1.404, windowWidth/4.9882816);
-    textFont(fließtext);
-    textSize(windowWidth/69);
-    text('are non consensual', windowWidth/1.405, windowWidth/4.58);
-  }
-  
-  if(showDiagram3 && diagram2_2_percent_clicked) {
+  // Diagramm 2 Texte (Konsens)
+  if(showDiagram2 && diagram2_2_percent_clicked) {
     textFont(fließtext);
     textSize(windowWidth/28.8);
     text('1%', windowWidth/1.2378, windowWidth/3.1631386);
@@ -256,7 +263,8 @@ function drawTexts() {
     text('are male', windowWidth/1.2375, windowWidth/3.009);
   }
   
-  if(showDiagram3 && diagram2_98_percent_clicked) {
+  if(showDiagram2 && diagram2_98_percent_clicked) {
+  
     textFont(headline);
     textSize(windowWidth/17.310344);
     text('99%', windowWidth/1.238, windowWidth/2.37);
@@ -264,9 +272,29 @@ function drawTexts() {
     textSize(windowWidth/69);
     text('are female', windowWidth/1.239, windowWidth/2.274);
   }
+  
+  // Diagramm 3 Texte (Geschlecht)
+  if(showDiagram3 && diagram3_1_percent_clicked) {
+
+     textFont(fließtext);
+    textSize(windowWidth/28.8);
+    text('2%', windowWidth/1.4014517, windowWidth/12.364532);
+    textSize(windowWidth/66.985319);
+    text('are consensual', windowWidth/1.4014517, windowWidth/10.25);
+  }
+  
+  if(showDiagram3 && diagram3_99_percent_clicked) {
+  textFont(headline);
+    textSize(windowWidth/17.310344);
+    text('98%', windowWidth/1.404, windowWidth/4.9882816);
+    textFont(fließtext);
+    textSize(windowWidth/69);
+    text('are non consensual', windowWidth/1.405, windowWidth/4.58);
+
+
+  }
 }
 
-// Neue Funktionen mit Opacity-Parameter
 function drawPiechartoneWithOpacity(opacity) {
   push();
   drawingContext.globalAlpha = opacity / 255;
@@ -288,6 +316,7 @@ function drawPiechartthreeWithOpacity(opacity) {
   pop();
 }
 
+// Diagramm 1 (Deepfake Videos: 2% non-porn, 98% porn)
 function drawPiechartone() {
   let segmente = [];
   let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
@@ -320,6 +349,7 @@ function drawPiechartone() {
   }
 }
 
+// Diagramm 2 (Konsens: 2% consensual, 98% non-consensual)
 function drawPiecharttwo() {
   let segmente = [];
   let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
@@ -352,6 +382,7 @@ function drawPiecharttwo() {
   }
 }
 
+// Diagramm 3 (Geschlecht: 1% male, 99% female)
 function drawPiechartthree() {
   let segmente = [];
   let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
@@ -417,9 +448,8 @@ function getHoverSegment(arcX, arcY, arcS, segmente, rotation) {
 }
 
 function mousePressed() {
-  // Nur Klicks registrieren wenn Diagramme sichtbar sind
+  // Diagramm 1 (Deepfake Videos)
   if(showDiagram1) {
-    // Diagramm 1 prüfen
     let segmente1 = [];
     let werte1 = [0.02, 0.98];
     let arcX1 = windowWidth/7;
@@ -440,53 +470,18 @@ function mousePressed() {
     
     let hoverSegment1 = getHoverSegment(arcX1, arcY1, arcS1, segmente1, rotation1);
     
-    // Diagramm 1 - 2% Segment
     if (hoverSegment1 === 0 && !diagram1_2_percent_clicked) {
       diagram1_2_percent_clicked = true;
     }
     
-    // Diagramm 1 - 98% Segment - Speichere Zeitpunkt des Klicks
     if (hoverSegment1 === 1 && !diagram1_98_percent_clicked) {
       diagram1_98_percent_clicked = true;
-      diagram1_98_clickTime = millis();  // Zeitpunkt des Klicks speichern
+      diagram1_98_clickTime = millis();
     }
   }
   
-  if(showDiagram2) {
-    // Diagramm 2 prüfen
-    let segmente2 = [];
-    let werte2 = [0.02, 0.98];
-    let arcX2 = windowWidth/1.46;
-    let arcY2 = windowWidth/2.73;
-    let arcS2 = windowWidth/4.8;
-    let rotation2 = HALF_PI/2.1;
-    let startwinkel2 = -rotation2;
-    
-    for (let i = 0; i < werte2.length; i++) {
-      let winkel = werte2[i] * TWO_PI;
-      segmente2.push({
-        start: startwinkel2,
-        ende: startwinkel2 + winkel,
-        wert: werte2[i],
-      });
-      startwinkel2 += winkel;
-    }
-    
-    let hoverSegment2 = getHoverSegment(arcX2, arcY2, arcS2, segmente2, rotation2);
-    
-    // Diagramm 2 - 2% Segment
-    if (hoverSegment2 === 0 && !diagram2_2_percent_clicked) {
-      diagram2_2_percent_clicked = true;
-    }
-    
-    // Diagramm 2 - 98% Segment
-    if (hoverSegment2 === 1 && !diagram2_98_percent_clicked) {
-      diagram2_98_percent_clicked = true;
-    }
-  }
-  
+  // Diagramm 3 
   if(showDiagram3) {
-    // Diagramm 3 prüfen
     let segmente3 = [];
     let werte3 = [0.01, 0.99];
     let arcX3 = windowWidth/1.69;
@@ -507,14 +502,44 @@ function mousePressed() {
     
     let hoverSegment3 = getHoverSegment(arcX3, arcY3, arcS3, segmente3, rotation3);
     
-    // Diagramm 3 - 1% Segment
     if (hoverSegment3 === 0 && !diagram3_1_percent_clicked) {
       diagram3_1_percent_clicked = true;
     }
     
-    // Diagramm 3 - 99% Segment
     if (hoverSegment3 === 1 && !diagram3_99_percent_clicked) {
       diagram3_99_percent_clicked = true;
+      diagram3_99_clickTime = millis();
+    }
+  }
+  
+  // Diagramm 2
+  if(showDiagram2) {
+    let segmente2 = [];
+    let werte2 = [0.02, 0.98];
+    let arcX2 = windowWidth/1.46;
+    let arcY2 = windowWidth/2.73;
+    let arcS2 = windowWidth/4.8;
+    let rotation2 = HALF_PI/2.1;
+    let startwinkel2 = -rotation2;
+    
+    for (let i = 0; i < werte2.length; i++) {
+      let winkel = werte2[i] * TWO_PI;
+      segmente2.push({
+        start: startwinkel2,
+        ende: startwinkel2 + winkel,
+        wert: werte2[i],
+      });
+      startwinkel2 += winkel;
+    }
+    
+    let hoverSegment2 = getHoverSegment(arcX2, arcY2, arcS2, segmente2, rotation2);
+    
+    if (hoverSegment2 === 0 && !diagram2_2_percent_clicked) {
+      diagram2_2_percent_clicked = true;
+    }
+    
+    if (hoverSegment2 === 1 && !diagram2_98_percent_clicked) {
+      diagram2_98_percent_clicked = true;
     }
   }
 }
@@ -522,7 +547,6 @@ function mousePressed() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight * 6);
   
-  // Skalierung neu berechnen
   bildBreite = test.width;
   bildHoehe = test.height;
   scaleFaktor = windowWidth / bildBreite;
