@@ -30,30 +30,28 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight * 6);
-  background(47, 45, 45);
   
-  // Skalierungsfaktoren einmal berechnen
+  // Skalierungsfaktoren
   bildBreite = test.width;
   bildHoehe = test.height;
   scaleFaktor = windowWidth / bildBreite;
   neueHoehe = bildHoehe * scaleFaktor;
   
-  // Alle statischen Elemente einmal zeichnen
-  drawStaticElements();
 }
 
 function draw() {
-  // Nur Piecharts mit Hover-Erkennung jeden Frame neu zeichnen
+  background(47, 45, 45);
   drawPiechartone();
   drawPiecharttwo();
   drawPiechartthree();
+  drawStaticElements();
 }
 
 function drawStaticElements() {
   // Hintergrund Sketch
   push();
   scale(0.93);
-  image(test, windowWidth/40, 0, windowWidth, neueHoehe);
+  //image(test, windowWidth/40, 0, windowWidth, neueHoehe);
   pop();
 
   // Images
@@ -198,7 +196,7 @@ function drawPiechartone() {
 
 function drawPiecharttwo() {
   let segmente = [];
-  let farben = [color(255, 0, 0, 50), color(0, 255, 0, 50)];
+  let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
   let werte = [0.01, 0.99];
 
   let arcX = windowWidth/1.46;
@@ -230,7 +228,7 @@ function drawPiecharttwo() {
 
 function drawPiechartthree() {
   let segmente = [];
-  let farben = [color(255, 0, 0, 50), color(0, 255, 0, 50)];
+  let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
   let werte = [0.02, 0.98];
 
   let arcX = windowWidth/1.69;
