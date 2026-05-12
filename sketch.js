@@ -9,6 +9,11 @@ let pfeil2;
 let pfeil3;
 let pfeil4;
 let pfeil5;
+let kreisdiagramm3;
+let kreisdiagramm2;
+let kreisdiagramm2small_clicked;
+let kreisdiagramm2big_clicked;
+
 
 // Cache für skalierte Werte
 let scaleFaktor;
@@ -78,6 +83,12 @@ function preload() {
   pfeil3 = loadImage("assets/2.png");
   pfeil4 = loadImage("assets/5.png");
   pfeil5 = loadImage("assets/6.png");
+
+  kreisdiagramm3= loadImage("assets/kreisdiagramm3.png");
+
+  kreisdiagramm2= loadImage("assets/kreisdiagramm2.png");
+  kreisdiagramm2small_clicked= loadImage("assets/Diagram 2 little pie piece clicked.png");
+  kreisdiagramm2big_clicked= loadImage("assets/Diagram 2 big pie piece clicked.png");
 }
 
 function setup() {
@@ -85,10 +96,8 @@ function setup() {
   startTime = millis();
   updateCachedValues();
   
-  // Kein Fade-In mehr, sondern direkt anzeigen
-  diagram1Opacity = 255;
-  diagram2Opacity = 255;
-  diagram3Opacity = 255;
+
+ 
 }
 
 function updateCachedValues() {
@@ -254,7 +263,7 @@ function drawScaledImageWithOffset(img, xOffset, yOffset, extraXOffset = 0) {
 
 function drawTexts() {
   // Deepfake Titel
-  fill(255, 80, 255);
+  fill(255);
   textFont(headline);
   textSize(cachedValues.textSizeHeadline);
   text('Deepfake', cachedValues.titelDeepfakeX, cachedValues.titelDeepfakeY);
@@ -263,7 +272,7 @@ function drawTexts() {
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext);
   textLeading(cachedValues.textLeading);
-  text('A deepfake is a piece of media - such as a photo,\naudio or video, that has been altered, generated\nor falsified using artificial intelligence (AI) \ntechniques, to convincingly replace one person’s \nface or voice. As a result, it creates people and \nevents that´do not exist or that did not actually \noccur.',
+  text('A deepfake is a piece of media - such as a photo,audio or video,that has been altered\n generated or falsified using artificial intelligence (AI)techniques, to convincingly\nreplace one persons face or voice.\nAs a XPathResult, it creates people and events that do not exist or that did not actually occur.\n\nOver time, the definition of the term deepfake has evolved.\nWhereas in 2017 and 2018 it was applied exclusively to visual media explicitly created\nby "Deepfake AI" by 2022 the term had come to be used to describe images and videos\nthat had BlobEvent, eiter obviously or allegedly falsified by any form of artificial intelligence.',
   cachedValues.definitionX, cachedValues.definitionY);
   
   // Diagramm 1 Titel
@@ -350,7 +359,6 @@ function drawPiechartone() {
     startwinkel += winkel;
   }
   
-  // Direktes Zeichnen ohne Opacity-Überprüfung
   for (let i = 0; i < segmente.length; i++) {
     if (i === getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation)) {
       fill(255);
@@ -359,6 +367,7 @@ function drawPiechartone() {
     }
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
+
 }
 
 // Diagramm 2
@@ -381,14 +390,34 @@ function drawPiecharttwo() {
     startwinkel += winkel;
   }
   
+  // ERST die Bögen zeichnen (für Hitbox/Hover)
   for (let i = 0; i < segmente.length; i++) {
-    if (i === getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation)) {
-      fill(255);
-    } else {
-      fill(farben[i]);
-    }
+    // Unsichtbare Bögen für Hitbox (oder sichtbar zum Testen)
+    fill(farben[i]);
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
+  
+  // Hover-Segment ermitteln (funktioniert jetzt, da die Bögen existieren)
+  let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
+  
+  // Bilder basierend auf Hover laden/anzeigen
+  push();
+  scale(0.93);
+  
+  if (hoverSegment === 0) {
+    // Kleines Segment gehovered
+    image(kreisdiagramm2small_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  } 
+  else if (hoverSegment === 1) {
+    // Großes Segment gehovered
+    image(kreisdiagramm2big_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  } 
+  else {
+    // Kein Hover - normales Bild
+    image(kreisdiagramm2, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  }
+  
+  pop();
 }
 
 // Diagramm 3
@@ -411,14 +440,40 @@ function drawPiechartthree() {
     startwinkel += winkel;
   }
   
+  // Hover-Segment ermitteln
+  let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
+  
+  // Bilder basierend auf Hover laden/anzeigen
   for (let i = 0; i < segmente.length; i++) {
-    if (i === getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation)) {
+    if (i === hoverSegment) {
       fill(255);
+      
+      // Bild basierend auf Segment-Index laden
+      if (i === 0) {
+      
+       push();
+       scale(0.93); 
+       image(kreisdiagramm3, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+       pop();
+      } else if (i === 1) {
+       push();
+       scale(0.93);
+       image(kreisdiagramm3, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+       pop();
+
+      }
+      
     } else {
       fill(farben[i]);
     }
+    
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
+  
+  push();
+  scale(0.93); 
+  image(kreisdiagramm3, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  pop();
 }
 
 function getHoverSegment(arcX, arcY, arcS, segmente, rotation) {
