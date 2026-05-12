@@ -131,7 +131,7 @@ function updateCachedValues() {
       arcX: windowWidth / 1.46,
       arcY: windowWidth / 2.73,
       arcS: windowWidth / 4.8,
-      rotation: HALF_PI / 2.1
+      rotation: HALF_PI / 2.02
     },
     diagram3: {
       arcX: windowWidth / 1.69,
@@ -390,17 +390,16 @@ function drawPiecharttwo() {
     startwinkel += winkel;
   }
   
-  // ERST die Bögen zeichnen (für Hitbox/Hover)
+  // Bögen zeichnen (für Hitbox/Hover)
   for (let i = 0; i < segmente.length; i++) {
-    // Unsichtbare Bögen für Hitbox (oder sichtbar zum Testen)
-    fill(farben[i]);
+    // Unsichtbare Bögen für Hitbox
+    //fill(farben[i]);
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
   
-  // Hover-Segment ermitteln (funktioniert jetzt, da die Bögen existieren)
   let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
   
-  // Bilder basierend auf Hover laden/anzeigen
+  
   push();
   scale(0.93);
   
