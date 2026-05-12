@@ -374,7 +374,7 @@ function drawPiechartone() {
 function drawPiecharttwo() {
   let segmente = [];
   let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
-  let werte = [0.02, 0.98];
+  let werte = [0.01, 0.99];
   let d = cachedValues.diagram2;
   
   let startwinkel = -d.rotation;
@@ -417,13 +417,14 @@ function drawPiecharttwo() {
   }
   
   pop();
+  
 }
 
 // Diagramm 3
 function drawPiechartthree() {
   let segmente = [];
   let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
-  let werte = [0.01, 0.99];
+  let werte = [0.02, 0.98];
   let d = cachedValues.diagram3;
   
   let startwinkel = -d.rotation;
