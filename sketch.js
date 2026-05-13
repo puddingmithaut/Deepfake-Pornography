@@ -1,15 +1,21 @@
 let test;
 let headline;
 let fließtext;
+
 let arrows;
 let arrow2;
+
 let pfeil;
 let pfeil1;
 let pfeil2;
 let pfeil3;
 let pfeil4;
 let pfeil5;
+
 let kreisdiagramm3;
+let kreisdiagramm3small_clicked;
+let kreisdiagramm3big_clicked;
+
 let kreisdiagramm2;
 let kreisdiagramm2small_clicked;
 let kreisdiagramm2big_clicked;
@@ -85,10 +91,15 @@ function preload() {
   pfeil5 = loadImage("assets/6.png");
 
   kreisdiagramm3= loadImage("assets/kreisdiagramm3.png");
+  kreisdiagramm3big_clicked= loadImage("assets/Diagram 3 big pie piece clicked.png");
+  kreisdiagramm3small_clicked= loadImage("assets/Diagram 3 little pie piece clicked.png");
 
   kreisdiagramm2= loadImage("assets/kreisdiagramm2.png");
   kreisdiagramm2small_clicked= loadImage("assets/Diagram 2 little pie piece clicked.png");
   kreisdiagramm2big_clicked= loadImage("assets/Diagram 2 big pie piece clicked.png");
+
+
+
 }
 
 function setup() {
@@ -374,7 +385,7 @@ function drawPiechartone() {
 function drawPiecharttwo() {
   let segmente = [];
   let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
-  let werte = [0.01, 0.99];
+  let werte = [0.35, 0.65];
   let d = cachedValues.diagram2;
   
   let startwinkel = -d.rotation;
@@ -393,34 +404,33 @@ function drawPiecharttwo() {
   // Bögen zeichnen (für Hitbox/Hover)
   for (let i = 0; i < segmente.length; i++) {
     // Unsichtbare Bögen für Hitbox
-    //fill(farben[i]);
+    fill(farben[i]);
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
   
-  let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
+  //let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
   
   
-  push();
-  scale(0.93);
+  //push();
+  //scale(0.93);
   
-  if (hoverSegment === 0) {
+  //if (hoverSegment === 0) {
     // Kleines Segment gehovered
-    image(kreisdiagramm2small_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-  } 
-  else if (hoverSegment === 1) {
+  //  image(kreisdiagramm2small_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  //} 
+  //else if (hoverSegment === 1) {
     // Großes Segment gehovered
-    image(kreisdiagramm2big_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-  } 
-  else {
+  //  image(kreisdiagramm2big_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  //} 
+  //else {
     // Kein Hover - normales Bild
-    image(kreisdiagramm2, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-  }
+   // image(kreisdiagramm2, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  //}
   
-  pop();
+  //pop();
   
 }
 
-// Diagramm 3
 function drawPiechartthree() {
   let segmente = [];
   let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
@@ -439,40 +449,33 @@ function drawPiechartthree() {
     });
     startwinkel += winkel;
   }
-  
-  // Hover-Segment ermitteln
-  let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
-  
-  // Bilder basierend auf Hover laden/anzeigen
-  for (let i = 0; i < segmente.length; i++) {
-    if (i === hoverSegment) {
-      fill(255);
-      
-      // Bild basierend auf Segment-Index laden
-      if (i === 0) {
-      
-       push();
-       scale(0.93); 
-       image(kreisdiagramm3, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-       pop();
-      } else if (i === 1) {
-       push();
-       scale(0.93);
-       image(kreisdiagramm3, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-       pop();
 
-      }
-      
-    } else {
-      fill(farben[i]);
-    }
-    
+  // Unsichtbare Hitbox-Bögen zeichnen
+  noStroke();  // Keine Konturlinie
+  noFill();    // Keine Füllung - komplett transparent
+  for (let i = 0; i < segmente.length; i++) {
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
   
+  // Hover-Segment ermitteln
+  let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
+
   push();
-  scale(0.93); 
-  image(kreisdiagramm3, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  scale(0.93);
+  
+  if (hoverSegment === 0) {
+    // Kleines Segment gehovered
+    image(kreisdiagramm3small_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  } 
+  else if (hoverSegment === 1) {
+    // Großes Segment gehovered
+    image(kreisdiagramm3big_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  } 
+  else {
+    // Kein Hover - normales Bild
+    image(kreisdiagramm3, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  }
+  
   pop();
 }
 
