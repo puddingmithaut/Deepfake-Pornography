@@ -80,17 +80,6 @@ let diagram2Path;
 let diagram3Path;
 let needRedrawPaths = true;
 
-// Animations-Frames
-let animation1Frames = [];
-let animation2Frames = [];
-let currentFrame1 = 0;
-let currentFrame2 = 0;
-let animation1Playing = false;
-let animation2Playing = false;
-let lastFrameTime1 = 0;
-let lastFrameTime2 = 0;
-let frameDelay = 50; // ms zwischen Frames (ca. 20 fps)
-
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
   headline = loadFont("assets/Avenir Heavy.ttf");
@@ -99,8 +88,10 @@ function preload() {
   arrows = loadImage("assets/arrows1.png");
   arrow2 = loadImage("assets/arrows2.png");
 
-  arrowanimation1 = loadImage("assets/arroww1.avif");
-  arrowanimation2 = loadImage("assets/arroww2.avif");
+  arrowanimation1= loadImage("assets/arroww1.avif");
+  arrowanimation2= loadImage("assets/arroww2.avif");
+
+
 
   pfeil = loadImage("assets/3.png");
   pfeil1 = loadImage("assets/4.png");
@@ -109,13 +100,16 @@ function preload() {
   pfeil4 = loadImage("assets/5.png");
   pfeil5 = loadImage("assets/6.png");
 
-  kreisdiagramm3 = loadImage("assets/kreisdiagramm3.png");
-  kreisdiagramm3big_clicked = loadImage("assets/Diagram 3 big pie piece clicked.png");
-  kreisdiagramm3small_clicked = loadImage("assets/Diagram 3 little pie piece clicked.png");
+  kreisdiagramm3= loadImage("assets/kreisdiagramm3.png");
+  kreisdiagramm3big_clicked= loadImage("assets/Diagram 3 big pie piece clicked.png");
+  kreisdiagramm3small_clicked= loadImage("assets/Diagram 3 little pie piece clicked.png");
 
-  kreisdiagramm1 = loadImage("assets/piechart1.png");
-  kreisdiagramm1small_clicked = loadImage("assets/piechart 1 small button clicked.png");
-  kreisdiagramm1big_clicked = loadImage("assets/piechart1 big button clicked.png");
+  kreisdiagramm1= loadImage("assets/piechart1.png");
+  kreisdiagramm1small_clicked= loadImage("assets/piechart 1 small button clicked.png");
+  kreisdiagramm1big_clicked= loadImage("assets/piechart1 big button clicked.png");
+
+
+
 }
 
 function setup() {
@@ -123,42 +117,52 @@ function setup() {
   startTime = millis();
   updateCachedValues();
   
-  // Lade Animationsframes aus den GIFs/APNGs
-  loadAnimationFrames();
+
+ 
 }
 
-function loadAnimationFrames() {
-  // Extrahiere Frames aus arrowanimation1
-  if (arrowanimation1 && arrowanimation1.width > 0 && arrowanimation1.height > 0) {
-    let frameCount1 = arrowanimation1.numFrames();
-    if (frameCount1 > 0) {
-      for (let i = 0; i < frameCount1; i++) {
-        arrowanimation1.setFrame(i);
-        let frameImg = createImage(arrowanimation1.width, arrowanimation1.height);
-        frameImg.copy(arrowanimation1, 0, 0, arrowanimation1.width, arrowanimation1.height, 0, 0, arrowanimation1.width, arrowanimation1.height);
-        animation1Frames.push(frameImg);
-      }
-    } else {
-      // Fallback: Verwende das Bild selbst als einzigen Frame
-      animation1Frames.push(arrowanimation1);
-    }
-  }
+function updateCachedValues() {
+  bildBreite = test.width;
+  bildHoehe = test.height;
+  scaleFaktor = windowWidth / bildBreite;
+  neueHoehe = bildHoehe * scaleFaktor;
   
-  // Extrahiere Frames aus arrowanimation2
-  if (arrowanimation2 && arrowanimation2.width > 0 && arrowanimation2.height > 0) {
-    let frameCount2 = arrowanimation2.numFrames();
-    if (frameCount2 > 0) {
-      for (let i = 0; i < frameCount2; i++) {
-        arrowanimation2.setFrame(i);
-        let frameImg = createImage(arrowanimation2.width, arrowanimation2.height);
-        frameImg.copy(arrowanimation2, 0, 0, arrowanimation2.width, arrowanimation2.height, 0, 0, arrowanimation2.width, arrowanimation2.height);
-        animation2Frames.push(frameImg);
-      }
-    } else {
-      // Fallback: Verwende das Bild selbst als einzigen Frame
-      animation2Frames.push(arrowanimation2);
+  // Cache alle häufig verwendeten Berechnungen
+  cachedValues = {
+    textSizeHeadline: windowWidth / 22.979,
+    textSizeFließtext: windowWidth / 114.89675,
+    textLeading: windowWidth / 96,
+    titelDeepfakeX: windowWidth / 33,
+    titelDeepfakeY: windowWidth / 19.160305,
+    definitionX: windowWidth / 29.8,
+    definitionY: windowWidth / 10.9,
+    diagramTitelSize: windowWidth / 68.5,
+    diagram1TitelY: windowWidth / 4.399,
+    percentSize: windowWidth / 28.8,
+    labelSize: windowWidth / 66.755319,
+    smallTextSize: windowWidth / 112,
+    headlinePercentSize: windowWidth / 17.310344,
+    diagram1: {
+      arcX: windowWidth / 7,
+      arcY: windowWidth / 2.4,
+      arcS: windowWidth / 2.886044,
+      rotation: HALF_PI / 1.57
+    },
+    diagram2: {
+      arcX: windowWidth / 1.46,
+      arcY: windowWidth / 2.73,
+      arcS: windowWidth / 4.8,
+      rotation: HALF_PI / 2.02
+    },
+    diagram3: {
+      arcX: windowWidth / 1.69,
+      arcY: windowWidth / 6.6,
+      arcS: windowWidth / 4.8,
+      rotation: HALF_PI / 1.24
     }
-  }
+  };
+  
+  needRedrawPaths = true;
 }
 
 function draw() {
@@ -176,19 +180,16 @@ function draw() {
     diagram1BothClicked = true;
   }
   
-  // Arrow2 Animation starten 3 Sekunden nachdem beide Segmente in Diagramm 1 geklickt wurden
-  if (diagram1BothClicked && !arrow2Appeared && !animation2Playing) {
+  // Arrow2 erscheint 3 Sekunden nachdem beide Segmente in Diagramm 1 geklickt wurden
+  if (diagram1BothClicked && !arrow2Appeared) {
     let timeSinceBothClicked = (millis() - diagram1_98_clickTime) / 1000;
     if (timeSinceBothClicked >= arrowDelay) {
       arrow2Appeared = true;
-      animation2Playing = true;
-      currentFrame2 = 0;
-      lastFrameTime2 = millis();
     }
   }
   
-  // Diagramm 3 erscheint NACH Arrow2 (wenn Animation fertig ist)
-  if (arrow2Appeared && !animation2Playing && !showDiagram3) {
+  // Diagramm 3 erscheint NACH Arrow2
+  if (arrow2Appeared && !showDiagram3) {
     showDiagram3 = true;
   }
   
@@ -197,19 +198,16 @@ function draw() {
     diagram3BothClicked = true;
   }
   
-  // Arrow1 Animation starten 3 Sekunden nachdem beide Segmente in Diagramm 3 geklickt wurden
-  if (diagram3BothClicked && !arrow1Appeared && !animation1Playing) {
-    let timeSinceDiagram3Both = (millis() - diagram3_99_clickTime) / 1000;
+  // Arrow1 erscheint 3 Sekunden nachdem beide Segmente in Diagramm 3 geklickt wurden
+  if (diagram3BothClicked && !arrow1Appeared) {
+    let timeSinceDiagram3Both = (millis() - diagram3_99_clickTime)/1000 ;
     if (timeSinceDiagram3Both >= arrowDelay) {
       arrow1Appeared = true;
-      animation1Playing = true;
-      currentFrame1 = 0;
-      lastFrameTime1 = millis();
     }
   }
   
-  // Diagramm 2 erscheint NACH Arrow1 (wenn Animation fertig ist)
-  if (arrow1Appeared && !animation1Playing && !showDiagram2) {
+  // Diagramm 2 erscheint NACH Arrow1
+  if (arrow1Appeared && !showDiagram2) {
     showDiagram2 = true;
   }
   
@@ -228,22 +226,15 @@ function draw() {
   
   drawStaticElements();
 }
-
 function drawStaticElements() {
-  // Arrow2 Animation abspielen anstelle des statischen Bildes
-  if (showDiagram1 && arrow2Appeared && animation2Playing) {
-    updateAndDrawAnimation(animation2Frames, currentFrame2, lastFrameTime2, 
-                          () => { currentFrame2++; }, 
-                          () => { animation2Playing = false; },
-                          arrowanimation2, 0);
+  // Arrow2 erscheint nachdem beide Segmente in Diagramm 1 geklickt wurden
+  if (showDiagram1 && arrow2Appeared) {
+    drawScaledImage(arrow2, windowWidth/41.833333);
   }
   
-  // Arrow1 Animation abspielen anstelle des statischen Bildes
-  if (showDiagram3 && arrow1Appeared && animation1Playing) {
-    updateAndDrawAnimation(animation1Frames, currentFrame1, lastFrameTime1, 
-                          () => { currentFrame1++; }, 
-                          () => { animation1Playing = false; },
-                          arrowanimation1, 0);
+  // Arrow1 erscheint nachdem beide Segmente in Diagramm 3 geklickt wurden
+  if (showDiagram3 && arrow1Appeared) {
+    drawScaledImage(arrows, windowWidth/41.833333);
   }
 
   // Diagramm 1 - Bedingte Pfeile basierend auf Klicks
@@ -256,7 +247,7 @@ function drawStaticElements() {
   }
 
   if(showDiagram2 && diagram2_2_percent_clicked) {
-    drawScaledImage(pfeil4, windowWidth/39.841269, 0); 
+    drawScaledImage(pfeil4, windowWidth/39.841269, 0, ); 
   }
   
   if(showDiagram2 && diagram2_98_percent_clicked) {
@@ -273,32 +264,6 @@ function drawStaticElements() {
   }
 
   drawTexts();
-}
-
-function updateAndDrawAnimation(frames, currentFrame, lastFrameTime, incrementFrame, onComplete, fallbackImg, extraXOffset = 0) {
-  let now = millis();
-  
-  if (frames.length > 1 && currentFrame < frames.length) {
-    if (now - lastFrameTime >= frameDelay) {
-      incrementFrame();
-      lastFrameTime = now;
-    }
-  }
-  
-  if (currentFrame >= frames.length) {
-    onComplete();
-    return;
-  }
-  
-  // Zeichne den aktuellen Frame der Animation
-  push();
-  scale(0.93);
-  if (frames.length > 0 && frames[currentFrame]) {
-    image(frames[currentFrame], windowWidth/41.833333 + extraXOffset, 0, windowWidth, neueHoehe);
-  } else if (fallbackImg) {
-    image(fallbackImg, windowWidth/41.833333 + extraXOffset, 0, windowWidth, neueHoehe);
-  }
-  pop();
 }
 
 // Hilfsfunktion für skalierte Bilder (Standard)
@@ -423,6 +388,8 @@ function drawPiechartone() {
     }
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
     push();
+    //scale(0.93);
+    //image(kreisdiagramm1, windowWidth/300, 0+150, windowWidth, neueHoehe);
     pop();
   }
 }
@@ -453,6 +420,28 @@ function drawPiecharttwo() {
     fill(farben[i]);
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
+  
+  //let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
+  
+  
+  //push();
+  //scale(0.93);
+  
+  //if (hoverSegment === 0) {
+    // Kleines Segment gehovered
+  //  image(kreisdiagramm2small_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  //} 
+  //else if (hoverSegment === 1) {
+    // Großes Segment gehovered
+  //  image(kreisdiagramm2big_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  //} 
+  //else {
+    // Kein Hover - normales Bild
+   // image(kreisdiagramm2, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  //}
+  
+  //pop();
+  
 }
 
 function drawPiechartthree() {
@@ -475,8 +464,8 @@ function drawPiechartthree() {
   }
 
   // Unsichtbare Hitbox-Bögen zeichnen
-  noStroke();
-  noFill();
+  noStroke();  // Keine Konturlinie
+  noFill();    // Keine Füllung - komplett transparent
   for (let i = 0; i < segmente.length; i++) {
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
@@ -630,3 +619,4 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight * 6);
   updateCachedValues();
 }
+
