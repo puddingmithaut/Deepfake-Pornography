@@ -23,6 +23,10 @@ let kreisdiagramm1;
 let kreisdiagramm1small_clicked; 
 let kreisdiagramm1big_clicked;
 
+let kreisdiagramm2; 
+let kreisdiagramm2small_clicked; 
+let kreisdiagramm2big_clicked;
+
 
 // Cache für skalierte Werte
 let scaleFaktor;
@@ -105,7 +109,9 @@ function preload() {
   kreisdiagramm1big_clicked= loadImage("assets/kreisdiagramme/Diagram 1 big pie piece clicked.png");
   kreisdiagramm1small_clicked= loadImage("assets/kreisdiagramme/Diagram 1 little pie piece clicked.png");
 
-
+  kreisdiagramm2 = loadImage("assets/kreisdiagramme/button2.png");
+  kreisdiagramm2small_clicked = loadImage("assets/kreisdiagramme/Diagram 2 little pie piece clicked.png");
+  kreisdiagramm2big_clicked= loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.png");
 
 }
 
@@ -149,7 +155,7 @@ function updateCachedValues() {
       arcX: windowWidth / 1.46,
       arcY: windowWidth / 2.73,
       arcS: windowWidth / 4.8,
-      rotation: HALF_PI / 2.02
+      rotation: 2.85 * PI / 4,
     },
     diagram3: {
       arcX: windowWidth / 1.69,
@@ -404,19 +410,6 @@ function drawPiechartone() {
   
     pop();
 
-  
-  //for (let i = 0; i < segmente.length; i++) {
-    //if (i === getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation)) {
-    //  fill(255);
-    //} else {
-    //  fill(farben[i]);
-    //}
-    //arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
-    //push();
-    //scale(0.93);
-    //image(kreisdiagramm1, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
-    //pop();
-    //arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
 
 
@@ -439,34 +432,35 @@ function drawPiecharttwo() {
     });
     startwinkel += winkel;
   }
-  
+  noStroke();  
+  noFill();    
   // Bögen zeichnen (für Hitbox/Hover)
   for (let i = 0; i < segmente.length; i++) {
     // Unsichtbare Bögen für Hitbox
-    fill(farben[i]);
+    //fill(farben[i]);
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
   
-  //let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
+  let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
   
   
-  //push();
-  //scale(0.93);
+  push();
+  scale(0.93);
   
-  //if (hoverSegment === 0) {
+  if (hoverSegment === 0) {
     // Kleines Segment gehovered
-  //  image(kreisdiagramm2small_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-  //} 
-  //else if (hoverSegment === 1) {
+    image(kreisdiagramm2small_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  } 
+  else if (hoverSegment === 1) {
     // Großes Segment gehovered
-  //  image(kreisdiagramm2big_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-  //} 
-  //else {
+    image(kreisdiagramm2big_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  } 
+  else {
     // Kein Hover - normales Bild
-   // image(kreisdiagramm2, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-  //}
+    image(kreisdiagramm2, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+  }
   
-  //pop();
+  pop();
   
 }
 
@@ -615,7 +609,7 @@ function mousePressed() {
   // Diagramm 2
   if(showDiagram2) {
     let segmente2 = [];
-    let werte2 = [0.02, 0.98];
+    let werte2 = [0.35,0.65];
     let d2 = cachedValues.diagram2;
     let startwinkel2 = -d2.rotation;
     
