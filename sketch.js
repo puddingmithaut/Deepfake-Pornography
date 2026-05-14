@@ -114,14 +114,14 @@ function updateCachedValues() {
   // Cache alle häufig verwendeten Berechnungen
   cachedValues = {
     textSizeHeadline: windowWidth / 22.979,
-    textSizeFließtext: windowWidth / 100,
+    textSizeFließtext: windowWidth / 114.89675,
     textLeading: windowWidth / 96,
     titelDeepfakeX: windowWidth / 33,
     titelDeepfakeY: windowWidth / 19.160305,
     definitionX: windowWidth / 29.8,
     definitionY: windowWidth / 10.9,
     diagramTitelSize: windowWidth / 68.5,
-    diagram1TitelY: windowWidth / 4.59,
+    diagram1TitelY: windowWidth / 4.399,
     percentSize: windowWidth / 28.8,
     labelSize: windowWidth / 66.755319,
     smallTextSize: windowWidth / 112,
@@ -130,7 +130,7 @@ function updateCachedValues() {
       arcX: windowWidth / 7,
       arcY: windowWidth / 2.4,
       arcS: windowWidth / 2.886044,
-      rotation: HALF_PI / 1.55
+      rotation: HALF_PI / 1.57
     },
     diagram2: {
       arcX: windowWidth / 1.46,
@@ -151,11 +151,6 @@ function updateCachedValues() {
 
 function draw() {
   background(47, 45, 45);
-  push();
-  scale(0.93); 
-  image(test,windowWidth/40,0,windowWidth,neueHoehe);
-  pop();
-
   // Diagramm 1 erscheint sofort
   if (!showDiagram1) {
     showDiagram1 = true;
@@ -214,7 +209,7 @@ function drawStaticElements() {
   }
   
   if(showDiagram1 && diagram1_98_percent_clicked) {
-    drawScaledImage(pfeil1, windowWidth/38, windowWidth/30);
+    drawScaledImage(pfeil1, windowWidth/38, windowWidth/40);
   }
 
   if(showDiagram2 && diagram2_2_percent_clicked) {
@@ -247,7 +242,7 @@ function drawScaledImage(img, xOffset = windowWidth/41.833333, yOffset = 0) {
 
 function drawTexts() {
   // Deepfake Titel
-  fill(200,80,80);
+  fill(255);
   textFont(headline);
   textSize(cachedValues.textSizeHeadline);
   text('Deepfake', cachedValues.titelDeepfakeX, cachedValues.titelDeepfakeY);
