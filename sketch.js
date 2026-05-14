@@ -1,4 +1,5 @@
 let test;
+let test2;
 let headline;
 let fließtext;
 
@@ -72,17 +73,18 @@ let needRedrawPaths = true;
 
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
+  test2= loadImage('assets/hintergrundskizzelang.png');
   headline = loadFont("assets/Avenir Heavy.ttf");
   fließtext = loadFont("assets/Avenir Regular.ttf");
 
   arrows = loadImage("assets/arrows1.png");
-  arrow2 = loadImage("assets/arrows2.png");
+  arrow2 = loadImage("assets/Arrow2.png");
 
   pfeil = loadImage("assets/3.png");
   pfeil1 = loadImage("assets/4.png");
-  pfeil2 = loadImage("assets/1.png");
-  pfeil3 = loadImage("assets/2.png");
-  pfeil4 = loadImage("assets/5.png");
+  pfeil2 = loadImage("assets/1a.png");
+  pfeil3 = loadImage("assets/2a.png");
+  pfeil4 = loadImage("assets/5a.png");
   pfeil5 = loadImage("assets/6.png");
 
   kreisdiagramm3= loadImage("assets/kreisdiagramme/Diagram 3.png");
@@ -149,7 +151,6 @@ function updateCachedValues() {
 
 function draw() {
   background(47, 45, 45);
-  
   // Diagramm 1 erscheint sofort
   if (!showDiagram1) {
     showDiagram1 = true;
@@ -208,11 +209,11 @@ function drawStaticElements() {
   }
   
   if(showDiagram1 && diagram1_98_percent_clicked) {
-    drawScaledImage(pfeil1, windowWidth/38, windowWidth/53.404255);
+    drawScaledImage(pfeil1, windowWidth/38, windowWidth/40);
   }
 
   if(showDiagram2 && diagram2_2_percent_clicked) {
-    drawScaledImage(pfeil4, windowWidth/39.841269, 0); 
+    drawScaledImage(pfeil4, windowWidth/39.841269, -60); 
   }
   
   if(showDiagram2 && diagram2_98_percent_clicked) {
@@ -221,11 +222,11 @@ function drawStaticElements() {
 
   // Diagramm 3 (Geschlecht) - Bedingte Pfeile
   if(showDiagram3 && diagram3_1_percent_clicked) {
-    drawScaledImage(pfeil2, windowWidth/39.841269);
+    drawScaledImage(pfeil2, windowWidth/120,15);
   }
   
   if(showDiagram3 && diagram3_99_percent_clicked) {
-    drawScaledImage(pfeil3, windowWidth/39.841269);
+    drawScaledImage(pfeil3, windowWidth/120,40);
   }
 
   drawTexts();
@@ -250,7 +251,7 @@ function drawTexts() {
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext);
   textLeading(cachedValues.textLeading);
-  text('A deepfake is a piece of media - such as a photo,audio or video,that has been altered\n generated or falsified using artificial intelligence (AI)techniques, to convincingly\nreplace one persons face or voice.\nAs a XPathResult, it creates people and events that do not exist or that did not actually occur.\n\nOver time, the definition of the term deepfake has evolved.\nWhereas in 2017 and 2018 it was applied exclusively to visual media explicitly created\nby "Deepfake AI" by 2022 the term had come to be used to describe images and videos\nthat had BlobEvent, eiter obviously or allegedly falsified by any form of artificial intelligence.',
+  text('A deepfake is a piece of media - such as a photo,audio or video,that has been altered\n generated or falsified using artificial intelligence (AI)techniques, to convincingly\nreplace one persons face or voice.\nAs a result, it creates people and events that do not exist or that did not actually occur.\n\nOver time, the definition of the term deepfake has evolved.\nWhereas in 2017 and 2018 it was applied exclusively to visual media explicitly created\nby "Deepfake AI" by 2022 the term had come to be used to describe images and videos\nthat had been, either obviously or allegedly, falsified by any form of artificial intelligence.',
   cachedValues.definitionX, cachedValues.definitionY);
   
   // Diagramm 1 Titel
@@ -277,43 +278,49 @@ function drawTexts() {
     text('98%', windowWidth/2.97, windowWidth/2.37);
     textFont(fließtext);
     textSize(windowWidth/69);
-    text('are pornographic', windowWidth/2.97, windowWidth/2.275);
+    push();
+    textLeading(windowWidth/70);
+    text('non consensual\npornography', windowWidth/2.97, windowWidth/2.275);
+    pop(); 
   }
   
   // Diagramm 2 Texte (Konsens)
   if(showDiagram2 && diagram2_2_percent_clicked) {
     textFont(fließtext);
     textSize(cachedValues.percentSize);
-    text('1%', windowWidth/1.2378, windowWidth/3.1631386);
+    text('35%', windowWidth/1.2378, windowWidth/3.35);
     textSize(windowWidth/69);
-    text('are male', windowWidth/1.2375, windowWidth/3.009);
+    push();
+    textLeading(windowWidth/70);
+    text('celebrities / public\nfigures', windowWidth/1.2375, windowWidth/3.15);
+    pop();
   }
   
   if(showDiagram2 && diagram2_98_percent_clicked) {
     textFont(headline);
     textSize(cachedValues.headlinePercentSize);
-    text('99%', windowWidth/1.238, windowWidth/2.37);
+    text('65%', windowWidth/1.238, windowWidth/2.37);
     textFont(fließtext);
     textSize(windowWidth/69);
-    text('are female', windowWidth/1.239, windowWidth/2.274);
+    text('ordinary people', windowWidth/1.239, windowWidth/2.274);
   }
   
   // Diagramm 3 Texte (Geschlecht)
   if(showDiagram3 && diagram3_1_percent_clicked) {
     textFont(fließtext);
     textSize(cachedValues.percentSize);
-    text('2%', windowWidth/1.4014517, windowWidth/12.364532);
+    text('1%', windowWidth/1.4014517, windowWidth/12.364532);
     textSize(windowWidth/66.985319);
-    text('are consensual', windowWidth/1.4014517, windowWidth/10.25);
+    text('are male', windowWidth/1.4014517, windowWidth/10.25);
   }
   
   if(showDiagram3 && diagram3_99_percent_clicked) {
     textFont(headline);
     textSize(cachedValues.headlinePercentSize);
-    text('98%', windowWidth/1.404, windowWidth/4.9882816);
+    text('99%', windowWidth/1.404, windowWidth/4.9882816);
     textFont(fließtext);
     textSize(windowWidth/69);
-    text('are non consensual', windowWidth/1.405, windowWidth/4.58);
+    text('are female', windowWidth/1.405, windowWidth/4.58);
   }
 }
 
@@ -347,15 +354,15 @@ function drawPiechartone() {
   let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
 
   push();
-  
+  scale(0.94);
   if (hoverSegment === 0) {
-    image(kreisdiagramm1small_clicked, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
+    image(kreisdiagramm1small_clicked, windowWidth/41.833333-windowWidth/14.5, windowWidth/10, windowWidth, neueHoehe);
   } 
   else if (hoverSegment === 1) {
-    image(kreisdiagramm1big_clicked, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
+    image(kreisdiagramm1big_clicked, windowWidth/41.833333-windowWidth/14.5, windowWidth/10, windowWidth, neueHoehe);
   } 
   else {
-    image(kreisdiagramm1, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
+    image(kreisdiagramm1, windowWidth/41.833333-windowWidth/14.5, windowWidth/10, windowWidth, neueHoehe);
   }
   
   pop();
