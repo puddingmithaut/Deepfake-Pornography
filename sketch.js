@@ -301,7 +301,7 @@ function drawTexts() {
   if(showDiagram2 && diagram2_98_percent_clicked) {
     textFont(headline);
     textSize(cachedValues.headlinePercentSize);
-    text('65%', windowWidth/1.238, windowWidth/2.363);
+    text('65%', windowWidth/1.236, windowWidth/2.363);
     textFont(fließtext);
     textSize(windowWidth/69);
     text('ordinary people', windowWidth/1.236, windowWidth/2.270);
@@ -311,18 +311,18 @@ function drawTexts() {
   if(showDiagram3 && diagram3_1_percent_clicked) {
     textFont(fließtext);
     textSize(cachedValues.percentSize);
-    text('1%', windowWidth/1.4014517, windowWidth/12.364532);
+    text('1%', windowWidth/1.402, windowWidth/12.364532);
     textSize(windowWidth/66.985319);
-    text('are male', windowWidth/1.4014517, windowWidth/10.25);
+    text('are male', windowWidth/1.403, windowWidth/10.25);
   }
   
   if(showDiagram3 && diagram3_99_percent_clicked) {
     textFont(headline);
     textSize(cachedValues.headlinePercentSize);
-    text('99%', windowWidth/1.404, windowWidth/5.05);
+    text('99%', windowWidth/1.408, windowWidth/5.05);
     textFont(fließtext);
     textSize(windowWidth/69);
-    text('are female', windowWidth/1.405, windowWidth/4.65);
+    text('are female', windowWidth/1.408, windowWidth/4.65);
   }
 }
 
