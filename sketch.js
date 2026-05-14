@@ -376,20 +376,49 @@ function drawPiechartone() {
     });
     startwinkel += winkel;
   }
-  
-  for (let i = 0; i < segmente.length; i++) {
-    if (i === getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation)) {
-      fill(255);
-    } else {
-      fill(farben[i]);
-    }
+    // Unsichtbare Hitbox-Bögen zeichnen
+    noStroke();  // Keine Konturlinie
+    noFill();    // Keine Füllung - komplett transparent
+    for (let i = 0; i < segmente.length; i++) {
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
+  }
+  
+    // Hover-Segment ermitteln
+    let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
+
     push();
     //scale(0.93);
-    //image(kreisdiagramm1, windowWidth/300, 0+150, windowWidth, neueHoehe);
+  
+    if (hoverSegment === 0) {
+     //Kleines Segment gehovered
+    image(kreisdiagramm1small_clicked, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
+    } 
+    else if (hoverSegment === 1) {
+    // Großes Segment gehovered
+    image(kreisdiagramm1big_clicked,  windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
+    } 
+    else {
+    // Kein Hover - normales Bild
+    image(kreisdiagramm1,  windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth,neueHoehe);
+    }
+  
     pop();
+
+  
+  //for (let i = 0; i < segmente.length; i++) {
+    //if (i === getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation)) {
+    //  fill(255);
+    //} else {
+    //  fill(farben[i]);
+    //}
+    //arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
+    //push();
+    //scale(0.93);
+    //image(kreisdiagramm1, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
+    //pop();
+    //arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
-}
+
 
 // Diagramm 2
 function drawPiecharttwo() {
