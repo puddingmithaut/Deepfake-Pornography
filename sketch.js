@@ -78,12 +78,12 @@ function preload() {
   arrows = loadImage("assets/arrows1.png");
   arrow2 = loadImage("assets/arrows2.png");
 
-  pfeil = loadImage("assets/3.png");
-  pfeil1 = loadImage("assets/4.png");
-  pfeil2 = loadImage("assets/1.png");
-  pfeil3 = loadImage("assets/2.png");
-  pfeil4 = loadImage("assets/5.png");
-  pfeil5 = loadImage("assets/6.png");
+  pfeil = loadImage("assets/3a.png");
+  pfeil1 = loadImage("assets/4a.png");
+  pfeil2 = loadImage("assets/1a.png");
+  pfeil3 = loadImage("assets/2a.png");
+  pfeil4 = loadImage("assets/5a.png");
+  pfeil5 = loadImage("assets/6a.png");
 
   kreisdiagramm3= loadImage("assets/kreisdiagramme/Diagram 3.png");
   kreisdiagramm3big_clicked= loadImage("assets/kreisdiagramme/Diagram 3 big pie piece clicked.png");
@@ -149,10 +149,13 @@ function updateCachedValues() {
 
 function draw() {
   background(47, 45, 45);
-  push(); 
-  scale(0.93);  
-  image(test,windowWidth/40,0,windowWidth,neueHoehe);
-  pop();
+
+  //referenzbild
+  //push(); 
+  //scale(0.93);  
+  //image(test,windowWidth/40,0,windowWidth,neueHoehe);
+  //pop();
+
   // Diagramm 1 erscheint sofort
   if (!showDiagram1) {
     showDiagram1 = true;
@@ -207,11 +210,11 @@ function drawStaticElements() {
 
   // Diagramm 1 - Bedingte Pfeile basierend auf Klicks
   if(showDiagram1 && diagram1_2_percent_clicked) {
-    drawScaledImage(pfeil, windowWidth/40.48387);
+    drawScaledImage(pfeil, windowWidth/40.48387,);
   }
   
   if(showDiagram1 && diagram1_98_percent_clicked) {
-    drawScaledImage(pfeil1, windowWidth/38, windowWidth/53.404255);
+    drawScaledImage(pfeil1, windowWidth/38, 0);
   }
 
   if(showDiagram2 && diagram2_2_percent_clicked) {
