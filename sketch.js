@@ -117,9 +117,9 @@ function updateCachedValues() {
     titelDeepfakeX: windowWidth / 33,
     titelDeepfakeY: windowWidth / 19.160305,
     definitionX: windowWidth / 29.8,
-    definitionY: windowWidth / 10.9,
+    definitionY: windowWidth / 12.3,
     diagramTitelSize: windowWidth / 68.5,
-    diagram1TitelY: windowWidth / 4.399,
+    diagram1TitelY: windowWidth / 4.6,
     percentSize: windowWidth / 28.8,
     labelSize: windowWidth / 66.755319,
     smallTextSize: windowWidth / 112,
@@ -253,7 +253,7 @@ function drawTexts() {
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext);
   textLeading(cachedValues.textLeading);
-  text('A deepfake is a piece of media - such as a photo,audio or video,that has been altered\n generated or falsified using artificial intelligence (AI)techniques, to convincingly\nreplace one persons face or voice.\nAs a XPathResult, it creates people and events that do not exist or that did not actually occur.\n\nOver time, the definition of the term deepfake has evolved.\nWhereas in 2017 and 2018 it was applied exclusively to visual media explicitly created\nby "Deepfake AI" by 2022 the term had come to be used to describe images and videos\nthat had BlobEvent, eiter obviously or allegedly falsified by any form of artificial intelligence.',
+  text('A deepfake is a piece of media - such as a photo,audio or video,that has been altered\n generated or falsified using artificial intelligence (AI)techniques, to convincingly replace\none persons face or voice.\nAs a result, it creates people and events that do not exist or that did not actually occur.\n\nOver time, the definition of the term deepfake has evolved.\nWhereas in 2017 and 2018 it was applied exclusively to visual media explicitly created\nby "Deepfake AI" by 2022 the term had come to be used to describe images and videos\nthat had been eiter obviously or allegedly falsified by any form of artificial intelligence.',
   cachedValues.definitionX, cachedValues.definitionY);
   
   // Diagramm 1 Titel
