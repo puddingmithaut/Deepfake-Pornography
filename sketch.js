@@ -88,9 +88,6 @@ function preload() {
   arrows = loadImage("assets/arrows1.png");
   arrow2 = loadImage("assets/arrows2.png");
 
-  arrowanimation1= loadImage("assets/arroww1.avif");
-  arrowanimation2= loadImage("assets/arroww2.avif");
-
 
 
   pfeil = loadImage("assets/3.png");
@@ -100,13 +97,13 @@ function preload() {
   pfeil4 = loadImage("assets/5.png");
   pfeil5 = loadImage("assets/6.png");
 
-  kreisdiagramm3= loadImage("assets/kreisdiagramm3.png");
-  kreisdiagramm3big_clicked= loadImage("assets/Diagram 3 big pie piece clicked.png");
-  kreisdiagramm3small_clicked= loadImage("assets/Diagram 3 little pie piece clicked.png");
+  kreisdiagramm3= loadImage("assets/kreisdiagramme/Diagram 3.png");
+  kreisdiagramm3big_clicked= loadImage("assets/kreisdiagramme/Diagram 3 big pie piece clicked.png");
+  kreisdiagramm3small_clicked= loadImage("assets/kreisdiagramme/Diagram 3 little pie piece clicked.png");
 
-  kreisdiagramm1= loadImage("assets/piechart1.png");
-  kreisdiagramm1small_clicked= loadImage("assets/piechart 1 small button clicked.png");
-  kreisdiagramm1big_clicked= loadImage("assets/piechart1 big button clicked.png");
+  kreisdiagramm1= loadImage("assets/kreisdiagramme/Diagram 1 purple no clicked.png");
+  kreisdiagramm1big_clicked= loadImage("assets/kreisdiagramme/Diagram 1 big pie piece clicked.png");
+  kreisdiagramm1small_clicked= loadImage("assets/kreisdiagramme/Diagram 1 little pie piece clicked.png");
 
 
 
@@ -158,7 +155,7 @@ function updateCachedValues() {
       arcX: windowWidth / 1.69,
       arcY: windowWidth / 6.6,
       arcS: windowWidth / 4.8,
-      rotation: HALF_PI / 1.24
+      rotation: HALF_PI / 1.87
     }
   };
   
@@ -447,7 +444,7 @@ function drawPiecharttwo() {
 function drawPiechartthree() {
   let segmente = [];
   let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
-  let werte = [0.02, 0.98];
+  let werte = [0.01, 0.99];
   let d = cachedValues.diagram3;
   
   let startwinkel = -d.rotation;
