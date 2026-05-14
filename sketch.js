@@ -128,7 +128,7 @@ function updateCachedValues() {
       arcX: windowWidth / 7,
       arcY: windowWidth / 2.4,
       arcS: windowWidth / 2.886044,
-      rotation: HALF_PI / 1.57
+      rotation: HALF_PI / 1.525
     },
     diagram2: {
       arcX: windowWidth / 1.46,
@@ -149,7 +149,10 @@ function updateCachedValues() {
 
 function draw() {
   background(47, 45, 45);
-  
+  push(); 
+  scale(0.93);  
+  image(test,windowWidth/40,0,windowWidth,neueHoehe);
+  pop();
   // Diagramm 1 erscheint sofort
   if (!showDiagram1) {
     showDiagram1 = true;
@@ -241,7 +244,7 @@ function drawScaledImage(img, xOffset = windowWidth/41.833333, yOffset = 0) {
 
 function drawTexts() {
   // Deepfake Titel
-  fill(255);
+  fill(255,100,100);
   textFont(headline);
   textSize(cachedValues.textSizeHeadline);
   text('Deepfake', cachedValues.titelDeepfakeX, cachedValues.titelDeepfakeY);
@@ -347,15 +350,15 @@ function drawPiechartone() {
   let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
 
   push();
-  
+  scale(0.93);
   if (hoverSegment === 0) {
-    image(kreisdiagramm1small_clicked, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
+    image(kreisdiagramm1small_clicked, windowWidth/41.833333-windowWidth/16, windowWidth/10.4, windowWidth, neueHoehe);
   } 
   else if (hoverSegment === 1) {
-    image(kreisdiagramm1big_clicked, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
+    image(kreisdiagramm1big_clicked, windowWidth/41.833333-windowWidth/16, windowWidth/10.4, windowWidth, neueHoehe);
   } 
   else {
-    image(kreisdiagramm1, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
+    image(kreisdiagramm1, windowWidth/41.833333-windowWidth/16, windowWidth/10.4, windowWidth, neueHoehe);
   }
   
   pop();
