@@ -51,29 +51,15 @@ let showDiagram1 = false;
 let showDiagram2 = false;
 let showDiagram3 = false;
 
-// Opacity-Werte für Fade-In
-let diagram1Opacity = 0;
-let diagram2Opacity = 0;
-let diagram3Opacity = 0;
-
-// Fade-In Status
-let diagram1Fading = false;
-let diagram2Fading = false;
-let diagram3Fading = false;
-
-// Startzeit
-let startTime;
-
 // Status für Arrows
-let arrow2Appeared = false;
-let arrow1Appeared = false;
+let arrowsAppeared = false;  // Beide Arrows erscheinen zusammen
 let diagram1BothClicked = false;
-let diagram3BothClicked = false;
-let arrowDelay = 3;
 
-// Zeitpunkte für Klicks
-let diagram1_98_clickTime = 0;
-let diagram3_99_clickTime = 0;
+// Delay-Variablen
+let diagram1BothClickedTime = 0;  // Zeitpunkt, wann beide Segmente geklickt wurden
+let arrowsDelaySeconds = 2;        // 2 Sekunden bis Arrows erscheinen
+let diagramsDelaySeconds = 2;      // Weitere 2 Sekunden bis Diagramme erscheinen
+let arrowsShownTime = 0;           // Zeitpunkt, wann die Arrows erschienen sind
 
 // Cache für berechnete Werte
 let cachedValues = {};
@@ -91,8 +77,6 @@ function preload() {
 
   arrows = loadImage("assets/arrows1.png");
   arrow2 = loadImage("assets/arrows2.png");
-
-
 
   pfeil = loadImage("assets/3.png");
   pfeil1 = loadImage("assets/4.png");
@@ -112,16 +96,11 @@ function preload() {
   kreisdiagramm2 = loadImage("assets/kreisdiagramme/button2.png");
   kreisdiagramm2small_clicked = loadImage("assets/kreisdiagramme/Diagram 2 little pie piece clicked.png");
   kreisdiagramm2big_clicked= loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.png");
-
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight * 6);
-  startTime = millis();
   updateCachedValues();
-  
-
- 
 }
 
 function updateCachedValues() {
@@ -171,47 +150,33 @@ function updateCachedValues() {
 function draw() {
   background(47, 45, 45);
   
-  let elapsed = (millis() - startTime) / 1000;
-  
-  // Diagramme mit sofortiger Sichtbarkeit anzeigen
-  if (elapsed >= 0 && !showDiagram1) {
+  // Diagramm 1 erscheint sofort
+  if (!showDiagram1) {
     showDiagram1 = true;
   }
   
   // Prüfen ob beide Segmente in Diagramm 1 geklickt wurden
   if (diagram1_2_percent_clicked && diagram1_98_percent_clicked && !diagram1BothClicked) {
     diagram1BothClicked = true;
+    diagram1BothClickedTime = millis();  // Zeitpunkt speichern
   }
   
-  // Arrow2 erscheint 3 Sekunden nachdem beide Segmente in Diagramm 1 geklickt wurden
-  if (diagram1BothClicked && !arrow2Appeared) {
-    let timeSinceBothClicked = (millis() - diagram1_98_clickTime) / 1000;
-    if (timeSinceBothClicked >= arrowDelay) {
-      arrow2Appeared = true;
+  // Prüfen ob das Arrow-Delay vorbei ist und Arrows noch nicht angezeigt werden
+  if (diagram1BothClicked && !arrowsAppeared) {
+    let elapsedSinceBothClicked = (millis() - diagram1BothClickedTime) / 1000;
+    if (elapsedSinceBothClicked >= arrowsDelaySeconds) {
+      arrowsAppeared = true;              // Arrows erscheinen nach 2 Sekunden
+      arrowsShownTime = millis();         // Zeitpunkt speichern, wann Arrows erschienen sind
     }
   }
   
-  // Diagramm 3 erscheint NACH Arrow2
-  if (arrow2Appeared && !showDiagram3) {
-    showDiagram3 = true;
-  }
-  
-  // Prüfen ob beide Segmente in Diagramm 3 geklickt wurden
-  if (diagram3_1_percent_clicked && diagram3_99_percent_clicked && !diagram3BothClicked) {
-    diagram3BothClicked = true;
-  }
-  
-  // Arrow1 erscheint 3 Sekunden nachdem beide Segmente in Diagramm 3 geklickt wurden
-  if (diagram3BothClicked && !arrow1Appeared) {
-    let timeSinceDiagram3Both = (millis() - diagram3_99_clickTime)/1000 ;
-    if (timeSinceDiagram3Both >= arrowDelay) {
-      arrow1Appeared = true;
+  // Prüfen ob das Diagramm-Delay vorbei ist und Diagramme noch nicht angezeigt werden
+  if (arrowsAppeared && !showDiagram2 && !showDiagram3) {
+    let elapsedSinceArrowsShown = (millis() - arrowsShownTime) / 1000;
+    if (elapsedSinceArrowsShown >= diagramsDelaySeconds) {
+      showDiagram2 = true;  // Diagramm 2 erscheint nach weiteren 2 Sekunden
+      showDiagram3 = true;  // Diagramm 3 erscheint nach weiteren 2 Sekunden
     }
-  }
-  
-  // Diagramm 2 erscheint NACH Arrow1
-  if (arrow1Appeared && !showDiagram2) {
-    showDiagram2 = true;
   }
   
   // Direktes Zeichnen ohne Fade-In
@@ -229,15 +194,12 @@ function draw() {
   
   drawStaticElements();
 }
+
 function drawStaticElements() {
-  // Arrow2 erscheint nachdem beide Segmente in Diagramm 1 geklickt wurden
-  if (showDiagram1 && arrow2Appeared) {
-    drawScaledImage(arrow2, windowWidth/41.833333);
-  }
-  
-  // Arrow1 erscheint nachdem beide Segmente in Diagramm 3 geklickt wurden
-  if (showDiagram3 && arrow1Appeared) {
-    drawScaledImage(arrows, windowWidth/41.833333);
+  // BEIDE Arrows erscheinen nach dem ersten Delay
+  if (showDiagram1 && arrowsAppeared) {
+    drawScaledImage(arrow2, windowWidth/41.833333);  // Arrow2
+    drawScaledImage(arrows, windowWidth/41.833333);  // Arrows
   }
 
   // Diagramm 1 - Bedingte Pfeile basierend auf Klicks
@@ -250,7 +212,7 @@ function drawStaticElements() {
   }
 
   if(showDiagram2 && diagram2_2_percent_clicked) {
-    drawScaledImage(pfeil4, windowWidth/39.841269, 0, ); 
+    drawScaledImage(pfeil4, windowWidth/39.841269, 0); 
   }
   
   if(showDiagram2 && diagram2_98_percent_clicked) {
@@ -274,14 +236,6 @@ function drawScaledImage(img, xOffset = windowWidth/41.833333, yOffset = 0) {
   push();
   scale(0.93);
   image(img, xOffset, yOffset, windowWidth, neueHoehe);
-  pop();
-}
-
-// Neue Hilfsfunktion für Bilder mit zusätzlichem Offset
-function drawScaledImageWithOffset(img, xOffset, yOffset, extraXOffset = 0) {
-  push();
-  scale(0.93);
-  image(img, xOffset + extraXOffset, yOffset, windowWidth, neueHoehe);
   pop();
 }
 
@@ -363,10 +317,9 @@ function drawTexts() {
   }
 }
 
-// Diagramm 1 mit optimiertem Zeichnen
+// Diagramm 1
 function drawPiechartone() {
   let segmente = [];
-  let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
   let werte = [0.02, 0.98];
   let d = cachedValues.diagram1;
   
@@ -382,41 +335,35 @@ function drawPiechartone() {
     });
     startwinkel += winkel;
   }
-    // Unsichtbare Hitbox-Bögen zeichnen
-    noStroke();  // Keine Konturlinie
-    noFill();    // Keine Füllung - komplett transparent
-    for (let i = 0; i < segmente.length; i++) {
+  
+  // Unsichtbare Hitbox-Bögen zeichnen
+  noStroke();
+  noFill();
+  for (let i = 0; i < segmente.length; i++) {
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
   
-    // Hover-Segment ermitteln
-    let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
+  // Hover-Segment ermitteln
+  let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
 
-    push();
-    //scale(0.93);
+  push();
   
-    if (hoverSegment === 0) {
-     //Kleines Segment gehovered
+  if (hoverSegment === 0) {
     image(kreisdiagramm1small_clicked, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
-    } 
-    else if (hoverSegment === 1) {
-    // Großes Segment gehovered
-    image(kreisdiagramm1big_clicked,  windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
-    } 
-    else {
-    // Kein Hover - normales Bild
-    image(kreisdiagramm1,  windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth,neueHoehe);
-    }
-  
-    pop();
-
+  } 
+  else if (hoverSegment === 1) {
+    image(kreisdiagramm1big_clicked, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
+  } 
+  else {
+    image(kreisdiagramm1, windowWidth/41.833333-windowWidth/14.5, windowWidth/15, windowWidth, neueHoehe);
   }
-
+  
+  pop();
+}
 
 // Diagramm 2
 function drawPiecharttwo() {
   let segmente = [];
-  let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
   let werte = [0.35, 0.65];
   let d = cachedValues.diagram2;
   
@@ -432,41 +379,34 @@ function drawPiecharttwo() {
     });
     startwinkel += winkel;
   }
+  
   noStroke();  
   noFill();    
-  // Bögen zeichnen (für Hitbox/Hover)
   for (let i = 0; i < segmente.length; i++) {
-    // Unsichtbare Bögen für Hitbox
-    //fill(farben[i]);
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
   
   let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
   
-  
   push();
   scale(0.93);
   
   if (hoverSegment === 0) {
-    // Kleines Segment gehovered
     image(kreisdiagramm2small_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
   } 
   else if (hoverSegment === 1) {
-    // Großes Segment gehovered
     image(kreisdiagramm2big_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
   } 
   else {
-    // Kein Hover - normales Bild
     image(kreisdiagramm2, windowWidth/41.833333, 0, windowWidth, neueHoehe);
   }
   
   pop();
-  
 }
 
+// Diagramm 3
 function drawPiechartthree() {
   let segmente = [];
-  let farben = [color(255, 0, 0, 100), color(0, 255, 0, 150)];
   let werte = [0.01, 0.99];
   let d = cachedValues.diagram3;
   
@@ -483,29 +423,24 @@ function drawPiechartthree() {
     startwinkel += winkel;
   }
 
-  // Unsichtbare Hitbox-Bögen zeichnen
-  noStroke();  // Keine Konturlinie
-  noFill();    // Keine Füllung - komplett transparent
+  noStroke();
+  noFill();
   for (let i = 0; i < segmente.length; i++) {
     arc(d.arcX, d.arcY, d.arcS, d.arcS, segmente[i].start, segmente[i].ende, PIE);
   }
   
-  // Hover-Segment ermitteln
   let hoverSegment = getHoverSegment(d.arcX, d.arcY, d.arcS, segmente, d.rotation);
 
   push();
   scale(0.93);
   
   if (hoverSegment === 0) {
-    // Kleines Segment gehovered
     image(kreisdiagramm3small_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
   } 
   else if (hoverSegment === 1) {
-    // Großes Segment gehovered
     image(kreisdiagramm3big_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
   } 
   else {
-    // Kein Hover - normales Bild
     image(kreisdiagramm3, windowWidth/41.833333, 0, windowWidth, neueHoehe);
   }
   
@@ -573,36 +508,6 @@ function mousePressed() {
     
     if (hoverSegment1 === 1 && !diagram1_98_percent_clicked) {
       diagram1_98_percent_clicked = true;
-      diagram1_98_clickTime = millis();
-    }
-  }
-  
-  // Diagramm 3
-  if(showDiagram3) {
-    let segmente3 = [];
-    let werte3 = [0.01, 0.99];
-    let d3 = cachedValues.diagram3;
-    let startwinkel3 = -d3.rotation;
-    
-    for (let i = 0; i < werte3.length; i++) {
-      let winkel = werte3[i] * TWO_PI;
-      segmente3.push({
-        start: startwinkel3,
-        ende: startwinkel3 + winkel,
-        wert: werte3[i],
-      });
-      startwinkel3 += winkel;
-    }
-    
-    let hoverSegment3 = getHoverSegment(d3.arcX, d3.arcY, d3.arcS, segmente3, d3.rotation);
-    
-    if (hoverSegment3 === 0 && !diagram3_1_percent_clicked) {
-      diagram3_1_percent_clicked = true;
-    }
-    
-    if (hoverSegment3 === 1 && !diagram3_99_percent_clicked) {
-      diagram3_99_percent_clicked = true;
-      diagram3_99_clickTime = millis();
     }
   }
   
@@ -633,10 +538,37 @@ function mousePressed() {
       diagram2_98_percent_clicked = true;
     }
   }
+  
+  // Diagramm 3
+  if(showDiagram3) {
+    let segmente3 = [];
+    let werte3 = [0.01, 0.99];
+    let d3 = cachedValues.diagram3;
+    let startwinkel3 = -d3.rotation;
+    
+    for (let i = 0; i < werte3.length; i++) {
+      let winkel = werte3[i] * TWO_PI;
+      segmente3.push({
+        start: startwinkel3,
+        ende: startwinkel3 + winkel,
+        wert: werte3[i],
+      });
+      startwinkel3 += winkel;
+    }
+    
+    let hoverSegment3 = getHoverSegment(d3.arcX, d3.arcY, d3.arcS, segmente3, d3.rotation);
+    
+    if (hoverSegment3 === 0 && !diagram3_1_percent_clicked) {
+      diagram3_1_percent_clicked = true;
+    }
+    
+    if (hoverSegment3 === 1 && !diagram3_99_percent_clicked) {
+      diagram3_99_percent_clicked = true;
+    }
+  }
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight * 6);
   updateCachedValues();
 }
-
