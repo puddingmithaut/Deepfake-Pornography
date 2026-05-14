@@ -267,56 +267,62 @@ function drawTexts() {
   if(showDiagram1 && diagram1_2_percent_clicked) {
     textFont(fließtext);
     textSize(cachedValues.percentSize);
-    text('2%', windowWidth/2.985, windowWidth/3.93);
+    text('2%', windowWidth/2.985, windowWidth/3.95);
     textSize(cachedValues.labelSize);
-    text('non pornographic', windowWidth/2.985, windowWidth/3.689);
+    text('non pornographic', windowWidth/2.985, windowWidth/3.7);
     textSize(cachedValues.smallTextSize);
-    text('Political, entertainment,\nfraud and scams, fake news\nand false information.', windowWidth/2.982, windowWidth/3.515);
+    push();
+    textLeading(windowWidth / 90,);
+    text('Political, entertainment,\nfraud and scams, fake news\nand false information.', windowWidth/2.982, windowWidth/3.55);
+    pop();
   }
   
   if(showDiagram1 && diagram1_98_percent_clicked) {
     textFont(headline);
     textSize(cachedValues.headlinePercentSize);
-    text('98%', windowWidth/2.97, windowWidth/2.37);
+    text('98%', windowWidth/2.97, windowWidth/2.45);
     textFont(fließtext);
     textSize(windowWidth/69);
-    text('are pornographic', windowWidth/2.97, windowWidth/2.275);
+    push(); 
+    textLeading(windowWidth / 58,);
+    text('non consensual\npornography', windowWidth/2.97, windowWidth/2.35);
+    pop();
   }
   
   // Diagramm 2 Texte (Konsens)
   if(showDiagram2 && diagram2_2_percent_clicked) {
     textFont(fließtext);
     textSize(cachedValues.percentSize);
-    text('1%', windowWidth/1.2378, windowWidth/3.1631386);
+    text('35%', windowWidth/1.2378, windowWidth/3.185);
     textSize(windowWidth/69);
-    text('are male', windowWidth/1.2375, windowWidth/3.009);
+    text('public figures', windowWidth/1.2375, windowWidth/3.025);
   }
   
   if(showDiagram2 && diagram2_98_percent_clicked) {
     textFont(headline);
     textSize(cachedValues.headlinePercentSize);
-    text('99%', windowWidth/1.238, windowWidth/2.37);
+    text('65%', windowWidth/1.238, windowWidth/2.363);
     textFont(fließtext);
     textSize(windowWidth/69);
-    text('are female', windowWidth/1.239, windowWidth/2.274);
+    text('ordinary people', windowWidth/1.236, windowWidth/2.270);
   }
   
   // Diagramm 3 Texte (Geschlecht)
   if(showDiagram3 && diagram3_1_percent_clicked) {
     textFont(fließtext);
     textSize(cachedValues.percentSize);
-    text('2%', windowWidth/1.4014517, windowWidth/12.364532);
+    text('1%', windowWidth/1.4014517, windowWidth/12.364532);
     textSize(windowWidth/66.985319);
-    text('are consensual', windowWidth/1.4014517, windowWidth/10.25);
+    text('are male', windowWidth/1.4014517, windowWidth/10.25);
   }
   
   if(showDiagram3 && diagram3_99_percent_clicked) {
     textFont(headline);
     textSize(cachedValues.headlinePercentSize);
-    text('98%', windowWidth/1.404, windowWidth/4.9882816);
+    text('99%', windowWidth/1.404, windowWidth/5.05);
     textFont(fließtext);
     textSize(windowWidth/69);
-    text('are non consensual', windowWidth/1.405, windowWidth/4.58);
+    text('are female', windowWidth/1.405, windowWidth/4.65);
   }
 }
 
