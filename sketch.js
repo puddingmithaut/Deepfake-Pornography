@@ -10,17 +10,21 @@ let pfeil4;
 let pfeil5;
 
 // ========== PFEIL-ANIMATION VARIABLEN ==========
-let arrowFrames = [];           // Array für die Pfeil-Bilder
-let aktuellerArrowFrame = 0;    // Aktueller Frame der Animation
+
+let arrowFrames = [];          
+let aktuellerArrowFrame = 0;    
 let letzteArrowAktualisierung = 0;
-let arrowAnimationAktiv = false; // Ob die Animation gerade läuft
-let arrowFrameWechselIntervall = 50; // Wechsel alle 50ms (20 fps)
+let arrowAnimationAktiv = false; 
+let arrowFrameWechselIntervall = 50; 
 let animationEinmalAbgespielt = false;
-let arrowSichtbar = false;      // NEU: Steuert ob die Animation überhaupt sichtbar ist
+let arrowSichtbar = false;      
 let arrowX, arrowY;
 let arrowWidth = 200;
 let arrowHeight = 200;
+let animationStartZeit = 0;      
+let animationStartVerzoegerung = 2000; 
 // ==============================================
+
 
 let kreisdiagramm3;
 let kreisdiagramm3small_clicked;
@@ -60,9 +64,8 @@ let showDiagram3 = false;
 // Status für Diagramm 1 beide geklickt
 let diagram1BothClicked = false;
 
-// Delay-Variablen
-let diagram1BothClickedTime = 0;  // Zeitpunkt, wann beide Segmente geklickt wurden
-let diagramsDelaySeconds = 10;     // 10 Sekunden bis Diagramme erscheinen
+// NEU: Flag für Animation abgeschlossen
+let animationAbgeschlossen = false;
 
 // Cache für berechnete Werte
 let cachedValues = {};
@@ -104,26 +107,25 @@ function preload() {
   kreisdiagramm2big_clicked= loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.webp");
 
   // ===== PFEIL-ANIMATION LADEN =====
-  for (let i = 1; i <= 14; i++) {
-    arrowFrames[i-1] = loadImage(`assets/Arrows/Arrow1-${i}.png`);
+  for (let i = 1; i <= 12; i++) {
+    arrowFrames[i-1] = loadImage(`assets/Arrows/arrows${i}.png`);
   }
   // DEBUG: Prüfen ob Bilder geladen wurden
   console.log("Anzahl geladene Pfeil-Bilder:", arrowFrames.length);
   for (let i = 0; i < arrowFrames.length; i++) {
     console.log(`Bild ${i+1} geladen:`, arrowFrames[i] ? "Ja" : "Nein");
-  
+  }
   // ================================
-}
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight * 6);
   updateCachedValues();
-  frameRate(30); // Reduziert die Framerate für bessere Performance
+  frameRate(30); // 
   
   // ===== PFEIL-ANIMATION POSITION =====
   arrowX = windowWidth / 41.833333;
-  arrowY =0;  // Passe die Y-Position nach Bedarf an
+  arrowY =0;  
   // =================================
 }
 
@@ -185,18 +187,26 @@ function draw() {
   // Prüfen ob beide Segmente in Diagramm 1 geklickt wurden
   if (diagram1_2_percent_clicked && diagram1_98_percent_clicked && !diagram1BothClicked) {
     diagram1BothClicked = true;
-    diagram1BothClickedTime = millis();  // Zeitpunkt speichern
-    //startePfeilAnimation();  // <-- Animation starten
+    // Animation starten (verzögert)
+    startePfeilAnimation();
   }
   
-  // Prüfen ob das Delay vorbei ist und Diagramme noch nicht angezeigt werden
-  if (diagram1BothClicked && !showDiagram2 && !showDiagram3) {
-    let elapsedSinceBothClicked = (millis() - diagram1BothClickedTime) / 1000;
-    if (elapsedSinceBothClicked >= diagramsDelaySeconds) {
-      showDiagram2 = true;  // Diagramm 2 erscheint nach 10 Sekunden
-      showDiagram3 = true;  // Diagramm 3 erscheint nach 10 Sekunden
+  // NEU: Prüfen ob die Animation abgeschlossen ist
+  if (animationEinmalAbgespielt && !animationAbgeschlossen) {
+    animationAbgeschlossen = true;
+    // Diagramme 2 und 3 anzeigen
+    showDiagram2 = true;
+    showDiagram3 = true;
+    console.log("Animation abgeschlossen - Diagramme 2 und 3 werden angezeigt");
+  }
+  
+  // ===== PRÜFEN OB ANIMATION NACH VERZÖGERUNG STARTEN SOLL =====
+  if (!arrowAnimationAktiv && !animationEinmalAbgespielt && animationStartZeit > 0) {
+    if (millis() - animationStartZeit >= animationStartVerzoegerung) {
+      starteAnimationJetzt();
     }
   }
+  // ===========================================================
   
   // Zeichnen der Diagramme
   if (showDiagram1) {
@@ -223,19 +233,22 @@ function draw() {
           aktuellerArrowFrame++;
           letzteArrowAktualisierung = millis();
         } else {
-          // Am letzten Frame angekommen - Animation deaktivieren aber Bild behalten
+          // Animation zu Ende - NICHT zurücksetzen, letztes Bild bleibt
           arrowAnimationAktiv = false;
+          animationEinmalAbgespielt = true;  // WICHTIG: Hier setzen!
+          console.log("Animation abgeschlossen, letztes Bild bleibt sichtbar");
         }
       }
     }
     
-    // Zeige immer den aktuellen Frame (auch wenn Animation vorbei ist)
+    // Zeige aktuellen Frame (auch wenn Animation vorbei ist)
     push();
     scale(0.93);
     image(arrowFrames[aktuellerArrowFrame], arrowX, arrowY, windowWidth, neueHoehe);
     pop();
   }
   // ==================================
+  
 }
 
 function drawStaticElements() {
@@ -248,6 +261,7 @@ function drawStaticElements() {
     drawScaledImage(pfeil1, windowWidth/38, 0);
   }
 
+  // Diagramm 2 - Pfeile nur anzeigen wenn Diagramm sichtbar
   if(showDiagram2 && diagram2_2_percent_clicked) {
     drawScaledImage(pfeil4, windowWidth/39.841269, 0); 
   }
@@ -256,7 +270,7 @@ function drawStaticElements() {
     drawScaledImage(pfeil5, windowWidth/39.841269, 0); 
   }
 
-  // Diagramm 3 (Geschlecht) - Bedingte Pfeile
+  // Diagramm 3 - Pfeile nur anzeigen wenn Diagramm sichtbar
   if(showDiagram3 && diagram3_1_percent_clicked) {
     drawScaledImage(pfeil2, windowWidth/39.841269);
   }
@@ -278,13 +292,21 @@ function drawScaledImage(img, xOffset = windowWidth/41.833333, yOffset = 0) {
 
 // ===== PFEIL-ANIMATION STARTER =====
 function startePfeilAnimation() {
-  if (!arrowAnimationAktiv && !animationEinmalAbgespielt) {
-    arrowSichtbar = true;  // Animation sichtbar machen
-    arrowAnimationAktiv = true;
-    aktuellerArrowFrame = 0;
-    letzteArrowAktualisierung = millis();
-    console.log("Pfeil-Animation gestartet!");
+  // Nur starten wenn noch nie abgespielt UND nicht gerade aktiv
+  if (!animationEinmalAbgespielt && !arrowAnimationAktiv) {
+    // Zeitpunkt für verzögerten Start speichern
+    animationStartZeit = millis();
+    console.log("Animation startet in 2 Sekunden...");
   }
+}
+
+// Startet die Animation tatsächlich
+function starteAnimationJetzt() {
+  arrowSichtbar = true;
+  arrowAnimationAktiv = true;
+  aktuellerArrowFrame = 0;  // Starte von Frame 0
+  letzteArrowAktualisierung = millis();
+  console.log("Pfeil-Animation gestartet! Frame 0");
 }
 // ==================================
 
@@ -336,7 +358,7 @@ function drawTexts() {
     pop();
   }
   
-  // Diagramm 2 Texte (Konsens)
+  // Diagramm 2 Texte (Konsens) - nur anzeigen wenn Diagramm sichtbar
   if(showDiagram2 && diagram2_2_percent_clicked) {
     textFont(fließtext);
     textSize(cachedValues.percentSize);
@@ -354,7 +376,7 @@ function drawTexts() {
     text('ordinary people', windowWidth/1.236, windowWidth/2.270);
   }
   
-  // Diagramm 3 Texte (Geschlecht)
+  // Diagramm 3 Texte (Geschlecht) - nur anzeigen wenn Diagramm sichtbar
   if(showDiagram3 && diagram3_1_percent_clicked) {
     textFont(fließtext);
     textSize(cachedValues.percentSize);
@@ -557,7 +579,7 @@ function mouseMoved() {
     currentHoverSegment1 = -1;
   }
   
-  // Hover für Diagramm 2 berechnen
+  // Hover für Diagramm 2 berechnen (nur wenn sichtbar)
   if (showDiagram2 && cachedSegments2) {
     let d2 = cachedValues.diagram2;
     currentHoverSegment2 = getHoverSegment(d2.arcX, d2.arcY, d2.arcS, cachedSegments2, d2.rotation);
@@ -565,7 +587,7 @@ function mouseMoved() {
     currentHoverSegment2 = -1;
   }
   
-  // Hover für Diagramm 3 berechnen
+  // Hover für Diagramm 3 berechnen (nur wenn sichtbar)
   if (showDiagram3 && cachedSegments3) {
     let d3 = cachedValues.diagram3;
     currentHoverSegment3 = getHoverSegment(d3.arcX, d3.arcY, d3.arcS, cachedSegments3, d3.rotation);
@@ -584,15 +606,13 @@ function mousePressed() {
       diagram1_2_percent_clicked = true;
     }
     
-    // Wenn das 98% Segment (Index 1) geklickt wird, starte die Animation
+    // Wenn das 98% Segment (Index 1) geklickt wird
     if (hoverSegment1 === 1 && !diagram1_98_percent_clicked) {
       diagram1_98_percent_clicked = true;
-      // Animation starten und sichtbar machen
-      startePfeilAnimation();
     }
   }
   
-  // Diagramm 2
+  // Diagramm 2 (nur wenn sichtbar)
   if(showDiagram2 && cachedSegments2) {
     let d2 = cachedValues.diagram2;
     let hoverSegment2 = getHoverSegment(d2.arcX, d2.arcY, d2.arcS, cachedSegments2, d2.rotation);
@@ -606,7 +626,7 @@ function mousePressed() {
     }
   }
   
-  // Diagramm 3
+  // Diagramm 3 (nur wenn sichtbar)
   if(showDiagram3 && cachedSegments3) {
     let d3 = cachedValues.diagram3;
     let hoverSegment3 = getHoverSegment(d3.arcX, d3.arcY, d3.arcS, cachedSegments3, d3.rotation);
