@@ -75,27 +75,27 @@ function preload() {
   headline = loadFont("assets/Avenir Heavy.ttf");
   fließtext = loadFont("assets/Avenir Regular.ttf");
 
-  arrows = loadImage("assets/arrows1.png");
-  arrow2 = loadImage("assets/arrows2.png");
+  arrows = loadImage("assets/arrows1.webp");
+  arrow2 = loadImage("assets/arrows2.webp");
 
-  pfeil = loadImage("assets/3a.png");
-  pfeil1 = loadImage("assets/4a.png");
-  pfeil2 = loadImage("assets/1a.png");
-  pfeil3 = loadImage("assets/2a.png");
-  pfeil4 = loadImage("assets/5a.png");
-  pfeil5 = loadImage("assets/6a.png");
+  pfeil = loadImage("assets/3a.webp");
+  pfeil1 = loadImage("assets/4a.webp");
+  pfeil2 = loadImage("assets/1a.webp");
+  pfeil3 = loadImage("assets/2a.webp");
+  pfeil4 = loadImage("assets/5a.webp");
+  pfeil5 = loadImage("assets/6a.webp");
 
-  kreisdiagramm3= loadImage("assets/kreisdiagramme/Diagram 3.png");
-  kreisdiagramm3big_clicked= loadImage("assets/kreisdiagramme/Diagram 3 big pie piece clicked.png");
-  kreisdiagramm3small_clicked= loadImage("assets/kreisdiagramme/Diagram 3 little pie piece clicked.png");
+  kreisdiagramm3= loadImage("assets/kreisdiagramme/Diagram 3 a.webp");
+  kreisdiagramm3big_clicked= loadImage("assets/kreisdiagramme/Diagram 3 big pie piece clicked a.webp");
+  kreisdiagramm3small_clicked= loadImage("assets/kreisdiagramme/Diagram 3 little pie piece clicked a.webp");
 
-  kreisdiagramm1= loadImage("assets/kreisdiagramme/Diagram 1 purple no clicked.png");
-  kreisdiagramm1big_clicked= loadImage("assets/kreisdiagramme/Diagram 1 big pie piece clicked.png");
-  kreisdiagramm1small_clicked= loadImage("assets/kreisdiagramme/Diagram 1 little pie piece clicked.png");
+  kreisdiagramm1= loadImage("assets/kreisdiagramme/Diagram 1 purple no clicked.webp");
+  kreisdiagramm1big_clicked= loadImage("assets/kreisdiagramme/Diagram 1 big pie piece clicked.webp");
+  kreisdiagramm1small_clicked= loadImage("assets/kreisdiagramme/Diagram 1 little pie piece clicked.webp");
 
-  kreisdiagramm2 = loadImage("assets/kreisdiagramme/button2.png");
-  kreisdiagramm2small_clicked = loadImage("assets/kreisdiagramme/Diagram 2 little pie piece clicked.png");
-  kreisdiagramm2big_clicked= loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.png");
+  kreisdiagramm2 = loadImage("assets/kreisdiagramme/button2.webp");
+  kreisdiagramm2small_clicked = loadImage("assets/kreisdiagramme/Diagram 2 little pie piece clicked.webp");
+  kreisdiagramm2big_clicked= loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.webp");
 }
 
 function setup() {
