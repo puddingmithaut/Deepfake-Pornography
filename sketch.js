@@ -171,7 +171,10 @@ function updateCachedValues() {
 
 function draw() {
   background(47, 45, 45);
-
+  push(), 
+  scale(0.93);
+  //image(test, windowWidth/40,0,windowWidth,cachedValues.neueHoehe);
+  pop(); 
   //=================SEITE 1=========================//
   if (!showDiagram1) showDiagram1 = true;
   
@@ -611,10 +614,46 @@ function starteAnimationJetzt() {
 
 function drawpage2(){
 
-image(test2,windowWidth/60,1600,windowWidth, cachedValues.neueHoehe);
+  push();
+  scale(0.93);
+  image(test2, windowWidth/57, 1800, windowWidth, cachedValues.neueHoehe);
+  pop();
+
+  fill(200, 30, 30);
+  textFont(fließtext);
+  textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
+  textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
+  text('For years, women have faced sexual harassment online. With the rise of artificial intelligence its only\ngetting worse.Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and videos of\nreal people in fake situations, are routinely used against women. Data reveals very strong global growth in\ndeepfake pornography videos, particularly those created without consent. The total number of deepfakes\nonline is projected to rise from approximately 500,000 in 2023 to around 8 million in 2025, representing\nexponential global growth. Some reports indicate that the volume of deepfakes roughly doubles every six\nmonths.',
+  windowWidth/31.4, windowWidth/1.44);
+
+  textFont(headline);
+  textSize(windowWidth/69); 
+  textLeading(cachedValues.textLeading); 
+  text('Women who have been affected by deepfakes',
+  windowWidth/5.145, windowWidth/1.129);
 
 
+  ////////////ZITATE//////////////
+
+  //Zitat 1
+
+  fill(200, 30, 30);
+  textFont(fließtext);
+  textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
+  textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
+  text('“I saw that this person who was requesting to follow me, had me as their profile picture.\nSo, of course,  I wanted to see what that was about. I clicked on it and I saw that the entire\naccount was full of AI videos of me in lingerie, doing sexual acts. I ended up skipping classes.\nI was scared that people would recognize me and think that it was me whenever I would go\noutside. I felt like no one was going to belive me  that it wasnt me.  I could not  undestand\nhow something like this, something like completely demages, ruins your reputations can’t be illigal.“',
+  windowWidth/31.4, windowWidth/1.44);
+
+  //Zitat 2
+
+  //Zitat 3
+
+  //Zitat 4
+
+  //Zitat 5
 }
+
+
 
 
 
