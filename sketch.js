@@ -9,6 +9,19 @@ let pfeil3;
 let pfeil4;
 let pfeil5;
 
+// ========== PFEIL-ANIMATION VARIABLEN ==========
+let arrowFrames = [];           // Array für die Pfeil-Bilder
+let aktuellerArrowFrame = 0;    // Aktueller Frame der Animation
+let letzteArrowAktualisierung = 0;
+let arrowAnimationAktiv = false; // Ob die Animation gerade läuft
+let arrowFrameWechselIntervall = 50; // Wechsel alle 50ms (20 fps)
+let animationEinmalAbgespielt = false;
+let arrowSichtbar = false;      // NEU: Steuert ob die Animation überhaupt sichtbar ist
+let arrowX, arrowY;
+let arrowWidth = 200;
+let arrowHeight = 200;
+// ==============================================
+
 let kreisdiagramm3;
 let kreisdiagramm3small_clicked;
 let kreisdiagramm3big_clicked;
@@ -89,12 +102,29 @@ function preload() {
   kreisdiagramm2 = loadImage("assets/kreisdiagramme/button2.webp");
   kreisdiagramm2small_clicked = loadImage("assets/kreisdiagramme/Diagram 2 little pie piece clicked.webp");
   kreisdiagramm2big_clicked= loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.webp");
+
+  // ===== PFEIL-ANIMATION LADEN =====
+  for (let i = 1; i <= 14; i++) {
+    arrowFrames[i-1] = loadImage(`assets/Arrows/Arrow1-${i}.png`);
+  }
+  // DEBUG: Prüfen ob Bilder geladen wurden
+  console.log("Anzahl geladene Pfeil-Bilder:", arrowFrames.length);
+  for (let i = 0; i < arrowFrames.length; i++) {
+    console.log(`Bild ${i+1} geladen:`, arrowFrames[i] ? "Ja" : "Nein");
+  
+  // ================================
+}
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight * 6);
   updateCachedValues();
   frameRate(30); // Reduziert die Framerate für bessere Performance
+  
+  // ===== PFEIL-ANIMATION POSITION =====
+  arrowX = windowWidth / 41.833333;
+  arrowY =0;  // Passe die Y-Position nach Bedarf an
+  // =================================
 }
 
 function updateCachedValues() {
@@ -156,6 +186,7 @@ function draw() {
   if (diagram1_2_percent_clicked && diagram1_98_percent_clicked && !diagram1BothClicked) {
     diagram1BothClicked = true;
     diagram1BothClickedTime = millis();  // Zeitpunkt speichern
+    //startePfeilAnimation();  // <-- Animation starten
   }
   
   // Prüfen ob das Delay vorbei ist und Diagramme noch nicht angezeigt werden
@@ -181,6 +212,30 @@ function draw() {
   }
   
   drawStaticElements();
+  
+  // ===== PFEIL-ANIMATION ZEICHNEN =====
+  // Nur zeichnen wenn arrowSichtbar true ist
+  if (arrowSichtbar && arrowFrames.length > 0) {
+    // Wenn Animation aktiv ist, frames durchlaufen
+    if (arrowAnimationAktiv) {
+      if (millis() > letzteArrowAktualisierung + arrowFrameWechselIntervall) {
+        if (aktuellerArrowFrame < arrowFrames.length - 1) {
+          aktuellerArrowFrame++;
+          letzteArrowAktualisierung = millis();
+        } else {
+          // Am letzten Frame angekommen - Animation deaktivieren aber Bild behalten
+          arrowAnimationAktiv = false;
+        }
+      }
+    }
+    
+    // Zeige immer den aktuellen Frame (auch wenn Animation vorbei ist)
+    push();
+    scale(0.93);
+    image(arrowFrames[aktuellerArrowFrame], arrowX, arrowY, windowWidth, neueHoehe);
+    pop();
+  }
+  // ==================================
 }
 
 function drawStaticElements() {
@@ -221,9 +276,22 @@ function drawScaledImage(img, xOffset = windowWidth/41.833333, yOffset = 0) {
   pop();
 }
 
+// ===== PFEIL-ANIMATION STARTER =====
+function startePfeilAnimation() {
+  if (!arrowAnimationAktiv && !animationEinmalAbgespielt) {
+    arrowSichtbar = true;  // Animation sichtbar machen
+    arrowAnimationAktiv = true;
+    aktuellerArrowFrame = 0;
+    letzteArrowAktualisierung = millis();
+    console.log("Pfeil-Animation gestartet!");
+  }
+}
+// ==================================
+
+
 function drawTexts() {
   // Deepfake Titel
-  fill(255,100,100);
+  fill(255);
   textFont(headline);
   textSize(cachedValues.textSizeHeadline);
   text('Deepfake', cachedValues.titelDeepfakeX, cachedValues.titelDeepfakeY);
@@ -390,7 +458,7 @@ function drawPiecharttwo() {
 
 // Optimierte Funktion für Diagramm 3
 function drawPiechartthree() {
-  let werte = [0.01, 0.99];
+  let werte = [0.03, 0.97];
   let d = cachedValues.diagram3;
   
   // Segmente nur einmal berechnen (caching)
@@ -516,8 +584,11 @@ function mousePressed() {
       diagram1_2_percent_clicked = true;
     }
     
+    // Wenn das 98% Segment (Index 1) geklickt wird, starte die Animation
     if (hoverSegment1 === 1 && !diagram1_98_percent_clicked) {
       diagram1_98_percent_clicked = true;
+      // Animation starten und sichtbar machen
+      startePfeilAnimation();
     }
   }
   
