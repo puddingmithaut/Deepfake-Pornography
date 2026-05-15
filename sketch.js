@@ -104,7 +104,7 @@ function preload() {
   kreisdiagramm2big_clicked= loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.webp");
 
   // ===== PFEIL-ANIMATION LADEN =====
-  for (let i = 1; i <= 12; i++) {
+  for (let i = 1; i <= 7; i++) {
     arrowFrames[i-1] = loadImage(`assets/Arrows/arrows${i}.png`);
   }
   // DEBUG: Prüfen ob Bilder geladen wurden
