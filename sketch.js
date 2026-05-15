@@ -61,9 +61,6 @@ let showDiagram1 = false;
 let showDiagram2 = false;
 let showDiagram3 = false;
 
-// Status für Diagramm 1 beide geklickt
-let diagram1BothClicked = false;
-
 // NEU: Flag für Animation abgeschlossen
 let animationAbgeschlossen = false;
 
@@ -182,13 +179,6 @@ function draw() {
   // Diagramm 1 erscheint sofort
   if (!showDiagram1) {
     showDiagram1 = true;
-  }
-  
-  // Prüfen ob beide Segmente in Diagramm 1 geklickt wurden
-  if (diagram1_2_percent_clicked && diagram1_98_percent_clicked && !diagram1BothClicked) {
-    diagram1BothClicked = true;
-    // Animation starten (verzögert)
-    startePfeilAnimation();
   }
   
   // NEU: Prüfen ob die Animation abgeschlossen ist
@@ -606,9 +596,11 @@ function mousePressed() {
       diagram1_2_percent_clicked = true;
     }
     
-    // Wenn das 98% Segment (Index 1) geklickt wird
+    // Wenn das 98% Segment (Index 1) geklickt wird - Animation starten
     if (hoverSegment1 === 1 && !diagram1_98_percent_clicked) {
       diagram1_98_percent_clicked = true;
+      // Animation sofort starten (verzögert)
+      startePfeilAnimation();
     }
   }
   
