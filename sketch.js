@@ -616,7 +616,7 @@ function drawpage2(){
 
   push();
   scale(0.93);
-  image(test2, windowWidth/57, 1800, windowWidth, cachedValues.neueHoehe);
+  image(test2, windowWidth/40, 1800, windowWidth, cachedValues.neueHoehe);
   pop();
 
   fill(200, 30, 30);
@@ -630,7 +630,7 @@ function drawpage2(){
   textSize(windowWidth/69); 
   textLeading(cachedValues.textLeading); 
   text('Women who have been affected by deepfakes',
-  windowWidth/5.145, windowWidth/1.129);
+  windowWidth/4.968, windowWidth/1.129);
 
 
   ////////////ZITATE//////////////
