@@ -1,4 +1,5 @@
 let test;
+let test2;
 let headline;
 let fließtext;
 
@@ -18,7 +19,7 @@ let arrowFrameWechselIntervall = 50;
 let animationEinmalAbgespielt = false;
 let arrowSichtbar = false;      
 let animationStartZeit = 0;      
-let animationStartVerzoegerung = 2000; 
+let animationStartVerzoegerung = 2500; 
 // ==============================================
 
 let kreisdiagramm3;
@@ -40,6 +41,17 @@ let diagram2_2_percent_clicked = false;
 let diagram2_98_percent_clicked = false;
 let diagram3_1_percent_clicked = false;
 let diagram3_99_percent_clicked = false;
+
+// ========== VARIABLEN FÜR TEXT-EINBLENDUNGEN ==========
+let textOpacity1_2 = 0;
+let textOpacity1_98 = 0;
+let textOpacity2_2 = 0;
+let textOpacity2_98 = 0;
+let textOpacity3_1 = 0;
+let textOpacity3_99 = 0;
+
+let textFadeSpeed = 8; // Geschwindigkeit Einblendung
+// =========================================================
 
 let showDiagram1 = false;
 let showDiagram2 = false;
@@ -64,6 +76,7 @@ let baseY = 0;
 
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
+  test2= loadImage('assets/hintergrundskizze2.png');
   headline = loadFont("assets/Avenir Heavy.ttf");
   fließtext = loadFont("assets/Avenir Regular.ttf");
 
@@ -96,6 +109,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight * 6);
   updateCachedValues();
   frameRate(30);
+  pixelDensity(1);
 }
 
 function updateCachedValues() {
@@ -158,6 +172,7 @@ function updateCachedValues() {
 function draw() {
   background(47, 45, 45);
 
+  //=================SEITE 1=========================//
   if (!showDiagram1) showDiagram1 = true;
   
   if (animationEinmalAbgespielt && !animationAbgeschlossen) {
@@ -191,6 +206,43 @@ function draw() {
   
   // Texte werden NICHT skaliert (bleiben lesbar)
   drawTexts();
+  
+  // Text-Transparenzen aktualisieren
+  updateTextOpacities();
+  drawpage2();
+
+}
+
+function updateTextOpacities() {
+  // Diagramm 1 - 2%
+  if (diagram1_2_percent_clicked && textOpacity1_2 < 255) {
+    textOpacity1_2 = min(255, textOpacity1_2 + textFadeSpeed);
+  }
+  
+  // Diagramm 1 - 98%
+  if (diagram1_98_percent_clicked && textOpacity1_98 < 255) {
+    textOpacity1_98 = min(255, textOpacity1_98 + textFadeSpeed);
+  }
+  
+  // Diagramm 2 - 35%
+  if (diagram2_2_percent_clicked && textOpacity2_2 < 255) {
+    textOpacity2_2 = min(255, textOpacity2_2 + textFadeSpeed);
+  }
+  
+  // Diagramm 2 - 65%
+  if (diagram2_98_percent_clicked && textOpacity2_98 < 255) {
+    textOpacity2_98 = min(255, textOpacity2_98 + textFadeSpeed);
+  }
+  
+  // Diagramm 3 - 1%
+  if (diagram3_1_percent_clicked && textOpacity3_1 < 255) {
+    textOpacity3_1 = min(255, textOpacity3_1 + textFadeSpeed);
+  }
+  
+  // Diagramm 3 - 99%
+  if (diagram3_99_percent_clicked && textOpacity3_99 < 255) {
+    textOpacity3_99 = min(255, textOpacity3_99 + textFadeSpeed);
+  }
 }
 
 function drawArrowAnimation() {
@@ -237,6 +289,8 @@ function drawStaticElements() {
 }
 
 function drawTexts() {
+
+  //SEITE 1
   fill(255);
   
   // Deepfake Titel
@@ -259,6 +313,8 @@ function drawTexts() {
   }
   
   if(showDiagram1 && diagram1_2_percent_clicked) {
+    push();
+    fill(255, textOpacity1_2);
     textFont(fließtext);
     textSize(cachedValues.percentSize);
     text('2%', windowWidth/2.985, windowWidth/3.95);
@@ -269,9 +325,12 @@ function drawTexts() {
     textLeading(windowWidth / 90);
     text('Political, entertainment,\nfraud and scams, fake news\nand false information.', windowWidth/2.982, windowWidth/3.55);
     pop();
+    pop();
   }
   
   if(showDiagram1 && diagram1_98_percent_clicked) {
+    push();
+    fill(255, textOpacity1_98);
     textFont(headline);
     textSize(cachedValues.headlinePercentSize);
     text('98%', windowWidth/2.97, windowWidth/2.45);
@@ -281,42 +340,63 @@ function drawTexts() {
     textLeading(windowWidth / 58);
     text('non consensual\npornography', windowWidth/2.97, windowWidth/2.35);
     pop();
+    pop();
   }
   
   // Diagramm 2 Texte
   if(showDiagram2 && diagram2_2_percent_clicked) {
+    push();
+    fill(255, textOpacity2_2);
     textFont(fließtext);
     textSize(cachedValues.percentSize);
     text('35%', windowWidth/1.2378, windowWidth/3.185);
     textSize(windowWidth/69);
     text('public figures', windowWidth/1.2375, windowWidth/3.025);
+    pop();
   }
   
   if(showDiagram2 && diagram2_98_percent_clicked) {
+    push();
+    fill(255, textOpacity2_98);
     textFont(headline);
     textSize(cachedValues.headlinePercentSize);
     text('65%', windowWidth/1.236, windowWidth/2.363);
     textFont(fließtext);
     textSize(windowWidth/69);
     text('ordinary people', windowWidth/1.236, windowWidth/2.270);
+    pop();
   }
   
   // Diagramm 3 Texte
   if(showDiagram3 && diagram3_1_percent_clicked) {
+    push();
+    fill(255, textOpacity3_1);
     textFont(fließtext);
     textSize(cachedValues.percentSize);
     text('1%', windowWidth/1.402, windowWidth/12.364532);
     textSize(windowWidth/66.985319);
     text('are male', windowWidth/1.403, windowWidth/10.25);
+    pop();
   }
   
   if(showDiagram3 && diagram3_99_percent_clicked) {
+    push();
+    fill(255, textOpacity3_99);
     textFont(headline);
     textSize(cachedValues.headlinePercentSize);
     text('99%', windowWidth/1.408, windowWidth/5.05);
     textFont(fließtext);
     textSize(windowWidth/69);
     text('are female', windowWidth/1.408, windowWidth/4.65);
+    pop();
+
+
+
+
+  //SEITE 2
+
+
+
   }
 }
 
@@ -391,7 +471,7 @@ function drawPiechartthree() {
   let d = cachedValues.diagram3;
   
   if (!cachedSegments3) {
-    let werte = [0.03, 0.97];
+    let werte = [0.01, 0.99];
     cachedSegments3 = [];
     let startwinkel = -d.rotation;
     for (let i = 0; i < werte.length; i++) {
@@ -528,7 +608,19 @@ function starteAnimationJetzt() {
   letzteArrowAktualisierung = millis();
 }
 
+
+function drawpage2(){
+
+image(test2,windowWidth/60,1600,windowWidth, cachedValues.neueHoehe);
+
+
+}
+
+
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight * 6);
   updateCachedValues();
 }
+
+
