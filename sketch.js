@@ -10,7 +10,6 @@ let pfeil4;
 let pfeil5;
 
 // ========== PFEIL-ANIMATION VARIABLEN ==========
-
 let arrowFrames = [];          
 let aktuellerArrowFrame = 0;    
 let letzteArrowAktualisierung = 0;
@@ -18,13 +17,9 @@ let arrowAnimationAktiv = false;
 let arrowFrameWechselIntervall = 50; 
 let animationEinmalAbgespielt = false;
 let arrowSichtbar = false;      
-let arrowX, arrowY;
-let arrowWidth = 200;
-let arrowHeight = 200;
 let animationStartZeit = 0;      
 let animationStartVerzoegerung = 2000; 
 // ==============================================
-
 
 let kreisdiagramm3;
 let kreisdiagramm3small_clicked;
@@ -38,46 +33,34 @@ let kreisdiagramm2;
 let kreisdiagramm2small_clicked; 
 let kreisdiagramm2big_clicked;
 
-// Cache für skalierte Werte
-let scaleFaktor;
-let neueHoehe;
-let bildBreite;
-let bildHoehe;
-
-// Status für Diagramm 1 (Deepfake Videos)
+// Status für Diagramme
 let diagram1_2_percent_clicked = false;
 let diagram1_98_percent_clicked = false;
-
-// Status für Diagramm 2 (Konsens - 35% public figures, 65% ordinary people)
 let diagram2_2_percent_clicked = false;
 let diagram2_98_percent_clicked = false;
-
-// Status für Diagramm 3 (Geschlecht - 1% male, 99% female)
 let diagram3_1_percent_clicked = false;
 let diagram3_99_percent_clicked = false;
 
-// Status für Sichtbarkeit der Diagramme
 let showDiagram1 = false;
 let showDiagram2 = false;
 let showDiagram3 = false;
-
-// NEU: Flag für Animation abgeschlossen
 let animationAbgeschlossen = false;
 
 // Cache für berechnete Werte
 let cachedValues = {};
-
-// Cache für Diagramm-Segmente
 let cachedSegments1 = null;
 let cachedSegments2 = null;
 let cachedSegments3 = null;
 
-// Cache für Hover-Status (für mouseMoved Optimierung)
-let lastMouseX = -1;
-let lastMouseY = -1;
+// Hover-Status
 let currentHoverSegment1 = -1;
 let currentHoverSegment2 = -1;
 let currentHoverSegment3 = -1;
+
+// Canvas-skalierungsfaktor
+let canvasScale = 0.93;
+let baseX = 0;
+let baseY = 0;
 
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
@@ -91,48 +74,36 @@ function preload() {
   pfeil4 = loadImage("assets/5a.webp");
   pfeil5 = loadImage("assets/6a.webp");
 
-  kreisdiagramm3= loadImage("assets/kreisdiagramme/Diagram 3 a.webp");
-  kreisdiagramm3big_clicked= loadImage("assets/kreisdiagramme/Diagram 3 big pie piece clicked a.webp");
-  kreisdiagramm3small_clicked= loadImage("assets/kreisdiagramme/Diagram 3 little pie piece clicked a.webp");
+  kreisdiagramm3 = loadImage("assets/kreisdiagramme/Diagram 3 a.webp");
+  kreisdiagramm3big_clicked = loadImage("assets/kreisdiagramme/Diagram 3 big pie piece clicked a.webp");
+  kreisdiagramm3small_clicked = loadImage("assets/kreisdiagramme/Diagram 3 little pie piece clicked a.webp");
 
-  kreisdiagramm1= loadImage("assets/kreisdiagramme/Diagram 1 purple no clicked.webp");
-  kreisdiagramm1big_clicked= loadImage("assets/kreisdiagramme/Diagram 1 big pie piece clicked.webp");
-  kreisdiagramm1small_clicked= loadImage("assets/kreisdiagramme/Diagram 1 little pie piece clicked.webp");
+  kreisdiagramm1 = loadImage("assets/kreisdiagramme/Diagram 1 purple no clicked.webp");
+  kreisdiagramm1big_clicked = loadImage("assets/kreisdiagramme/Diagram 1 big pie piece clicked.webp");
+  kreisdiagramm1small_clicked = loadImage("assets/kreisdiagramme/Diagram 1 little pie piece clicked.webp");
 
   kreisdiagramm2 = loadImage("assets/kreisdiagramme/button2.webp");
   kreisdiagramm2small_clicked = loadImage("assets/kreisdiagramme/Diagram 2 little pie piece clicked.webp");
-  kreisdiagramm2big_clicked= loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.webp");
+  kreisdiagramm2big_clicked = loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.webp");
 
-  // ===== PFEIL-ANIMATION LADEN =====
-  for (let i = 1; i <= 7; i++) {
+  // Pfeil-Animation laden
+  for (let i = 1; i <= 12; i++) {
     arrowFrames[i-1] = loadImage(`assets/Arrows/arrows${i}.png`);
   }
-  // DEBUG: Prüfen ob Bilder geladen wurden
-  console.log("Anzahl geladene Pfeil-Bilder:", arrowFrames.length);
-  for (let i = 0; i < arrowFrames.length; i++) {
-    console.log(`Bild ${i+1} geladen:`, arrowFrames[i] ? "Ja" : "Nein");
-  }
-  // ================================
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight * 6);
   updateCachedValues();
-  frameRate(30); // 
-  
-  // ===== PFEIL-ANIMATION POSITION =====
-  arrowX = windowWidth / 41.833333;
-  arrowY =0;  
-  // =================================
+  frameRate(30);
 }
 
 function updateCachedValues() {
-  bildBreite = test.width;
-  bildHoehe = test.height;
-  scaleFaktor = windowWidth / bildBreite;
-  neueHoehe = bildHoehe * scaleFaktor;
+  let bildBreite = test.width;
+  let bildHoehe = test.height;
+  let scaleFaktor = windowWidth / bildBreite;
+  let neueHoehe = bildHoehe * scaleFaktor;
   
-  // Cache alle häufig verwendeten Berechnungen
   cachedValues = {
     textSizeHeadline: windowWidth / 22.979,
     textSizeFließtext: windowWidth / 114.89675,
@@ -147,27 +118,38 @@ function updateCachedValues() {
     labelSize: windowWidth / 66.755319,
     smallTextSize: windowWidth / 112,
     headlinePercentSize: windowWidth / 17.310344,
+    neueHoehe: neueHoehe,
+    scaleFaktor: scaleFaktor,
     diagram1: {
       arcX: windowWidth / 7,
       arcY: windowWidth / 2.4,
       arcS: windowWidth / 2.886044,
-      rotation: HALF_PI / 1.525
+      rotation: HALF_PI / 1.525,
+      imgX: windowWidth / 41.833333 - windowWidth/16,
+      imgY: windowWidth / 10.4
     },
     diagram2: {
       arcX: windowWidth / 1.46,
       arcY: windowWidth / 2.73,
       arcS: windowWidth / 4.8,
       rotation: 2.85 * PI / 4,
+      imgX: windowWidth / 41.833333,
+      imgY: 0
     },
     diagram3: {
       arcX: windowWidth / 1.69,
       arcY: windowWidth / 6.6,
       arcS: windowWidth / 4.8,
-      rotation: HALF_PI / 1.87
-    }
+      rotation: HALF_PI / 1.87,
+      imgX: windowWidth / 41.833333,
+      imgY: 0
+    },
+    pfeilX: windowWidth / 41.833333,
+    pfeilX2: windowWidth / 38,
+    pfeilX3: windowWidth / 39.841269,
+    arrowX: windowWidth / 41.833333
   };
   
-  // Segmente zurücksetzen, da sich Positionen geändert haben
   cachedSegments1 = null;
   cachedSegments2 = null;
   cachedSegments3 = null;
@@ -176,134 +158,88 @@ function updateCachedValues() {
 function draw() {
   background(47, 45, 45);
 
-  // Diagramm 1 erscheint sofort
-  if (!showDiagram1) {
-    showDiagram1 = true;
-  }
+  if (!showDiagram1) showDiagram1 = true;
   
-  // NEU: Prüfen ob die Animation abgeschlossen ist
   if (animationEinmalAbgespielt && !animationAbgeschlossen) {
     animationAbgeschlossen = true;
-    // Diagramme 2 und 3 anzeigen
     showDiagram2 = true;
     showDiagram3 = true;
-    console.log("Animation abgeschlossen - Diagramme 2 und 3 werden angezeigt");
   }
   
-  // ===== PRÜFEN OB ANIMATION NACH VERZÖGERUNG STARTEN SOLL =====
   if (!arrowAnimationAktiv && !animationEinmalAbgespielt && animationStartZeit > 0) {
     if (millis() - animationStartZeit >= animationStartVerzoegerung) {
       starteAnimationJetzt();
     }
   }
-  // ===========================================================
   
-  // Zeichnen der Diagramme
-  if (showDiagram1) {
-    drawPiechartone();
-  }
+  // Skalierung für alle Bilder einmal anwenden
+  push();
+  scale(canvasScale);
   
-  if (showDiagram2) {
-    drawPiecharttwo();
-  }
+  // Diagramme zeichnen
+  if (showDiagram1) drawPiechartone();
+  if (showDiagram2) drawPiecharttwo();
+  if (showDiagram3) drawPiechartthree();
   
-  if (showDiagram3) {
-    drawPiechartthree();
-  }
-  
+  // Pfeile zeichnen
   drawStaticElements();
   
-  // ===== PFEIL-ANIMATION ZEICHNEN =====
-  // Nur zeichnen wenn arrowSichtbar true ist
+  // Pfeil-Animation zeichnen
+  drawArrowAnimation();
+  
+  pop();
+  
+  // Texte werden NICHT skaliert (bleiben lesbar)
+  drawTexts();
+}
+
+function drawArrowAnimation() {
   if (arrowSichtbar && arrowFrames.length > 0) {
-    // Wenn Animation aktiv ist, frames durchlaufen
     if (arrowAnimationAktiv) {
       if (millis() > letzteArrowAktualisierung + arrowFrameWechselIntervall) {
         if (aktuellerArrowFrame < arrowFrames.length - 1) {
           aktuellerArrowFrame++;
           letzteArrowAktualisierung = millis();
         } else {
-          // Animation zu Ende - NICHT zurücksetzen, letztes Bild bleibt
           arrowAnimationAktiv = false;
-          animationEinmalAbgespielt = true;  // WICHTIG: Hier setzen!
-          console.log("Animation abgeschlossen, letztes Bild bleibt sichtbar");
+          animationEinmalAbgespielt = true;
         }
       }
     }
-    
-    // Zeige aktuellen Frame (auch wenn Animation vorbei ist)
-    push();
-    scale(0.93);
-    image(arrowFrames[aktuellerArrowFrame], arrowX, arrowY, windowWidth, neueHoehe);
-    pop();
+    image(arrowFrames[aktuellerArrowFrame], cachedValues.arrowX, 0, windowWidth, cachedValues.neueHoehe);
   }
-  // ==================================
-  
 }
 
 function drawStaticElements() {
-  // Diagramm 1 - Bedingte Pfeile basierend auf Klicks
+  // Diagramm 1 Pfeile
   if(showDiagram1 && diagram1_2_percent_clicked) {
-    drawScaledImage(pfeil, windowWidth/40.48387);
+    image(pfeil, cachedValues.pfeilX, 0, windowWidth, cachedValues.neueHoehe);
   }
-  
   if(showDiagram1 && diagram1_98_percent_clicked) {
-    drawScaledImage(pfeil1, windowWidth/38, 0);
+    image(pfeil1, cachedValues.pfeilX2, 0, windowWidth, cachedValues.neueHoehe);
   }
 
-  // Diagramm 2 - Pfeile nur anzeigen wenn Diagramm sichtbar
+  // Diagramm 2 Pfeile
   if(showDiagram2 && diagram2_2_percent_clicked) {
-    drawScaledImage(pfeil4, windowWidth/39.841269, 0); 
+    image(pfeil4, cachedValues.pfeilX3, 0, windowWidth, cachedValues.neueHoehe);
   }
-  
   if(showDiagram2 && diagram2_98_percent_clicked) {
-    drawScaledImage(pfeil5, windowWidth/39.841269, 0); 
+    image(pfeil5, cachedValues.pfeilX3, 0, windowWidth, cachedValues.neueHoehe);
   }
 
-  // Diagramm 3 - Pfeile nur anzeigen wenn Diagramm sichtbar
+  // Diagramm 3 Pfeile
   if(showDiagram3 && diagram3_1_percent_clicked) {
-    drawScaledImage(pfeil2, windowWidth/39.841269);
+    image(pfeil2, cachedValues.pfeilX3, 0, windowWidth, cachedValues.neueHoehe);
   }
-  
   if(showDiagram3 && diagram3_99_percent_clicked) {
-    drawScaledImage(pfeil3, windowWidth/39.841269);
-  }
-
-  drawTexts();
-}
-
-// Hilfsfunktion für skalierte Bilder
-function drawScaledImage(img, xOffset = windowWidth/41.833333, yOffset = 0) {
-  push();
-  scale(0.93);
-  image(img, xOffset, yOffset, windowWidth, neueHoehe);
-  pop();
-}
-
-// ===== PFEIL-ANIMATION STARTER =====
-function startePfeilAnimation() {
-  // Nur starten wenn noch nie abgespielt UND nicht gerade aktiv
-  if (!animationEinmalAbgespielt && !arrowAnimationAktiv) {
-    // Zeitpunkt für verzögerten Start speichern
-    animationStartZeit = millis();
-    console.log("Animation startet in 2 Sekunden...");
+    image(pfeil3, cachedValues.pfeilX3, 0, windowWidth, cachedValues.neueHoehe);
   }
 }
-
-// Startet die Animation tatsächlich
-function starteAnimationJetzt() {
-  arrowSichtbar = true;
-  arrowAnimationAktiv = true;
-  aktuellerArrowFrame = 0;  // Starte von Frame 0
-  letzteArrowAktualisierung = millis();
-  console.log("Pfeil-Animation gestartet! Frame 0");
-}
-// ==================================
-
 
 function drawTexts() {
-  // Deepfake Titel
   fill(255);
+  
+  // Deepfake Titel
   textFont(headline);
   textSize(cachedValues.textSizeHeadline);
   text('Deepfake', cachedValues.titelDeepfakeX, cachedValues.titelDeepfakeY);
@@ -315,14 +251,13 @@ function drawTexts() {
   text('A deepfake is a piece of media - such as a photo,audio or video,that has been altered\n generated or falsified using artificial intelligence (AI)techniques, to convincingly replace\none persons face or voice.\nAs a result, it creates people and events that do not exist or that did not actually occur.\n\nOver time, the definition of the term deepfake has evolved.\nWhereas in 2017 and 2018 it was applied exclusively to visual media explicitly created\nby "Deepfake AI" by 2022 the term had come to be used to describe images and videos\nthat had been eiter obviously or allegedly falsified by any form of artificial intelligence.',
   cachedValues.definitionX, cachedValues.definitionY);
   
-  // Diagramm 1 Titel
+  // Diagramm 1 Texte
   if(showDiagram1) {
     textFont(headline);
     textSize(cachedValues.diagramTitelSize);
     text('Deepfake Videos', windowWidth/31, cachedValues.diagram1TitelY);
   }
   
-  // Diagramm 1 Texte
   if(showDiagram1 && diagram1_2_percent_clicked) {
     textFont(fließtext);
     textSize(cachedValues.percentSize);
@@ -348,7 +283,7 @@ function drawTexts() {
     pop();
   }
   
-  // Diagramm 2 Texte (Konsens) - nur anzeigen wenn Diagramm sichtbar
+  // Diagramm 2 Texte
   if(showDiagram2 && diagram2_2_percent_clicked) {
     textFont(fließtext);
     textSize(cachedValues.percentSize);
@@ -366,7 +301,7 @@ function drawTexts() {
     text('ordinary people', windowWidth/1.236, windowWidth/2.270);
   }
   
-  // Diagramm 3 Texte (Geschlecht) - nur anzeigen wenn Diagramm sichtbar
+  // Diagramm 3 Texte
   if(showDiagram3 && diagram3_1_percent_clicked) {
     textFont(fließtext);
     textSize(cachedValues.percentSize);
@@ -385,13 +320,12 @@ function drawTexts() {
   }
 }
 
-// Optimierte Funktion für Diagramm 1
 function drawPiechartone() {
-  let werte = [0.02, 0.98];
   let d = cachedValues.diagram1;
   
-  // Segmente nur einmal berechnen (caching)
-  if (cachedSegments1 === null) {
+  // Hitbox-Bögen (unsichtbar für Hover)
+  if (!cachedSegments1) {
+    let werte = [0.02, 0.98];
     cachedSegments1 = [];
     let startwinkel = -d.rotation;
     for (let i = 0; i < werte.length; i++) {
@@ -399,40 +333,33 @@ function drawPiechartone() {
       cachedSegments1.push({
         start: startwinkel,
         ende: startwinkel + winkel,
-        wert: werte[i],
       });
       startwinkel += winkel;
     }
   }
   
-  // Unsichtbare Hitbox-Bögen zeichnen
+  // Unsichtbare Hitbox
   noStroke();
   noFill();
   for (let i = 0; i < cachedSegments1.length; i++) {
     arc(d.arcX, d.arcY, d.arcS, d.arcS, cachedSegments1[i].start, cachedSegments1[i].ende, PIE);
   }
   
-  push();
-  scale(0.93);
+  // Bild basierend auf Hover
   if (currentHoverSegment1 === 0) {
-    image(kreisdiagramm1small_clicked, windowWidth/41.833333-windowWidth/16, windowWidth/10.4, windowWidth, neueHoehe);
-  } 
-  else if (currentHoverSegment1 === 1) {
-    image(kreisdiagramm1big_clicked, windowWidth/41.833333-windowWidth/16, windowWidth/10.4, windowWidth, neueHoehe);
-  } 
-  else {
-    image(kreisdiagramm1, windowWidth/41.833333-windowWidth/16, windowWidth/10.4, windowWidth, neueHoehe);
+    image(kreisdiagramm1small_clicked, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
+  } else if (currentHoverSegment1 === 1) {
+    image(kreisdiagramm1big_clicked, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
+  } else {
+    image(kreisdiagramm1, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
   }
-  pop();
 }
 
-// Optimierte Funktion für Diagramm 2
 function drawPiecharttwo() {
-  let werte = [0.35, 0.65];
   let d = cachedValues.diagram2;
   
-  // Segmente nur einmal berechnen (caching)
-  if (cachedSegments2 === null) {
+  if (!cachedSegments2) {
+    let werte = [0.35, 0.65];
     cachedSegments2 = [];
     let startwinkel = -d.rotation;
     for (let i = 0; i < werte.length; i++) {
@@ -440,41 +367,31 @@ function drawPiecharttwo() {
       cachedSegments2.push({
         start: startwinkel,
         ende: startwinkel + winkel,
-        wert: werte[i],
       });
       startwinkel += winkel;
     }
   }
   
-  // Unsichtbare Hitbox-Bögen zeichnen
   noStroke();
   noFill();
   for (let i = 0; i < cachedSegments2.length; i++) {
     arc(d.arcX, d.arcY, d.arcS, d.arcS, cachedSegments2[i].start, cachedSegments2[i].ende, PIE);
   }
   
-  push();
-  scale(0.93);
-  
   if (currentHoverSegment2 === 0) {
-    image(kreisdiagramm2small_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-  } 
-  else if (currentHoverSegment2 === 1) {
-    image(kreisdiagramm2big_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-  } 
-  else {
-    image(kreisdiagramm2, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+    image(kreisdiagramm2small_clicked, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
+  } else if (currentHoverSegment2 === 1) {
+    image(kreisdiagramm2big_clicked, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
+  } else {
+    image(kreisdiagramm2, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
   }
-  pop();
 }
 
-// Optimierte Funktion für Diagramm 3
 function drawPiechartthree() {
-  let werte = [0.03, 0.97];
   let d = cachedValues.diagram3;
   
-  // Segmente nur einmal berechnen (caching)
-  if (cachedSegments3 === null) {
+  if (!cachedSegments3) {
+    let werte = [0.03, 0.97];
     cachedSegments3 = [];
     let startwinkel = -d.rotation;
     for (let i = 0; i < werte.length; i++) {
@@ -482,86 +399,58 @@ function drawPiechartthree() {
       cachedSegments3.push({
         start: startwinkel,
         ende: startwinkel + winkel,
-        wert: werte[i],
       });
       startwinkel += winkel;
     }
   }
   
-  // Unsichtbare Hitbox-Bögen zeichnen
   noStroke();
   noFill();
   for (let i = 0; i < cachedSegments3.length; i++) {
     arc(d.arcX, d.arcY, d.arcS, d.arcS, cachedSegments3[i].start, cachedSegments3[i].ende, PIE);
   }
   
-  push();
-  scale(0.93);
-  
   if (currentHoverSegment3 === 0) {
-    image(kreisdiagramm3small_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-  } 
-  else if (currentHoverSegment3 === 1) {
-    image(kreisdiagramm3big_clicked, windowWidth/41.833333, 0, windowWidth, neueHoehe);
-  } 
-  else {
-    image(kreisdiagramm3, windowWidth/41.833333, 0, windowWidth, neueHoehe);
+    image(kreisdiagramm3small_clicked, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
+  } else if (currentHoverSegment3 === 1) {
+    image(kreisdiagramm3big_clicked, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
+  } else {
+    image(kreisdiagramm3, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
   }
-  pop();
 }
 
-// Optimierte Hover-Erkennung
 function getHoverSegment(arcX, arcY, arcS, segmente, rotation) {
-  // Schnelle Distanzprüfung
   let dx = mouseX - arcX;
   let dy = mouseY - arcY;
   let abstand = sqrt(dx*dx + dy*dy);
   
-  if (abstand > arcS / 2) {
-    return -1;
-  }
+  if (abstand > arcS / 2) return -1;
   
-  // Winkelberechnung
   let mausWinkel = atan2(dy, dx);
   if (mausWinkel < 0) mausWinkel += TWO_PI;
   
-  // Rotation anwenden
   let angepassterMausWinkel = mausWinkel + rotation;
   if (angepassterMausWinkel >= TWO_PI) angepassterMausWinkel -= TWO_PI;
   
-  // Optimierte Schleife
   for (let i = 0; i < segmente.length; i++) {
     let start = segmente[i].start + rotation;
     let ende = segmente[i].ende + rotation;
     
-    // Normalisierung ohne while-Schleifen
     start = start % TWO_PI;
     if (start < 0) start += TWO_PI;
     ende = ende % TWO_PI;
     if (ende < 0) ende += TWO_PI;
     
     if (start < ende) {
-      if (angepassterMausWinkel >= start && angepassterMausWinkel < ende) {
-        return i;
-      }
+      if (angepassterMausWinkel >= start && angepassterMausWinkel < ende) return i;
     } else {
-      if (angepassterMausWinkel >= start || angepassterMausWinkel < ende) {
-        return i;
-      }
+      if (angepassterMausWinkel >= start || angepassterMausWinkel < ende) return i;
     }
   }
   return -1;
 }
 
-// Mausbewegung nur bei tatsächlicher Bewegung verarbeiten
 function mouseMoved() {
-  // Nur bei tatsächlicher Mausbewegung neu berechnen
-  if (mouseX === lastMouseX && mouseY === lastMouseY) return;
-  
-  lastMouseX = mouseX;
-  lastMouseY = mouseY;
-  
-  // Hover für Diagramm 1 berechnen
   if (showDiagram1 && cachedSegments1) {
     let d1 = cachedValues.diagram1;
     currentHoverSegment1 = getHoverSegment(d1.arcX, d1.arcY, d1.arcS, cachedSegments1, d1.rotation);
@@ -569,7 +458,6 @@ function mouseMoved() {
     currentHoverSegment1 = -1;
   }
   
-  // Hover für Diagramm 2 berechnen (nur wenn sichtbar)
   if (showDiagram2 && cachedSegments2) {
     let d2 = cachedValues.diagram2;
     currentHoverSegment2 = getHoverSegment(d2.arcX, d2.arcY, d2.arcS, cachedSegments2, d2.rotation);
@@ -577,7 +465,6 @@ function mouseMoved() {
     currentHoverSegment2 = -1;
   }
   
-  // Hover für Diagramm 3 berechnen (nur wenn sichtbar)
   if (showDiagram3 && cachedSegments3) {
     let d3 = cachedValues.diagram3;
     currentHoverSegment3 = getHoverSegment(d3.arcX, d3.arcY, d3.arcS, cachedSegments3, d3.rotation);
@@ -587,7 +474,6 @@ function mouseMoved() {
 }
 
 function mousePressed() {
-  // Diagramm 1
   if(showDiagram1 && cachedSegments1) {
     let d1 = cachedValues.diagram1;
     let hoverSegment1 = getHoverSegment(d1.arcX, d1.arcY, d1.arcS, cachedSegments1, d1.rotation);
@@ -596,15 +482,12 @@ function mousePressed() {
       diagram1_2_percent_clicked = true;
     }
     
-    // Wenn das 98% Segment (Index 1) geklickt wird - Animation starten
     if (hoverSegment1 === 1 && !diagram1_98_percent_clicked) {
       diagram1_98_percent_clicked = true;
-      // Animation sofort starten (verzögert)
       startePfeilAnimation();
     }
   }
   
-  // Diagramm 2 (nur wenn sichtbar)
   if(showDiagram2 && cachedSegments2) {
     let d2 = cachedValues.diagram2;
     let hoverSegment2 = getHoverSegment(d2.arcX, d2.arcY, d2.arcS, cachedSegments2, d2.rotation);
@@ -618,7 +501,6 @@ function mousePressed() {
     }
   }
   
-  // Diagramm 3 (nur wenn sichtbar)
   if(showDiagram3 && cachedSegments3) {
     let d3 = cachedValues.diagram3;
     let hoverSegment3 = getHoverSegment(d3.arcX, d3.arcY, d3.arcS, cachedSegments3, d3.rotation);
@@ -631,6 +513,19 @@ function mousePressed() {
       diagram3_99_percent_clicked = true;
     }
   }
+}
+
+function startePfeilAnimation() {
+  if (!animationEinmalAbgespielt && !arrowAnimationAktiv) {
+    animationStartZeit = millis();
+  }
+}
+
+function starteAnimationJetzt() {
+  arrowSichtbar = true;
+  arrowAnimationAktiv = true;
+  aktuellerArrowFrame = 0;
+  letzteArrowAktualisierung = millis();
 }
 
 function windowResized() {
