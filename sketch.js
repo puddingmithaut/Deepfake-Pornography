@@ -76,7 +76,7 @@ let baseY = 0;
 
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
-  test2= loadImage('assets/hintergrundskizze2.png');
+  test2= loadImage('assets/hintergrundskizze2.jpg');
   headline = loadFont("assets/Avenir Heavy.ttf");
   fließtext = loadFont("assets/Avenir Regular.ttf");
 
@@ -642,7 +642,7 @@ function drawpage2(){
   textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
   text('“I saw that this person who was requesting to follow me, had me as their profile picture.\nSo, of course,  I wanted to see what that was about. I clicked on it and I saw that the entire\naccount was full of AI videos of me in lingerie, doing sexual acts. I ended up skipping classes.\nI was scared that people would recognize me and think that it was me whenever I would go\noutside. I felt like no one was going to belive me  that it wasnt me.  I could not  undestand\nhow something like this, something like completely demages, ruins your reputations can’t be illigal.“',
-  windowWidth/31.4, windowWidth/1.44);
+  windowWidth/3.6, windowWidth/1.083);
 
   //Zitat 2
 
