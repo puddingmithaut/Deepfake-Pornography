@@ -110,6 +110,7 @@ function setup() {
   updateCachedValues();
   frameRate(30);
   pixelDensity(1);
+
 }
 
 function updateCachedValues() {
@@ -173,7 +174,7 @@ function draw() {
   background(47, 45, 45);
   push(), 
   scale(0.93);
-  //image(test, windowWidth/40,0,windowWidth,cachedValues.neueHoehe);
+  image(test, windowWidth/40,0,windowWidth,cachedValues.neueHoehe);
   pop(); 
   //=================SEITE 1=========================//
   if (!showDiagram1) showDiagram1 = true;
