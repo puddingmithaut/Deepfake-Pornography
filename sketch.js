@@ -106,10 +106,10 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight * 6);
+  createCanvas(windowWidth, windowHeight * 3);
   updateCachedValues();
   frameRate(30);
-  pixelDensity(1);
+  pixelDensity(0.9);
 
 }
 
@@ -659,7 +659,7 @@ function drawpage2(){
 
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight * 6);
+  resizeCanvas(windowWidth, windowHeight * 3);
   updateCachedValues();
 }
 
