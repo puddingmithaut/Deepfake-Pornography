@@ -81,6 +81,8 @@ let frau3;
 let frau4;
 let frau5;
 
+let tinypeople
+
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
   test2= loadImage('assets/hintergrundskizze2.jpg');
@@ -114,7 +116,7 @@ function preload() {
   frau3= loadImage("seite2/woman3.png");
   frau4= loadImage("seite2/woman4.png");
   frau5= loadImage("seite2/woman5.png");
-
+  tinypeople= loadImage("seite2/tiny people.png");
 
 
   // Pfeil-Animation laden
@@ -656,6 +658,7 @@ function drawpage2(){
   push();
   scale(0.93);
   image(weißerkasten, windowWidth/25-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
+  image(tinypeople,-windowWidth/25,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
 
   //Frauen Illustrationen
   //image(frau1, windowWidth/40-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
@@ -716,13 +719,13 @@ function drawpage2(){
 
   //Buttons
 // Buttons
-let margin = 50; // Abstand zwischen den Kreisen
-let startX = windowWidth/3; // Startposition für den ersten Kreis
-let buttonY = windowWidth/1.02;
+let margin = windowWidth/90; // Abstand zwischen den Kreisen
+let startX = windowWidth/3.85; // Startposition für den ersten Kreis
+let buttonY = windowWidth/1.054;
 
 for (let i = 0; i < 5; i++) {  // <-- "let i" statt nur "i"
   fill(255);
-  circle(startX + (i * margin), buttonY, 10);
+  rect(startX + (i * margin), buttonY,20, 40);
 }
 
 
