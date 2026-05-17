@@ -712,6 +712,20 @@ function drawpage2(){
   //text('"My life has been overwhelmed by a wave of hatred and violence. It all started with a photo of me,\nwhich was Photoshopped, removing my clothes and adding a bare breast, transforming it into something\nthat doesnt exist. A false sexual image, yet one that bears my face. From that moment on, hell began to\nbreak loose; that photo began to circulate everywhere.\nMy dignity was trampled upon, stripped away.“',
   //windowWidth/3, windowWidth/1.095);
   
+
+  //Buttons
+// Buttons
+let margin = 50; // Abstand zwischen den Kreisen
+let startX = windowWidth/3; // Startposition für den ersten Kreis
+let buttonY = windowWidth/1.02;
+
+for (let i = 0; i < 5; i++) {  // <-- "let i" statt nur "i"
+  fill(255);
+  circle(startX + (i * margin), buttonY, 10);
+}
+
+
+
   
 }
 
