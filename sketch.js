@@ -649,23 +649,24 @@ function drawpage2(){
   textSize(windowWidth/69); 
   textLeading(cachedValues.textLeading); 
   text('Women who have been affected by deepfakes',
-  windowWidth/3, windowWidth/1.15);
+  windowWidth/4.7, windowWidth/1.2);
 
 
   ////Bilder
   push();
   scale(0.93);
-  image(weißerkasten, windowWidth/25,windowWidth/1.425,windowWidth,cachedValues.neueHoehe);
+  image(weißerkasten, windowWidth/25-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
 
   //Frauen Illustrationen
-  //image(frau1, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
-  //image(frau2, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
-  //image(frau3, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
-  //image(frau4, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
-  image(frau5, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
+  //image(frau1, windowWidth/40-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
+  image(frau2, windowWidth/40-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
+  //image(frau3,windowWidth/40-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
+  //image(frau4, windowWidth/40-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
+  //image(frau5,windowWidth/40-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
   pop();
 
  
+  //image(frau2, windowWidth/40-windowWidth/13,windowWidth/1.7,windowWidth,cachedValues.neueHoehe);
 
 
   ////////////ZITATE//////////////
@@ -678,15 +679,15 @@ function drawpage2(){
   //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
   //text('“I saw that this person who was requesting to follow me, had me as their profile picture.\nSo, of course,  I wanted to see what that was about. I clicked on it and I saw that the entire\naccount was full of AI videos of me in lingerie, doing sexual acts. I ended up skipping classes.\nI was scared that people would recognize me and think that it was me whenever I would go\noutside. I felt like no one was going to belive me  that it wasnt me.  I could not  undestand\nhow something like this, something like completely demages, ruins your reputations can’t be illigal.“',
-  //windowWidth/3, windowWidth/1.103);
+  //windowWidth/3.8, windowWidth/1.15);
 
   //Zitat 2
 
   //textFont(fließtext);
   //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
- //text('“For years, I fought against fake profiles that were circulating pornographic images featuring my face.\nThen I discovered that my husband was behind them.\nHe stole my body for years.\nHe possessed me, he thought he could make me available to other men.“',
-  //windowWidth/3, windowWidth/1.095);
+  //text('“For years, I fought against fake profiles that were circulating pornographic images featuring my face.\nThen I discovered that my husband was behind them.\nHe stole my body for years.\nHe possessed me, he thought he could make me available to other men.“',
+  //windowWidth/3.8, windowWidth/1.13);
   
   //Zitat 3
 
@@ -694,7 +695,7 @@ function drawpage2(){
   //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
   //text('"I’ve been stopped on the street by men asking me for oral sex, and Ive received comments like slut\non Instagram.\nBy using sexuality as a weapon, they make you feel like an object and attempt to humiliate you."',
-  //windowWidth/3, windowWidth/1.09);
+  //windowWidth/3.8, windowWidth/1.13);
 
   //Zitat 4
 
@@ -702,15 +703,15 @@ function drawpage2(){
   //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
   //text('“At first, my reaction was one of shame and fear. I remember walking down the street, unable to meet\nanyones gaze, convinced that everyone had seen that stuff. You feel very—very—exposed.\nFor months, I withdrew into myself.\nEven today, I take a higher dose of antidepressants than I did before all of this happened.“',
-  //windowWidth/3, windowWidth/1.095);
+  //windowWidth/3.8, windowWidth/1.13);
 
   //Zitat 5
 
-  //textFont(fließtext);
-  //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
-  //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
-  //text('"My life has been overwhelmed by a wave of hatred and violence. It all started with a photo of me,\nwhich was Photoshopped, removing my clothes and adding a bare breast, transforming it into something\nthat doesnt exist. A false sexual image, yet one that bears my face. From that moment on, hell began to\nbreak loose; that photo began to circulate everywhere.\nMy dignity was trampled upon, stripped away.“',
-  //windowWidth/3, windowWidth/1.095);
+  textFont(fließtext);
+  textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
+  textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
+  text('"My life has been overwhelmed by a wave of hatred and violence. It all started with a photo of me,\nwhich was Photoshopped, removing my clothes and adding a bare breast, transforming it into something\nthat doesnt exist. A false sexual image, yet one that bears my face. From that moment on, hell began to\nbreak loose; that photo began to circulate everywhere.\nMy dignity was trampled upon, stripped away.“',
+  windowWidth/3.8, windowWidth/1.14);
   
 
   //Buttons
