@@ -74,6 +74,9 @@ let canvasScale = 0.93;
 let baseX = 0;
 let baseY = 0;
 
+let weißerkasten; 
+let frau1;
+
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
   test2= loadImage('assets/hintergrundskizze2.jpg');
@@ -99,6 +102,13 @@ function preload() {
   kreisdiagramm2small_clicked = loadImage("assets/kreisdiagramme/Diagram 2 little pie piece clicked.webp");
   kreisdiagramm2big_clicked = loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.webp");
 
+
+  //Seite 2
+  weißerkasten= loadImage("seite2/weißer kasten.png");
+  frau1= loadImage("seite2/woman1.png");
+
+
+
   // Pfeil-Animation laden
   for (let i = 1; i <= 12; i++) {
     arrowFrames[i-1] = loadImage(`assets/Arrows/arrows${i}.png`);
@@ -106,7 +116,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight * 3);
+  createCanvas(windowWidth, windowHeight * 2.3);
   updateCachedValues();
   frameRate(30);
   pixelDensity(0.9);
@@ -617,33 +627,41 @@ function drawpage2(){
 
   push();
   scale(0.93);
-  image(test2, windowWidth/40, 1800, windowWidth, cachedValues.neueHoehe);
+  //image(test2, windowWidth/40, 1800, windowWidth, cachedValues.neueHoehe);
   pop();
 
-  fill(200, 30, 30);
+  fill(250);
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
   text('For years, women have faced sexual harassment online. With the rise of artificial intelligence, its only\ngetting worse.Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and videos of\nreal people in fake situations, are routinely used against women. Data reveals very strong global growth in\ndeepfake pornography videos, particularly those created without consent. The total number of deepfakes\nonline is projected to rise from approximately 500,000 in 2023 to around 8 million in 2025, representing\nexponential global growth. Some reports indicate that the volume of deepfakes roughly doubles every six\nmonths.',
-  windowWidth/25.5, windowWidth/1.4395);
+  windowWidth/1.935, windowWidth/1.46);
 
   textFont(headline);
   textSize(windowWidth/69); 
   textLeading(cachedValues.textLeading); 
   text('Women who have been affected by deepfakes',
-  windowWidth/4.258, windowWidth/1.129);
+  windowWidth/3, windowWidth/1.15);
+
+
+  ////Bilder
+  push();
+  scale(0.93);
+  image(weißerkasten, windowWidth/25,windowWidth/1.425,windowWidth,cachedValues.neueHoehe);
+  image(frau1, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
+  pop();
 
 
   ////////////ZITATE//////////////
 
   //Zitat 1
 
-  fill(200, 30, 30);
+  fill(0);
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
   text('“I saw that this person who was requesting to follow me, had me as their profile picture.\nSo, of course,  I wanted to see what that was about. I clicked on it and I saw that the entire\naccount was full of AI videos of me in lingerie, doing sexual acts. I ended up skipping classes.\nI was scared that people would recognize me and think that it was me whenever I would go\noutside. I felt like no one was going to belive me  that it wasnt me.  I could not  undestand\nhow something like this, something like completely demages, ruins your reputations can’t be illigal.“',
-  windowWidth/3.36, windowWidth/1.084);
+  windowWidth/3, windowWidth/1.103);
 
   //Zitat 2
 
@@ -652,6 +670,9 @@ function drawpage2(){
   //Zitat 4
 
   //Zitat 5
+
+  ////Bilder
+  
 }
 
 
@@ -659,7 +680,7 @@ function drawpage2(){
 
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight * 3);
+  resizeCanvas(windowWidth, windowHeight * 2.12);
   updateCachedValues();
 }
 
