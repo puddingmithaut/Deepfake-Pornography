@@ -76,6 +76,10 @@ let baseY = 0;
 
 let weißerkasten; 
 let frau1;
+let frau2; 
+let frau3; 
+let frau4;
+let frau5;
 
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
@@ -106,6 +110,10 @@ function preload() {
   //Seite 2
   weißerkasten= loadImage("seite2/weißer kasten.png");
   frau1= loadImage("seite2/woman1.png");
+  frau2= loadImage("seite2/woman2.png");
+  frau3= loadImage("seite2/woman3.png");
+  frau4= loadImage("seite2/woman4.png");
+  frau5= loadImage("seite2/woman5.png");
 
 
 
@@ -648,15 +656,24 @@ function drawpage2(){
   push();
   scale(0.93);
   image(weißerkasten, windowWidth/25,windowWidth/1.425,windowWidth,cachedValues.neueHoehe);
-  image(frau1, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
+
+  //Frauen Illustrationen
+  //image(frau1, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
+  //image(frau2, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
+  //image(frau3, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
+  //image(frau4, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
+  image(frau5, windowWidth/40,windowWidth/1.6,windowWidth,cachedValues.neueHoehe);
   pop();
+
+ 
 
 
   ////////////ZITATE//////////////
 
-  //Zitat 1
-
   fill(0);
+
+    //Zitat 1
+
   //textFont(fließtext);
   //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
@@ -664,6 +681,7 @@ function drawpage2(){
   //windowWidth/3, windowWidth/1.103);
 
   //Zitat 2
+
   //textFont(fließtext);
   //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
@@ -671,6 +689,7 @@ function drawpage2(){
   //windowWidth/3, windowWidth/1.095);
   
   //Zitat 3
+
   //textFont(fließtext);
   //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
@@ -678,18 +697,20 @@ function drawpage2(){
   //windowWidth/3, windowWidth/1.09);
 
   //Zitat 4
+
   //textFont(fließtext);
   //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
   //text('“At first, my reaction was one of shame and fear. I remember walking down the street, unable to meet\nanyones gaze, convinced that everyone had seen that stuff. You feel very—very—exposed.\nFor months, I withdrew into myself.\nEven today, I take a higher dose of antidepressants than I did before all of this happened.“',
   //windowWidth/3, windowWidth/1.095);
+
   //Zitat 5
 
-  textFont(fließtext);
-  textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
-  textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
-  text('"My life has been overwhelmed by a wave of hatred and violence. It all started with a photo of me,\nwhich was Photoshopped, removing my clothes and adding a bare breast, transforming it into something\nthat doesnt exist. A false sexual image, yet one that bears my face. From that moment on, hell began to\nbreak loose; that photo began to circulate everywhere.\nMy dignity was trampled upon, stripped away.“',
-  windowWidth/3, windowWidth/1.095);
+  //textFont(fließtext);
+  //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
+  //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
+  //text('"My life has been overwhelmed by a wave of hatred and violence. It all started with a photo of me,\nwhich was Photoshopped, removing my clothes and adding a bare breast, transforming it into something\nthat doesnt exist. A false sexual image, yet one that bears my face. From that moment on, hell began to\nbreak loose; that photo began to circulate everywhere.\nMy dignity was trampled upon, stripped away.“',
+  //windowWidth/3, windowWidth/1.095);
   
   
 }
