@@ -116,7 +116,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight * 2.3);
+  createCanvas(windowWidth, windowHeight * 2.1);
   updateCachedValues();
   frameRate(30);
   pixelDensity(0.9);
@@ -635,7 +635,7 @@ function drawpage2(){
   textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
   text('For years, women have faced sexual harassment online. With the rise of artificial intelligence, its only\ngetting worse.Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and videos of\nreal people in fake situations, are routinely used against women. Data reveals very strong global growth in\ndeepfake pornography videos, particularly those created without consent. The total number of deepfakes\nonline is projected to rise from approximately 500,000 in 2023 to around 8 million in 2025, representing\nexponential global growth. Some reports indicate that the volume of deepfakes roughly doubles every six\nmonths.',
-  windowWidth/1.935, windowWidth/1.46);
+  windowWidth/1.935, windowWidth/1.5);
 
   textFont(headline);
   textSize(windowWidth/69); 
@@ -680,7 +680,7 @@ function drawpage2(){
 
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight * 2.12);
+  resizeCanvas(windowWidth, windowHeight * 2.1);
   updateCachedValues();
 }
 
