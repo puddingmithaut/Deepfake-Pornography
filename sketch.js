@@ -22,6 +22,14 @@ let animationStartZeit = 0;
 let animationStartVerzoegerung = 2500; 
 // ==============================================
 
+// ========== SEITE 1 FADE-IN VARIABLEN ==========
+let diagram1Opacity = 0;        // Start mit 0% Opacity
+let diagram1FadeStart = 0;      // Zeitpunkt, wann das Fade-in beginnt
+let diagram1FadeDauer = 2000;   // Dauer des Fade-ins in Millisekunden (2 Sekunden)
+let diagram1FadeAktiv = true;    // Ob das Fade-in aktiv ist
+let diagram1Sichtbar = false;    // Ob Diagramm 1 überhaupt angezeigt werden soll
+// ================================================
+
 let kreisdiagramm3;
 let kreisdiagramm3small_clicked;
 let kreisdiagramm3big_clicked;
@@ -81,7 +89,26 @@ let frau3;
 let frau4;
 let frau5;
 
-let tinypeople
+let tinypeople;
+
+// ========== SEITE 2 VARIABLEN ==========
+let aktuellerButton = 0; // 0 = nichts ausgewählt (zeigt Zitat 1 und Frau 1), 1-5 = Button 1-5
+let buttonHover = -1; // Welcher Button gerade gehovert wird (-1 = keiner)
+
+// Zitate für Seite 2
+let zitate = [
+  '"I saw that this person who was requesting to follow me, had me as their profile picture.\nSo, of course, I wanted to see what that was about. I clicked on it and I saw that the entire\naccount was full of AI videos of me in lingerie, doing sexual acts. I ended up skipping classes.\nI was scared that people would recognize me and think that it was me whenever I would go\noutside. I felt like no one was going to believe me that it wasnt me. I could not understand\nhow something like this, something that completely damages, ruins your reputation, can\'t be illegal."',
+  
+  '"For years, I fought against fake profiles that were circulating pornographic images featuring my face.\nThen I discovered that my husband was behind them.\nHe stole my body for years.\nHe possessed me, he thought he could make me available to other men."',
+  
+  '"I\'ve been stopped on the street by men asking me for oral sex, and I\'ve received comments like slut\non Instagram.\nBy using sexuality as a weapon, they make you feel like an object and attempt to humiliate you."',
+  
+  '"At first, my reaction was one of shame and fear. I remember walking down the street, unable to meet\nanyone\'s gaze, convinced that everyone had seen that stuff. You feel very—very—exposed.\nFor months, I withdrew into myself.\nEven today, I take a higher dose of antidepressants than I did before all of this happened."',
+  
+  '"My life has been overwhelmed by a wave of hatred and violence. It all started with a photo of me,\nwhich was Photoshopped, removing my clothes and adding a bare breast, transforming it into something\nthat doesnt exist. A false sexual image, yet one that bears my face. From that moment on, hell began to\nbreak loose; that photo began to circulate everywhere.\nMy dignity was trampled upon, stripped away."'
+];
+
+// ==========================================
 
 function preload() {
   test = loadImage('assets/hintergrundskizze.jpg');
@@ -108,7 +135,6 @@ function preload() {
   kreisdiagramm2small_clicked = loadImage("assets/kreisdiagramme/Diagram 2 little pie piece clicked.webp");
   kreisdiagramm2big_clicked = loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.webp");
 
-
   //Seite 2
   weißerkasten= loadImage("seite2/weißer kasten.png");
   frau1= loadImage("seite2/woman1.png");
@@ -117,7 +143,6 @@ function preload() {
   frau4= loadImage("seite2/woman4.png");
   frau5= loadImage("seite2/woman5.png");
   tinypeople= loadImage("seite2/tiny people.png");
-
 
   // Pfeil-Animation laden
   for (let i = 1; i <= 12; i++) {
@@ -130,7 +155,11 @@ function setup() {
   updateCachedValues();
   frameRate(30);
   pixelDensity(0.9);
-
+  aktuellerButton = 1; // Standardmäßig Zitat 1 und Frau 1 anzeigen
+  
+  // Starte den Timer für das Fade-in von Diagramm 1
+  diagram1FadeStart = millis() + 2000;  // In 2 Sekunden beginnen
+  diagram1FadeAktiv = true;
 }
 
 function updateCachedValues() {
@@ -181,7 +210,7 @@ function updateCachedValues() {
     },
     pfeilX: windowWidth / 41.833333,
     pfeilX2: windowWidth / 38,
-    pfeilX3: windowWidth / 39.841269,
+    pfeilX3: windowWidth / 39.8,
     arrowX: windowWidth / 41.833333
   };
   
@@ -192,12 +221,35 @@ function updateCachedValues() {
 
 function draw() {
   background(47, 45, 45);
-  push(), 
+  
+  // ========== FADE-IN LOGIK FÜR DIAGRAMM 1 ==========
+  if (diagram1FadeAktiv) {
+    let now = millis();
+    if (now >= diagram1FadeStart) {
+      // Fade-in wurde gestartet
+      let fadeProgress = (now - diagram1FadeStart) / diagram1FadeDauer;
+      if (fadeProgress >= 1.0) {
+        // Fade-in abgeschlossen
+        diagram1Opacity = 255;
+        diagram1FadeAktiv = false;
+        diagram1Sichtbar = true;
+        showDiagram1 = true;
+      } else {
+        // Noch im Fade-in
+        diagram1Opacity = fadeProgress * 255;
+        diagram1Sichtbar = true;
+        showDiagram1 = true;
+      }
+    }
+  }
+  // ==================================================
+  
+  push();
   scale(0.93);
-  image(test, windowWidth/40,0,windowWidth,cachedValues.neueHoehe);
-  pop(); 
+  image(test, windowWidth/40, 0, windowWidth, cachedValues.neueHoehe);
+  pop();
+  
   //=================SEITE 1=========================//
-  if (!showDiagram1) showDiagram1 = true;
   
   if (animationEinmalAbgespielt && !animationAbgeschlossen) {
     animationAbgeschlossen = true;
@@ -215,7 +267,7 @@ function draw() {
   push();
   scale(canvasScale);
   
-  // Diagramme zeichnen
+  // Diagramme zeichnen (mit Opacity für Diagramm 1)
   if (showDiagram1) drawPiechartone();
   if (showDiagram2) drawPiecharttwo();
   if (showDiagram3) drawPiechartthree();
@@ -234,7 +286,6 @@ function draw() {
   // Text-Transparenzen aktualisieren
   updateTextOpacities();
   drawpage2();
-
 }
 
 function updateTextOpacities() {
@@ -329,16 +380,19 @@ function drawTexts() {
   text('A deepfake is a piece of media - such as a photo,audio or video,that has been altered\n generated or falsified using artificial intelligence (AI)techniques, to convincingly replace\none persons face or voice.\nAs a result, it creates people and events that do not exist or that did not actually occur.\n\nOver time, the definition of the term deepfake has evolved.\nWhereas in 2017 and 2018 it was applied exclusively to visual media explicitly created\nby "Deepfake AI" by 2022 the term had come to be used to describe images and videos\nthat had been eiter obviously or allegedly falsified by any form of artificial intelligence.',
   cachedValues.definitionX, cachedValues.definitionY);
   
-  // Diagramm 1 Texte
-  if(showDiagram1) {
+  // Diagramm 1 Texte (mit Opacity)
+  if(showDiagram1 && diagram1Sichtbar) {
     textFont(headline);
     textSize(cachedValues.diagramTitelSize);
+    push();
+    fill(255, diagram1Opacity);
     text('Deepfake Videos', windowWidth/31, cachedValues.diagram1TitelY);
+    pop();
   }
   
   if(showDiagram1 && diagram1_2_percent_clicked) {
     push();
-    fill(255, textOpacity1_2);
+    fill(255, min(textOpacity1_2, diagram1Opacity));
     textFont(fließtext);
     textSize(cachedValues.percentSize);
     text('2%', windowWidth/2.985, windowWidth/3.95);
@@ -354,7 +408,7 @@ function drawTexts() {
   
   if(showDiagram1 && diagram1_98_percent_clicked) {
     push();
-    fill(255, textOpacity1_98);
+    fill(255, min(textOpacity1_98, diagram1Opacity));
     textFont(headline);
     textSize(cachedValues.headlinePercentSize);
     text('98%', windowWidth/2.97, windowWidth/2.45);
@@ -413,14 +467,6 @@ function drawTexts() {
     textSize(windowWidth/69);
     text('are female', windowWidth/1.408, windowWidth/4.65);
     pop();
-
-
-
-
-  //SEITE 2
-
-
-
   }
 }
 
@@ -449,7 +495,9 @@ function drawPiechartone() {
     arc(d.arcX, d.arcY, d.arcS, d.arcS, cachedSegments1[i].start, cachedSegments1[i].ende, PIE);
   }
   
-  // Bild basierend auf Hover
+  // Bild basierend auf Hover - mit Opacity
+  push();
+  tint(255, diagram1Opacity);
   if (currentHoverSegment1 === 0) {
     image(kreisdiagramm1small_clicked, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
   } else if (currentHoverSegment1 === 1) {
@@ -457,6 +505,8 @@ function drawPiechartone() {
   } else {
     image(kreisdiagramm1, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
   }
+  noTint();
+  pop();
 }
 
 function drawPiecharttwo() {
@@ -555,7 +605,7 @@ function getHoverSegment(arcX, arcY, arcS, segmente, rotation) {
 }
 
 function mouseMoved() {
-  if (showDiagram1 && cachedSegments1) {
+  if (showDiagram1 && cachedSegments1 && diagram1Sichtbar) {
     let d1 = cachedValues.diagram1;
     currentHoverSegment1 = getHoverSegment(d1.arcX, d1.arcY, d1.arcS, cachedSegments1, d1.rotation);
   } else {
@@ -575,10 +625,27 @@ function mouseMoved() {
   } else {
     currentHoverSegment3 = -1;
   }
+  
+  // ========== SEITE 2 BUTTON HOVER ==========
+  let buttonWidth = 20;
+  let buttonHeight = 40;
+  let margin = windowWidth/90;
+  let startX = windowWidth/3.85;
+  let buttonY = windowWidth/1.054;
+  
+  buttonHover = -1;
+  for (let i = 0; i < 5; i++) {
+    let buttonX = startX + (i * margin);
+    if (mouseX > buttonX && mouseX < buttonX + buttonWidth &&
+        mouseY > buttonY && mouseY < buttonY + buttonHeight) {
+      buttonHover = i;
+      break;
+    }
+  }
 }
 
 function mousePressed() {
-  if(showDiagram1 && cachedSegments1) {
+  if(showDiagram1 && cachedSegments1 && diagram1Sichtbar) {
     let d1 = cachedValues.diagram1;
     let hoverSegment1 = getHoverSegment(d1.arcX, d1.arcY, d1.arcS, cachedSegments1, d1.rotation);
     
@@ -617,6 +684,22 @@ function mousePressed() {
       diagram3_99_percent_clicked = true;
     }
   }
+  
+  // ========== SEITE 2 BUTTON CLICKS ==========
+  let buttonWidth = 20;
+  let buttonHeight = 40;
+  let margin = windowWidth/90;
+  let startX = windowWidth/3.85;
+  let buttonY = windowWidth/1.054;
+  
+  for (let i = 0; i < 5; i++) {
+    let buttonX = startX + (i * margin);
+    if (mouseX > buttonX && mouseX < buttonX + buttonWidth &&
+        mouseY > buttonY && mouseY < buttonY + buttonHeight) {
+      aktuellerButton = i + 1; // 1-5
+      break;
+    }
+  }
 }
 
 function startePfeilAnimation() {
@@ -632,18 +715,34 @@ function starteAnimationJetzt() {
   letzteArrowAktualisierung = millis();
 }
 
+function drawpage2() {
 
-function drawpage2(){
+  //Buttons
+  let buttonWidth = 25;
+  let buttonHeight = 50;
+  let margin = windowWidth/88;
+  let startX = windowWidth/3.86;
+  let buttonY = windowWidth/1.056;
+
+  noStroke();
+  for (let i = 0; i < 5; i++) {
+    // Farbe ändern bei Hover
+    if (buttonHover === i) {
+      fill(80); // Hover-Farbe 
+    } else {
+      fill(100); // Normale Farbe 
+    }
+    rect(startX + (i * margin), buttonY, buttonWidth, buttonHeight,20);
+  }
 
   push();
   scale(0.93);
-  //image(test2, windowWidth/40, 1800, windowWidth, cachedValues.neueHoehe);
   pop();
 
   fill(250);
   textFont(fließtext);
-  textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
-  textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
+  textSize(cachedValues.textSizeFließtext);
+  textLeading(cachedValues.textLeading);
   text('For years, women have faced sexual harassment online. With the rise of artificial intelligence, its only\ngetting worse.Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and videos of\nreal people in fake situations, are routinely used against women. Data reveals very strong global growth in\ndeepfake pornography videos, particularly those created without consent. The total number of deepfakes\nonline is projected to rise from approximately 500,000 in 2023 to around 8 million in 2025, representing\nexponential global growth. Some reports indicate that the volume of deepfakes roughly doubles every six\nmonths.',
   windowWidth/1.935, windowWidth/1.5);
 
@@ -653,93 +752,40 @@ function drawpage2(){
   text('Women who have been affected by deepfakes',
   windowWidth/4.7, windowWidth/1.2);
 
-
   ////Bilder
   push();
   scale(0.93);
   image(weißerkasten, windowWidth/25-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
   image(tinypeople,-windowWidth/25,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
-
-  //Frauen Illustrationen
-  //image(frau1, windowWidth/40-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
-  image(frau2, windowWidth/40-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
-  //image(frau3,windowWidth/40-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
-  //image(frau4, windowWidth/40-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
-  //image(frau5,windowWidth/40-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
+  
+  // Frau basierend auf aktuellerButton anzeigen
+  if (aktuellerButton === 1) {
+    image(frau1, windowWidth/40-windowWidth/10, windowWidth/1.5, windowWidth, cachedValues.neueHoehe);
+  } else if (aktuellerButton === 2) {
+    image(frau2, windowWidth/40-windowWidth/15, windowWidth/1.45, windowWidth, cachedValues.neueHoehe);
+  } else if (aktuellerButton === 3) {
+    image(frau3, windowWidth/40-windowWidth/13, windowWidth/1.5, windowWidth, cachedValues.neueHoehe);
+  } else if (aktuellerButton === 4) {
+    image(frau4, windowWidth/40-windowWidth/12, windowWidth/1.5, windowWidth, cachedValues.neueHoehe);
+  } else if (aktuellerButton === 5) {
+    image(frau5, windowWidth/40-windowWidth/13, windowWidth/1.45, windowWidth, cachedValues.neueHoehe);
+  }
   pop();
 
- 
-  //image(frau2, windowWidth/40-windowWidth/13,windowWidth/1.7,windowWidth,cachedValues.neueHoehe);
-
-
   ////////////ZITATE//////////////
-
   fill(0);
-
-    //Zitat 1
-
-  //textFont(fließtext);
-  //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
-  //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
-  //text('“I saw that this person who was requesting to follow me, had me as their profile picture.\nSo, of course,  I wanted to see what that was about. I clicked on it and I saw that the entire\naccount was full of AI videos of me in lingerie, doing sexual acts. I ended up skipping classes.\nI was scared that people would recognize me and think that it was me whenever I would go\noutside. I felt like no one was going to belive me  that it wasnt me.  I could not  undestand\nhow something like this, something like completely demages, ruins your reputations can’t be illigal.“',
-  //windowWidth/3.8, windowWidth/1.15);
-
-  //Zitat 2
-
-  //textFont(fließtext);
-  //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
-  //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
-  //text('“For years, I fought against fake profiles that were circulating pornographic images featuring my face.\nThen I discovered that my husband was behind them.\nHe stole my body for years.\nHe possessed me, he thought he could make me available to other men.“',
-  //windowWidth/3.8, windowWidth/1.13);
   
-  //Zitat 3
-
-  //textFont(fließtext);
-  //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
-  //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
-  //text('"I’ve been stopped on the street by men asking me for oral sex, and Ive received comments like slut\non Instagram.\nBy using sexuality as a weapon, they make you feel like an object and attempt to humiliate you."',
-  //windowWidth/3.8, windowWidth/1.13);
-
-  //Zitat 4
-
-  //textFont(fließtext);
-  //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
-  //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
-  //text('“At first, my reaction was one of shame and fear. I remember walking down the street, unable to meet\nanyones gaze, convinced that everyone had seen that stuff. You feel very—very—exposed.\nFor months, I withdrew into myself.\nEven today, I take a higher dose of antidepressants than I did before all of this happened.“',
-  //windowWidth/3.8, windowWidth/1.13);
-
-  //Zitat 5
-
-  textFont(fließtext);
-  textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
-  textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
-  text('"My life has been overwhelmed by a wave of hatred and violence. It all started with a photo of me,\nwhich was Photoshopped, removing my clothes and adding a bare breast, transforming it into something\nthat doesnt exist. A false sexual image, yet one that bears my face. From that moment on, hell began to\nbreak loose; that photo began to circulate everywhere.\nMy dignity was trampled upon, stripped away.“',
-  windowWidth/3.8, windowWidth/1.14);
-  
-
-  //Buttons
-// Buttons
-let margin = windowWidth/90; // Abstand zwischen den Kreisen
-let startX = windowWidth/3.85; // Startposition für den ersten Kreis
-let buttonY = windowWidth/1.054;
-
-for (let i = 0; i < 5; i++) {  // <-- "let i" statt nur "i"
-  fill(255);
-  rect(startX + (i * margin), buttonY,20, 40);
+  // Zitat basierend auf aktuellerButton anzeigen
+  let zitatIndex = aktuellerButton - 1;
+  if (zitatIndex >= 0 && zitatIndex < zitate.length) {
+    textFont(fließtext);
+    textSize(cachedValues.textSizeFließtext);
+    textLeading(cachedValues.textLeading);
+    text(zitate[zitatIndex], windowWidth/3.8, windowWidth/1.14);
+  }
 }
-
-
-
-  
-}
-
-
-
-
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight * 2.1);
   updateCachedValues();
 }
-
-
