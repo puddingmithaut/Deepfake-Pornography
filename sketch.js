@@ -657,21 +657,40 @@ function drawpage2(){
   //Zitat 1
 
   fill(0);
+  //textFont(fließtext);
+  //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
+  //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
+  //text('“I saw that this person who was requesting to follow me, had me as their profile picture.\nSo, of course,  I wanted to see what that was about. I clicked on it and I saw that the entire\naccount was full of AI videos of me in lingerie, doing sexual acts. I ended up skipping classes.\nI was scared that people would recognize me and think that it was me whenever I would go\noutside. I felt like no one was going to belive me  that it wasnt me.  I could not  undestand\nhow something like this, something like completely demages, ruins your reputations can’t be illigal.“',
+  //windowWidth/3, windowWidth/1.103);
+
+  //Zitat 2
+  //textFont(fließtext);
+  //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
+  //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
+ //text('“For years, I fought against fake profiles that were circulating pornographic images featuring my face.\nThen I discovered that my husband was behind them.\nHe stole my body for years.\nHe possessed me, he thought he could make me available to other men.“',
+  //windowWidth/3, windowWidth/1.095);
+  
+  //Zitat 3
+  //textFont(fließtext);
+  //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
+  //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
+  //text('"I’ve been stopped on the street by men asking me for oral sex, and Ive received comments like slut\non Instagram.\nBy using sexuality as a weapon, they make you feel like an object and attempt to humiliate you."',
+  //windowWidth/3, windowWidth/1.09);
+
+  //Zitat 4
+  //textFont(fließtext);
+  //textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
+  //textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
+  //text('“At first, my reaction was one of shame and fear. I remember walking down the street, unable to meet\nanyones gaze, convinced that everyone had seen that stuff. You feel very—very—exposed.\nFor months, I withdrew into myself.\nEven today, I take a higher dose of antidepressants than I did before all of this happened.“',
+  //windowWidth/3, windowWidth/1.095);
+  //Zitat 5
+
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
-  text('“I saw that this person who was requesting to follow me, had me as their profile picture.\nSo, of course,  I wanted to see what that was about. I clicked on it and I saw that the entire\naccount was full of AI videos of me in lingerie, doing sexual acts. I ended up skipping classes.\nI was scared that people would recognize me and think that it was me whenever I would go\noutside. I felt like no one was going to belive me  that it wasnt me.  I could not  undestand\nhow something like this, something like completely demages, ruins your reputations can’t be illigal.“',
-  windowWidth/3, windowWidth/1.103);
-
-  //Zitat 2
-
-  //Zitat 3
-
-  //Zitat 4
-
-  //Zitat 5
-
-  ////Bilder
+  text('"My life has been overwhelmed by a wave of hatred and violence. It all started with a photo of me,\nwhich was Photoshopped, removing my clothes and adding a bare breast, transforming it into something\nthat doesnt exist. A false sexual image, yet one that bears my face. From that moment on, hell began to\nbreak loose; that photo began to circulate everywhere.\nMy dignity was trampled upon, stripped away.“',
+  windowWidth/3, windowWidth/1.095);
+  
   
 }
 
