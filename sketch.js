@@ -624,14 +624,14 @@ function drawpage2(){
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
-  text('For years, women have faced sexual harassment online. With the rise of artificial intelligence its only\ngetting worse.Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and videos of\nreal people in fake situations, are routinely used against women. Data reveals very strong global growth in\ndeepfake pornography videos, particularly those created without consent. The total number of deepfakes\nonline is projected to rise from approximately 500,000 in 2023 to around 8 million in 2025, representing\nexponential global growth. Some reports indicate that the volume of deepfakes roughly doubles every six\nmonths.',
-  windowWidth/31.4, windowWidth/1.44);
+  text('For years, women have faced sexual harassment online. With the rise of artificial intelligence, its only\ngetting worse.Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and videos of\nreal people in fake situations, are routinely used against women. Data reveals very strong global growth in\ndeepfake pornography videos, particularly those created without consent. The total number of deepfakes\nonline is projected to rise from approximately 500,000 in 2023 to around 8 million in 2025, representing\nexponential global growth. Some reports indicate that the volume of deepfakes roughly doubles every six\nmonths.',
+  windowWidth/25.5, windowWidth/1.4395);
 
   textFont(headline);
   textSize(windowWidth/69); 
   textLeading(cachedValues.textLeading); 
   text('Women who have been affected by deepfakes',
-  windowWidth/4.968, windowWidth/1.129);
+  windowWidth/4.258, windowWidth/1.129);
 
 
   ////////////ZITATE//////////////
@@ -643,7 +643,7 @@ function drawpage2(){
   textSize(cachedValues.textSizeFließtext); // Korrigiert: gleiche Größe wie oben
   textLeading(cachedValues.textLeading); // Korrigiert: gleiche Zeilenhöhe wie oben
   text('“I saw that this person who was requesting to follow me, had me as their profile picture.\nSo, of course,  I wanted to see what that was about. I clicked on it and I saw that the entire\naccount was full of AI videos of me in lingerie, doing sexual acts. I ended up skipping classes.\nI was scared that people would recognize me and think that it was me whenever I would go\noutside. I felt like no one was going to belive me  that it wasnt me.  I could not  undestand\nhow something like this, something like completely demages, ruins your reputations can’t be illigal.“',
-  windowWidth/3.6, windowWidth/1.083);
+  windowWidth/3.36, windowWidth/1.084);
 
   //Zitat 2
 
