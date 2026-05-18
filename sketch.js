@@ -1,5 +1,6 @@
 let test;
 let test2;
+let großerkreis;
 let headline;
 let fließtext;
 
@@ -25,7 +26,7 @@ let animationStartVerzoegerung = 2500;
 // ========== SEITE 1 FADE-IN VARIABLEN ==========
 let diagram1Opacity = 0;        // Start mit 0% Opacity
 let diagram1FadeStart = 0;      // Zeitpunkt, wann das Fade-in beginnt
-let diagram1FadeDauer = 2000;   // Dauer des Fade-ins in Millisekunden (2 Sekunden)
+let diagram1FadeDauer = 500;   // Dauer des Fade-ins in Millisekunden
 let diagram1FadeAktiv = true;    // Ob das Fade-in aktiv ist
 let diagram1Sichtbar = false;    // Ob Diagramm 1 überhaupt angezeigt werden soll
 // ================================================
@@ -92,8 +93,8 @@ let frau5;
 let tinypeople;
 
 // ========== SEITE 2 VARIABLEN ==========
-let aktuellerButton = 0; // 0 = nichts ausgewählt (zeigt Zitat 1 und Frau 1), 1-5 = Button 1-5
-let buttonHover = -1; // Welcher Button gerade gehovert wird (-1 = keiner)
+let aktuellerButton = 0; // 0 = nichts ausgewählt
+let buttonHover = -1; //-1 = keiner
 
 // Zitate für Seite 2
 let zitate = [
@@ -115,6 +116,7 @@ function preload() {
   test2= loadImage('assets/hintergrundskizze2.jpg');
   headline = loadFont("assets/Avenir Heavy.ttf");
   fließtext = loadFont("assets/Avenir Regular.ttf");
+  großerkreis= loadImage("assets/großer kreis.png");
 
   pfeil = loadImage("assets/3a.webp");
   pfeil1 = loadImage("assets/4a.webp");
@@ -151,14 +153,14 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight * 2.1);
+  createCanvas(windowWidth, windowHeight * 2.025);
   updateCachedValues();
   frameRate(30);
   pixelDensity(0.9);
-  aktuellerButton = 1; // Standardmäßig Zitat 1 und Frau 1 anzeigen
+  aktuellerButton = 1; // Zitat 1 und Frau 1 anzeigen
   
-  // Starte den Timer für das Fade-in von Diagramm 1
-  diagram1FadeStart = millis() + 2000;  // In 2 Sekunden beginnen
+  // Starte den Timer für Fade-in Diagramm 1
+  diagram1FadeStart = millis() + 2000;  
   diagram1FadeAktiv = true;
 }
 
@@ -208,9 +210,10 @@ function updateCachedValues() {
       imgX: windowWidth / 41.833333,
       imgY: 0
     },
-    pfeilX: windowWidth / 41.833333,
+    pfeilX: windowWidth / 35,
     pfeilX2: windowWidth / 38,
     pfeilX3: windowWidth / 39.8,
+    pfeilX3a: windowWidth / 37,
     arrowX: windowWidth / 41.833333
   };
   
@@ -222,11 +225,11 @@ function updateCachedValues() {
 function draw() {
   background(47, 45, 45);
   
-  // ========== FADE-IN LOGIK FÜR DIAGRAMM 1 ==========
+  // ========== FADE-IN LOGIK DIAGRAMM 1 ==========
   if (diagram1FadeAktiv) {
     let now = millis();
     if (now >= diagram1FadeStart) {
-      // Fade-in wurde gestartet
+      
       let fadeProgress = (now - diagram1FadeStart) / diagram1FadeDauer;
       if (fadeProgress >= 1.0) {
         // Fade-in abgeschlossen
@@ -247,6 +250,10 @@ function draw() {
   push();
   scale(0.93);
   image(test, windowWidth/40, 0, windowWidth, cachedValues.neueHoehe);
+  pop();
+  push();
+  scale(0.91);
+  image(großerkreis,-windowWidth/3.15,windowHeight/3.70,windowWidth,cachedValues.neueHoehe);
   pop();
   
   //=================SEITE 1=========================//
@@ -348,7 +355,7 @@ function drawStaticElements() {
 
   // Diagramm 2 Pfeile
   if(showDiagram2 && diagram2_2_percent_clicked) {
-    image(pfeil4, cachedValues.pfeilX3, 0, windowWidth, cachedValues.neueHoehe);
+    image(pfeil4, cachedValues.pfeilX3a, 0, windowWidth, cachedValues.neueHoehe);
   }
   if(showDiagram2 && diagram2_98_percent_clicked) {
     image(pfeil5, cachedValues.pfeilX3, 0, windowWidth, cachedValues.neueHoehe);
@@ -488,14 +495,13 @@ function drawPiechartone() {
     }
   }
   
-  // Unsichtbare Hitbox
+  // Hitbox
   noStroke();
   noFill();
   for (let i = 0; i < cachedSegments1.length; i++) {
     arc(d.arcX, d.arcY, d.arcS, d.arcS, cachedSegments1[i].start, cachedSegments1[i].ende, PIE);
   }
   
-  // Bild basierend auf Hover - mit Opacity
   push();
   tint(255, diagram1Opacity);
   if (currentHoverSegment1 === 0) {
@@ -627,11 +633,11 @@ function mouseMoved() {
   }
   
   // ========== SEITE 2 BUTTON HOVER ==========
-  let buttonWidth = 20;
-  let buttonHeight = 40;
-  let margin = windowWidth/90;
-  let startX = windowWidth/3.85;
-  let buttonY = windowWidth/1.054;
+  let buttonWidth = 25;
+  let buttonHeight = 55;
+  let margin = windowWidth/89;
+  let startX = windowWidth/4.085;
+  let buttonY = windowWidth/1.048;
   
   buttonHover = -1;
   for (let i = 0; i < 5; i++) {
@@ -686,11 +692,11 @@ function mousePressed() {
   }
   
   // ========== SEITE 2 BUTTON CLICKS ==========
-  let buttonWidth = 20;
-  let buttonHeight = 40;
-  let margin = windowWidth/90;
-  let startX = windowWidth/3.85;
-  let buttonY = windowWidth/1.054;
+  let buttonWidth = 25;
+  let buttonHeight = 55;
+  let margin = windowWidth/89;
+  let startX = windowWidth/4.085;
+  let buttonY = windowWidth/1.048;
   
   for (let i = 0; i < 5; i++) {
     let buttonX = startX + (i * margin);
@@ -719,10 +725,10 @@ function drawpage2() {
 
   //Buttons
   let buttonWidth = 25;
-  let buttonHeight = 50;
-  let margin = windowWidth/88;
-  let startX = windowWidth/3.86;
-  let buttonY = windowWidth/1.056;
+  let buttonHeight = 55;
+  let margin = windowWidth/89;
+  let startX = windowWidth/4.085;
+  let buttonY = windowWidth/1.048;
 
   noStroke();
   for (let i = 0; i < 5; i++) {
@@ -744,31 +750,31 @@ function drawpage2() {
   textSize(cachedValues.textSizeFließtext);
   textLeading(cachedValues.textLeading);
   text('For years, women have faced sexual harassment online. With the rise of artificial intelligence, its only\ngetting worse.Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and videos of\nreal people in fake situations, are routinely used against women. Data reveals very strong global growth in\ndeepfake pornography videos, particularly those created without consent. The total number of deepfakes\nonline is projected to rise from approximately 500,000 in 2023 to around 8 million in 2025, representing\nexponential global growth. Some reports indicate that the volume of deepfakes roughly doubles every six\nmonths.',
-  windowWidth/1.935, windowWidth/1.5);
+  windowWidth/1.935, windowWidth/1.4);
 
   textFont(headline);
-  textSize(windowWidth/69); 
-  textLeading(cachedValues.textLeading); 
-  text('Women who have been affected by deepfakes',
-  windowWidth/4.7, windowWidth/1.2);
+  textSize( cachedValues.percentSize); 
+  textLeading(windowWidth / 33); 
+  text('Women who have been \naffected by deepfakes',
+  windowWidth/1.935, windowWidth/1.55);
 
   ////Bilder
   push();
   scale(0.93);
-  image(weißerkasten, windowWidth/25-windowWidth/15,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
-  image(tinypeople,-windowWidth/25,windowWidth/1.5,windowWidth,cachedValues.neueHoehe);
+  image(weißerkasten, windowWidth/25-windowWidth/15,windowWidth/1.55,windowWidth,cachedValues.neueHoehe);
+  image(tinypeople,-windowWidth/18,windowWidth/1.48,windowWidth,cachedValues.neueHoehe);
   
   // Frau basierend auf aktuellerButton anzeigen
   if (aktuellerButton === 1) {
-    image(frau1, windowWidth/40-windowWidth/10, windowWidth/1.5, windowWidth, cachedValues.neueHoehe);
+    image(frau1, windowWidth/40-windowWidth/10, windowWidth/1.6, windowWidth, cachedValues.neueHoehe);
   } else if (aktuellerButton === 2) {
-    image(frau2, windowWidth/40-windowWidth/15, windowWidth/1.45, windowWidth, cachedValues.neueHoehe);
+    image(frau2, windowWidth/40-windowWidth/15, windowWidth/1.55, windowWidth, cachedValues.neueHoehe);
   } else if (aktuellerButton === 3) {
-    image(frau3, windowWidth/40-windowWidth/13, windowWidth/1.5, windowWidth, cachedValues.neueHoehe);
+    image(frau3, windowWidth/40-windowWidth/13, windowWidth/1.6, windowWidth, cachedValues.neueHoehe);
   } else if (aktuellerButton === 4) {
-    image(frau4, windowWidth/40-windowWidth/12, windowWidth/1.5, windowWidth, cachedValues.neueHoehe);
+    image(frau4, windowWidth/40-windowWidth/12, windowWidth/1.6, windowWidth, cachedValues.neueHoehe);
   } else if (aktuellerButton === 5) {
-    image(frau5, windowWidth/40-windowWidth/13, windowWidth/1.45, windowWidth, cachedValues.neueHoehe);
+    image(frau5, windowWidth/40-windowWidth/13, windowWidth/1.55, windowWidth, cachedValues.neueHoehe);
   }
   pop();
 
@@ -781,11 +787,11 @@ function drawpage2() {
     textFont(fließtext);
     textSize(cachedValues.textSizeFließtext);
     textLeading(cachedValues.textLeading);
-    text(zitate[zitatIndex], windowWidth/3.8, windowWidth/1.14);
+    text(zitate[zitatIndex], windowWidth/4.1, windowWidth/1.14);
   }
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight * 2.1);
+  resizeCanvas(windowWidth, windowHeight * 2.025);
   updateCachedValues();
 }
