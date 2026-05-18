@@ -92,6 +92,15 @@ let frau5;
 
 let tinypeople;
 
+let buttonWidth;
+let buttonHeight;
+let margin;
+let startX;
+let buttonY;
+
+
+
+
 // ========== SEITE 2 VARIABLEN ==========
 let aktuellerButton = 0; // 0 = nichts ausgewählt
 let buttonHover = -1; //-1 = keiner
@@ -156,7 +165,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight * 2.025);
   updateCachedValues();
   frameRate(30);
-  pixelDensity(0.9);
+  pixelDensity(1);
   aktuellerButton = 1; // Zitat 1 und Frau 1 anzeigen
   
   // Starte den Timer für Fade-in Diagramm 1
@@ -186,6 +195,17 @@ function updateCachedValues() {
     headlinePercentSize: windowWidth / 17.310344,
     neueHoehe: neueHoehe,
     scaleFaktor: scaleFaktor,
+    buttonWidth: 25,
+    buttonHeight: 55,
+    margin: windowWidth/89,
+    startX: windowWidth/4.085,
+    buttonY:  windowWidth/1.048,
+
+
+
+
+
+
     diagram1: {
       arcX: windowWidth / 7,
       arcY: windowWidth / 2.4,
@@ -633,17 +653,13 @@ function mouseMoved() {
   }
   
   // ========== SEITE 2 BUTTON HOVER ==========
-  let buttonWidth = 25;
-  let buttonHeight = 55;
-  let margin = windowWidth/89;
-  let startX = windowWidth/4.085;
-  let buttonY = windowWidth/1.048;
+
   
   buttonHover = -1;
   for (let i = 0; i < 5; i++) {
     let buttonX = startX + (i * margin);
-    if (mouseX > buttonX && mouseX < buttonX + buttonWidth &&
-        mouseY > buttonY && mouseY < buttonY + buttonHeight) {
+    if (mouseX > cachedValues.buttonX && mouseX < cachedValues.buttonX + buttonWidth &&
+        mouseY > cachedValues.buttonY && mouseY < cachedValues.buttonY + buttonHeight) {
       buttonHover = i;
       break;
     }
@@ -692,16 +708,12 @@ function mousePressed() {
   }
   
   // ========== SEITE 2 BUTTON CLICKS ==========
-  let buttonWidth = 25;
-  let buttonHeight = 55;
-  let margin = windowWidth/89;
-  let startX = windowWidth/4.085;
-  let buttonY = windowWidth/1.048;
+
   
   for (let i = 0; i < 5; i++) {
     let buttonX = startX + (i * margin);
-    if (mouseX > buttonX && mouseX < buttonX + buttonWidth &&
-        mouseY > buttonY && mouseY < buttonY + buttonHeight) {
+    if (mouseX > cachedValues.buttonX && mouseX < cachedValues.buttonX + cachedValues.buttonWidth &&
+        mouseY > cachedValues.buttonY && mouseY < cachedValues.buttonY + cachedValues.buttonHeight) {
       aktuellerButton = i + 1; // 1-5
       break;
     }
@@ -724,11 +736,6 @@ function starteAnimationJetzt() {
 function drawpage2() {
 
   //Buttons
-  let buttonWidth = 25;
-  let buttonHeight = 55;
-  let margin = windowWidth/89;
-  let startX = windowWidth/4.085;
-  let buttonY = windowWidth/1.048;
 
   noStroke();
   for (let i = 0; i < 5; i++) {
@@ -738,7 +745,7 @@ function drawpage2() {
     } else {
       fill(100); // Normale Farbe 
     }
-    rect(startX + (i * margin), buttonY, buttonWidth, buttonHeight,20);
+    rect(cachedValues.startX + (i * cachedValues.margin), cachedValues.buttonY, cachedValues.buttonWidth, cachedValues.buttonHeight,20);
   }
 
   push();
