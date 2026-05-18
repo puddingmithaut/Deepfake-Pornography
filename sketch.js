@@ -16,7 +16,7 @@ let arrowFrames = [];
 let aktuellerArrowFrame = 0;    
 let letzteArrowAktualisierung = 0;
 let arrowAnimationAktiv = false; 
-let arrowFrameWechselIntervall = 50; 
+let arrowFrameWechselIntervall = 100; // Länger für bessere Performance
 let animationEinmalAbgespielt = false;
 let arrowSichtbar = false;      
 let animationStartZeit = 0;      
@@ -24,11 +24,11 @@ let animationStartVerzoegerung = 2500;
 // ==============================================
 
 // ========== SEITE 1 FADE-IN VARIABLEN ==========
-let diagram1Opacity = 0;        // Start mit 0% Opacity
-let diagram1FadeStart = 0;      // Zeitpunkt, wann das Fade-in beginnt
-let diagram1FadeDauer = 500;   // Dauer des Fade-ins in Millisekunden
-let diagram1FadeAktiv = true;    // Ob das Fade-in aktiv ist
-let diagram1Sichtbar = false;    // Ob Diagramm 1 überhaupt angezeigt werden soll
+let diagram1Opacity = 0;        
+let diagram1FadeStart = 0;     
+let diagram1FadeDauer = 500;  
+let diagram1FadeAktiv = true;    
+let diagram1Sichtbar = false;  
 // ================================================
 
 let kreisdiagramm3;
@@ -59,7 +59,7 @@ let textOpacity2_98 = 0;
 let textOpacity3_1 = 0;
 let textOpacity3_99 = 0;
 
-let textFadeSpeed = 8; // Geschwindigkeit Einblendung
+let textFadeSpeed = 5; // Reduziert für flüssigeres Fading
 // =========================================================
 
 let showDiagram1 = false;
@@ -98,12 +98,16 @@ let margin;
 let startX;
 let buttonY;
 
-
-
+// ========== PERFORMANCE-OPTIMIERUNGEN ==========
+let needsRedraw = true; // Nur neu zeichnen wenn nötig
+let lastMousePosition = { x: -1, y: -1 };
+let lastButtonState = -1;
+let lastHoverSegments = [-1, -1, -1];
+let animationFrame = null;
 
 // ========== SEITE 2 VARIABLEN ==========
-let aktuellerButton = 0; // 0 = nichts ausgewählt
-let buttonHover = -1; //-1 = keiner
+let aktuellerButton = 0; // 
+let buttonHover = -1; //-1 
 
 // Zitate für Seite 2
 let zitate = [
@@ -121,7 +125,7 @@ let zitate = [
 // ==========================================
 
 function preload() {
-  test = loadImage('assets/hintergrundskizze.jpg');
+  test = loadImage('assets/hintergrundskizze.png');
   test2= loadImage('assets/hintergrundskizze2.jpg');
   headline = loadFont("assets/Avenir Heavy.ttf");
   fließtext = loadFont("assets/Avenir Regular.ttf");
@@ -155,22 +159,30 @@ function preload() {
   frau5= loadImage("seite2/woman5.png");
   tinypeople= loadImage("seite2/tiny people.png");
 
-  // Pfeil-Animation laden
   for (let i = 1; i <= 12; i++) {
     arrowFrames[i-1] = loadImage(`assets/Arrows/arrows${i}.png`);
   }
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight * 2.025);
-  updateCachedValues();
-  frameRate(30);
+  // Pixel-Density wieder auf Standard setzen
   pixelDensity(1);
-  aktuellerButton = 1; // Zitat 1 und Frau 1 anzeigen
   
-  // Starte den Timer für Fade-in Diagramm 1
+  // Canvas erstellen
+  createCanvas(windowWidth, windowHeight * 2.025);
+  
+  // Rendering-Optimierungen
+  smooth();
+  frameRate(30);
+  
+  updateCachedValues();
+  
+  aktuellerButton = 1; 
   diagram1FadeStart = millis() + 2000;  
   diagram1FadeAktiv = true;
+  
+  // Optimierung: Nur neu zeichnen wenn nötig
+  noLoop(); // Stoppt automatisches Neuzeichnen
 }
 
 function updateCachedValues() {
@@ -200,11 +212,6 @@ function updateCachedValues() {
     margin: windowWidth/89,
     startX: windowWidth/4.085,
     buttonY:  windowWidth/1.048,
-
-
-
-
-
 
     diagram1: {
       arcX: windowWidth / 7,
@@ -240,32 +247,36 @@ function updateCachedValues() {
   cachedSegments1 = null;
   cachedSegments2 = null;
   cachedSegments3 = null;
+  
+  needsRedraw = true;
 }
 
 function draw() {
+  // Nur neu zeichnen wenn nötig
+  if (!needsRedraw && !arrowAnimationAktiv && !diagram1FadeAktiv) {
+    return;
+  }
+  
   background(47, 45, 45);
   
   // ========== FADE-IN LOGIK DIAGRAMM 1 ==========
   if (diagram1FadeAktiv) {
     let now = millis();
     if (now >= diagram1FadeStart) {
-      
       let fadeProgress = (now - diagram1FadeStart) / diagram1FadeDauer;
       if (fadeProgress >= 1.0) {
-        // Fade-in abgeschlossen
         diagram1Opacity = 255;
         diagram1FadeAktiv = false;
         diagram1Sichtbar = true;
         showDiagram1 = true;
       } else {
-        // Noch im Fade-in
         diagram1Opacity = fadeProgress * 255;
         diagram1Sichtbar = true;
         showDiagram1 = true;
       }
+      needsRedraw = true;
     }
   }
-  // ==================================================
   
   push();
   scale(0.93);
@@ -282,6 +293,7 @@ function draw() {
     animationAbgeschlossen = true;
     showDiagram2 = true;
     showDiagram3 = true;
+    needsRedraw = true;
   }
   
   if (!arrowAnimationAktiv && !animationEinmalAbgespielt && animationStartZeit > 0) {
@@ -290,60 +302,72 @@ function draw() {
     }
   }
   
-  // Skalierung für alle Bilder einmal anwenden
   push();
   scale(canvasScale);
   
-  // Diagramme zeichnen (mit Opacity für Diagramm 1)
   if (showDiagram1) drawPiechartone();
   if (showDiagram2) drawPiecharttwo();
   if (showDiagram3) drawPiechartthree();
   
-  // Pfeile zeichnen
   drawStaticElements();
   
-  // Pfeil-Animation zeichnen
   drawArrowAnimation();
   
   pop();
   
-  // Texte werden NICHT skaliert (bleiben lesbar)
   drawTexts();
   
-  // Text-Transparenzen aktualisieren
   updateTextOpacities();
   drawpage2();
+  
+  // Nach dem Zeichnen: Prüfen ob weitergemacht werden muss
+  if (!arrowAnimationAktiv && !diagram1FadeAktiv) {
+    // Nur bei Interaktion neu zeichnen
+    needsRedraw = false;
+  }
 }
 
 function updateTextOpacities() {
+  let opacityChanged = false;
+  
   // Diagramm 1 - 2%
   if (diagram1_2_percent_clicked && textOpacity1_2 < 255) {
     textOpacity1_2 = min(255, textOpacity1_2 + textFadeSpeed);
+    opacityChanged = true;
   }
   
   // Diagramm 1 - 98%
   if (diagram1_98_percent_clicked && textOpacity1_98 < 255) {
     textOpacity1_98 = min(255, textOpacity1_98 + textFadeSpeed);
+    opacityChanged = true;
   }
   
   // Diagramm 2 - 35%
   if (diagram2_2_percent_clicked && textOpacity2_2 < 255) {
     textOpacity2_2 = min(255, textOpacity2_2 + textFadeSpeed);
+    opacityChanged = true;
   }
   
   // Diagramm 2 - 65%
   if (diagram2_98_percent_clicked && textOpacity2_98 < 255) {
     textOpacity2_98 = min(255, textOpacity2_98 + textFadeSpeed);
+    opacityChanged = true;
   }
   
   // Diagramm 3 - 1%
   if (diagram3_1_percent_clicked && textOpacity3_1 < 255) {
     textOpacity3_1 = min(255, textOpacity3_1 + textFadeSpeed);
+    opacityChanged = true;
   }
   
   // Diagramm 3 - 99%
   if (diagram3_99_percent_clicked && textOpacity3_99 < 255) {
     textOpacity3_99 = min(255, textOpacity3_99 + textFadeSpeed);
+    opacityChanged = true;
+  }
+  
+  if (opacityChanged) {
+    needsRedraw = true;
   }
 }
 
@@ -354,9 +378,11 @@ function drawArrowAnimation() {
         if (aktuellerArrowFrame < arrowFrames.length - 1) {
           aktuellerArrowFrame++;
           letzteArrowAktualisierung = millis();
+          needsRedraw = true;
         } else {
           arrowAnimationAktiv = false;
           animationEinmalAbgespielt = true;
+          needsRedraw = true;
         }
       }
     }
@@ -391,7 +417,6 @@ function drawStaticElements() {
 }
 
 function drawTexts() {
-
   //SEITE 1
   fill(255);
   
@@ -500,7 +525,7 @@ function drawTexts() {
 function drawPiechartone() {
   let d = cachedValues.diagram1;
   
-  // Hitbox-Bögen (unsichtbar für Hover)
+  // Hitbox-Bögen 
   if (!cachedSegments1) {
     let werte = [0.02, 0.98];
     cachedSegments1 = [];
@@ -631,53 +656,84 @@ function getHoverSegment(arcX, arcY, arcS, segmente, rotation) {
 }
 
 function mouseMoved() {
+  let changed = false;
+  
   if (showDiagram1 && cachedSegments1 && diagram1Sichtbar) {
     let d1 = cachedValues.diagram1;
-    currentHoverSegment1 = getHoverSegment(d1.arcX, d1.arcY, d1.arcS, cachedSegments1, d1.rotation);
-  } else {
+    let newHover = getHoverSegment(d1.arcX, d1.arcY, d1.arcS, cachedSegments1, d1.rotation);
+    if (newHover !== currentHoverSegment1) {
+      currentHoverSegment1 = newHover;
+      changed = true;
+    }
+  } else if (currentHoverSegment1 !== -1) {
     currentHoverSegment1 = -1;
+    changed = true;
   }
   
   if (showDiagram2 && cachedSegments2) {
     let d2 = cachedValues.diagram2;
-    currentHoverSegment2 = getHoverSegment(d2.arcX, d2.arcY, d2.arcS, cachedSegments2, d2.rotation);
-  } else {
+    let newHover = getHoverSegment(d2.arcX, d2.arcY, d2.arcS, cachedSegments2, d2.rotation);
+    if (newHover !== currentHoverSegment2) {
+      currentHoverSegment2 = newHover;
+      changed = true;
+    }
+  } else if (currentHoverSegment2 !== -1) {
     currentHoverSegment2 = -1;
+    changed = true;
   }
   
   if (showDiagram3 && cachedSegments3) {
     let d3 = cachedValues.diagram3;
-    currentHoverSegment3 = getHoverSegment(d3.arcX, d3.arcY, d3.arcS, cachedSegments3, d3.rotation);
-  } else {
+    let newHover = getHoverSegment(d3.arcX, d3.arcY, d3.arcS, cachedSegments3, d3.rotation);
+    if (newHover !== currentHoverSegment3) {
+      currentHoverSegment3 = newHover;
+      changed = true;
+    }
+  } else if (currentHoverSegment3 !== -1) {
     currentHoverSegment3 = -1;
+    changed = true;
   }
   
   // ========== SEITE 2 BUTTON HOVER ==========
-
-  
+  let oldButtonHover = buttonHover;
   buttonHover = -1;
   for (let i = 0; i < 5; i++) {
-    let buttonX = startX + (i * margin);
-    if (mouseX > cachedValues.buttonX && mouseX < cachedValues.buttonX + buttonWidth &&
-        mouseY > cachedValues.buttonY && mouseY < cachedValues.buttonY + buttonHeight) {
+    let buttonX = cachedValues.startX + (i * cachedValues.margin);
+    if (mouseX > buttonX && 
+        mouseX < buttonX + cachedValues.buttonWidth &&
+        mouseY > cachedValues.buttonY && 
+        mouseY < cachedValues.buttonY + cachedValues.buttonHeight) {
       buttonHover = i;
       break;
     }
   }
+  
+  if (oldButtonHover !== buttonHover) {
+    changed = true;
+  }
+  
+  if (changed) {
+    needsRedraw = true;
+    redraw(); // Einmalig neu zeichnen
+  }
 }
 
 function mousePressed() {
+  let changed = false;
+  
   if(showDiagram1 && cachedSegments1 && diagram1Sichtbar) {
     let d1 = cachedValues.diagram1;
     let hoverSegment1 = getHoverSegment(d1.arcX, d1.arcY, d1.arcS, cachedSegments1, d1.rotation);
     
     if (hoverSegment1 === 0 && !diagram1_2_percent_clicked) {
       diagram1_2_percent_clicked = true;
+      changed = true;
     }
     
     if (hoverSegment1 === 1 && !diagram1_98_percent_clicked) {
       diagram1_98_percent_clicked = true;
       startePfeilAnimation();
+      changed = true;
     }
   }
   
@@ -687,10 +743,12 @@ function mousePressed() {
     
     if (hoverSegment2 === 0 && !diagram2_2_percent_clicked) {
       diagram2_2_percent_clicked = true;
+      changed = true;
     }
     
     if (hoverSegment2 === 1 && !diagram2_98_percent_clicked) {
       diagram2_98_percent_clicked = true;
+      changed = true;
     }
   }
   
@@ -700,29 +758,42 @@ function mousePressed() {
     
     if (hoverSegment3 === 0 && !diagram3_1_percent_clicked) {
       diagram3_1_percent_clicked = true;
+      changed = true;
     }
     
     if (hoverSegment3 === 1 && !diagram3_99_percent_clicked) {
       diagram3_99_percent_clicked = true;
+      changed = true;
     }
   }
   
   // ========== SEITE 2 BUTTON CLICKS ==========
-
-  
+  let oldButton = aktuellerButton;
   for (let i = 0; i < 5; i++) {
-    let buttonX = startX + (i * margin);
-    if (mouseX > cachedValues.buttonX && mouseX < cachedValues.buttonX + cachedValues.buttonWidth &&
-        mouseY > cachedValues.buttonY && mouseY < cachedValues.buttonY + cachedValues.buttonHeight) {
-      aktuellerButton = i + 1; // 1-5
+    let buttonX = cachedValues.startX + (i * cachedValues.margin);
+    if (mouseX > buttonX && 
+        mouseX < buttonX + cachedValues.buttonWidth &&
+        mouseY > cachedValues.buttonY && 
+        mouseY < cachedValues.buttonY + cachedValues.buttonHeight) {
+      aktuellerButton = i + 1;
+      if (oldButton !== aktuellerButton) {
+        changed = true;
+      }
       break;
     }
+  }
+  
+  if (changed) {
+    needsRedraw = true;
+    redraw();
   }
 }
 
 function startePfeilAnimation() {
   if (!animationEinmalAbgespielt && !arrowAnimationAktiv) {
     animationStartZeit = millis();
+    needsRedraw = true;
+    redraw();
   }
 }
 
@@ -731,19 +802,20 @@ function starteAnimationJetzt() {
   arrowAnimationAktiv = true;
   aktuellerArrowFrame = 0;
   letzteArrowAktualisierung = millis();
+  needsRedraw = true;
+  redraw();
+  // Animation läuft, daher regelmäßig neu zeichnen
+  loop();
 }
 
 function drawpage2() {
-
   //Buttons
-
   noStroke();
   for (let i = 0; i < 5; i++) {
-    // Farbe ändern bei Hover
     if (buttonHover === i) {
-      fill(80); // Hover-Farbe 
+      fill(80);
     } else {
-      fill(100); // Normale Farbe 
+      fill(100);
     }
     rect(cachedValues.startX + (i * cachedValues.margin), cachedValues.buttonY, cachedValues.buttonWidth, cachedValues.buttonHeight,20);
   }
@@ -771,7 +843,6 @@ function drawpage2() {
   image(weißerkasten, windowWidth/25-windowWidth/15,windowWidth/1.55,windowWidth,cachedValues.neueHoehe);
   image(tinypeople,-windowWidth/18,windowWidth/1.48,windowWidth,cachedValues.neueHoehe);
   
-  // Frau basierend auf aktuellerButton anzeigen
   if (aktuellerButton === 1) {
     image(frau1, windowWidth/40-windowWidth/10, windowWidth/1.6, windowWidth, cachedValues.neueHoehe);
   } else if (aktuellerButton === 2) {
@@ -788,7 +859,6 @@ function drawpage2() {
   ////////////ZITATE//////////////
   fill(0);
   
-  // Zitat basierend auf aktuellerButton anzeigen
   let zitatIndex = aktuellerButton - 1;
   if (zitatIndex >= 0 && zitatIndex < zitate.length) {
     textFont(fließtext);
@@ -801,4 +871,6 @@ function drawpage2() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight * 2.025);
   updateCachedValues();
+  needsRedraw = true;
+  redraw();
 }
