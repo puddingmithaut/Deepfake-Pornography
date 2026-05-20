@@ -206,10 +206,10 @@ function updateCachedValues() {
 
 
     diagram1: {
-      arcX: windowWidth / 7,
-      arcY: windowWidth / 2.4,
+      arcX: windowWidth / 5.67,
+      arcY: windowWidth / 2.67,
       //arcS: windowWidth / 2.886044,
-      arcS: windowWidth / 4.8,
+      arcS: windowWidth / 4.33,
       rotation: HALF_PI / 1.525,
       //imgX: windowWidth / 41.833333 - windowWidth/16,
       //imgY: windowWidth / 10.4
