@@ -121,7 +121,7 @@ let zitate = [
 // ==========================================
 
 function preload() {
-  test = loadImage('assets/Background 1.png');
+  test = loadImage('assets/Background 1.webp');
   //test2= loadImage('assets/hintergrundskizze2.jpg');
   headline = loadFont("assets/Avenir Heavy.ttf");
   fließtext = loadFont("assets/Avenir Regular.ttf");
@@ -208,13 +208,13 @@ function updateCachedValues() {
     diagram1: {
       arcX: windowWidth / 5.67,
       arcY: windowWidth / 2.67,
-      //arcS: windowWidth / 2.886044,
-      arcS: windowWidth / 4.33,
+      arcS: windowWidth / 2.886044,
+      //arcS: windowWidth / 4.33,
       rotation: HALF_PI / 1.525,
-      //imgX: windowWidth / 41.833333 - windowWidth/16,
-      //imgY: windowWidth / 10.4
-      imgX: windowWidth / 41.833333,
-      imgY: 0
+      imgX: windowWidth / 41.833333 - windowWidth/16,
+      imgY: windowWidth / 10.4
+      //imgX: windowWidth / 41.833333,
+      //imgY: 0
     },
     diagram2: {
       arcX: windowWidth / 1.46,
@@ -739,7 +739,7 @@ function drawpage2() {
   for (let i = 0; i < 5; i++) {
     // Farbe ändern bei Hover
     if (buttonHover === i) {
-      fill(80); // Hover-Farbe 
+      fill(129, 68, 86); // Hover-Farbe 
     } else {
       fill(100); // Normale Farbe 
     }
