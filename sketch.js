@@ -122,7 +122,7 @@ let zitate = [
 
 function preload() {
   test = loadImage('assets/Background 1.png');
-  test2= loadImage('assets/hintergrundskizze2.jpg');
+  //test2= loadImage('assets/hintergrundskizze2.jpg');
   headline = loadFont("assets/Avenir Heavy.ttf");
   fließtext = loadFont("assets/Avenir Regular.ttf");
   großerkreis= loadImage("assets/großer kreis.webp");
@@ -754,7 +754,7 @@ function drawpage2() {
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext);
   textLeading(cachedValues.textLeading);
-  text("For years, women have faced sexual harassment. With the rise of artificial intelligence, it's only getting\n worse. Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and\nvideos of real people in fake situations, are routinely used against women. Data reveals very\nstrong global growth in deepfake pornography videos, particularly those created without\nconsent. The total number of deepfakes online was projected to rise from approximately 500,000\nin 2023 to around 8 million in 2025, representing exponential global growth.Some reports\nindicate that the volume of deepfakes roughly doubles every six months.",
+  text("For years, women have faced sexual harassment. With the rise of artificial intelligence, it's only getting\nworse. Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and\nvideos of real people in fake situations, are routinely used against women. Data reveals very\nstrong global growth in deepfake pornography videos, particularly those created without\nconsent. The total number of deepfakes online was projected to rise from approximately 500,000\nin 2023 to around 8 million in 2025, representing exponential global growth.Some reports\nindicate that the volume of deepfakes roughly doubles every six months.",
   windowWidth/1.935, windowWidth/1.4);
 
   textFont(headline);
@@ -773,11 +773,11 @@ function drawpage2() {
   if (aktuellerButton === 1) {
     image(frau1, windowWidth/40-windowWidth/10, windowWidth/1.6, windowWidth, cachedValues.neueHoehe);
   } else if (aktuellerButton === 2) {
-    image(frau2, windowWidth/40-windowWidth/15, windowWidth/1.55, windowWidth, cachedValues.neueHoehe);
+    image(frau2, windowWidth/40-windowWidth/30, windowWidth/1.55, windowWidth, cachedValues.neueHoehe);
   } else if (aktuellerButton === 3) {
     image(frau3, windowWidth/40-windowWidth/13, windowWidth/1.6, windowWidth, cachedValues.neueHoehe);
   } else if (aktuellerButton === 4) {
-    image(frau4, windowWidth/40-windowWidth/12, windowWidth/1.6, windowWidth, cachedValues.neueHoehe);
+    image(frau4, windowWidth/40-windowWidth/20, windowWidth/1.6, windowWidth, cachedValues.neueHoehe);
   } else if (aktuellerButton === 5) {
     image(frau5, windowWidth/40-windowWidth/30, windowWidth/1.55, windowWidth, cachedValues.neueHoehe);
   }
