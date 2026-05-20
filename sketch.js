@@ -148,11 +148,11 @@ function preload() {
 
   //Seite 2
   weißerkasten= loadImage("seite2/weißer kasten.png");
-  frau1= loadImage("seite2/woman1.png");
-  frau2= loadImage("seite2/woman2.png");
-  frau3= loadImage("seite2/woman3.png");
-  frau4= loadImage("seite2/woman4.png");
-  frau5= loadImage("seite2/woman5.png");
+  frau1= loadImage("seite2/woman1.webp");
+  frau2= loadImage("seite2/woman2.webp");
+  frau3= loadImage("seite2/woman3.webp");
+  frau4= loadImage("seite2/woman4.webp");
+  frau5= loadImage("seite2/woman5.webp");
   tinypeople= loadImage("seite2/tiny people.png");
 
 
@@ -162,7 +162,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight * 2.025);
+  createCanvas(windowWidth, windowHeight * 1.98);
   updateCachedValues();
   frameRate(30);
   pixelDensity(0.8);
@@ -187,7 +187,7 @@ function updateCachedValues() {
     definitionX: windowWidth / 29.8,
     definitionY: windowWidth / 12.3,
     diagramTitelSize: windowWidth / 68.5,
-    diagram1TitelY: windowWidth / 4.6,
+    diagram1TitelY: windowWidth / 4.35,
     percentSize: windowWidth / 28.8,
     labelSize: windowWidth / 66.755319,
     smallTextSize: windowWidth / 112,
@@ -208,10 +208,13 @@ function updateCachedValues() {
     diagram1: {
       arcX: windowWidth / 7,
       arcY: windowWidth / 2.4,
-      arcS: windowWidth / 2.886044,
+      //arcS: windowWidth / 2.886044,
+      arcS: windowWidth / 4.8,
       rotation: HALF_PI / 1.525,
-      imgX: windowWidth / 41.833333 - windowWidth/16,
-      imgY: windowWidth / 10.4
+      //imgX: windowWidth / 41.833333 - windowWidth/16,
+      //imgY: windowWidth / 10.4
+      imgX: windowWidth / 41.833333,
+      imgY: 0
     },
     diagram2: {
       arcX: windowWidth / 1.46,
@@ -398,7 +401,7 @@ function drawTexts() {
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext);
   textLeading(cachedValues.textLeading);
-  text('A deepfake is a piece of media - such as a photo,audio or video,that has been altered\ngenerated or falsified using artificial intelligence (AI)techniques, to convincingly replace\none persons face or voice.\nAs a result, it creates people and events that do not exist or that did not actually occur.\n\nOver time, the definition of the term deepfake has evolved.\nWhereas in 2017 and 2018 it was applied exclusively to visual media explicitly created\nby "Deepfake AI" by 2022 the term had come to be used to describe images and videos\nthat had been eiter obviously or allegedly falsified by any form of artificial intelligence.',
+  text("A deepfake is a piece of media - such as a photo, audio or video, that has been altered,\ngenerated or falsified using generative A.I, to convincingly replace\none persons face or voice.\nAs a result, it creates images of people and events that do not exist or that did not actually occur.",
   cachedValues.definitionX, cachedValues.definitionY);
   
   // Diagramm 1 Texte (mit Opacity)
@@ -751,12 +754,12 @@ function drawpage2() {
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext);
   textLeading(cachedValues.textLeading);
-  text('For years, women have faced sexual harassment online. With the rise of artificial intelligence, its only\ngetting worse.Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and videos of\nreal people in fake situations, are routinely used against women. Data reveals very strong global growth in\ndeepfake pornography videos, particularly those created without consent. The total number of deepfakes\nonline is projected to rise from approximately 500,000 in 2023 to around 8 million in 2025, representing\nexponential global growth. Some reports indicate that the volume of deepfakes roughly doubles every six\nmonths.',
+  text("For years, women have faced sexual harassment. With the rise of artificial intelligence, it's only\ngetting worse.Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and videos of\nreal people in fake situations, are routinely used against women. Data reveals very strong global growth in\ndeepfake pornography videos, particularly those created without consent. The total number of deepfakes\nonline was projected to rise from approximately 500,000 in 2023 to around 8 million in 2025, representing\nexponential global growth. Some reports indicate that the volume of deepfakes roughly doubles every six months.",
   windowWidth/1.935, windowWidth/1.4);
 
   textFont(headline);
   textSize( cachedValues.percentSize); 
-  textLeading(windowWidth / 33); 
+  textLeading(windowWidth / 30); 
   text('Women who have been \naffected by deepfakes',
   windowWidth/1.935, windowWidth/1.55);
 
@@ -776,7 +779,7 @@ function drawpage2() {
   } else if (aktuellerButton === 4) {
     image(frau4, windowWidth/40-windowWidth/12, windowWidth/1.6, windowWidth, cachedValues.neueHoehe);
   } else if (aktuellerButton === 5) {
-    image(frau5, windowWidth/40-windowWidth/13, windowWidth/1.55, windowWidth, cachedValues.neueHoehe);
+    image(frau5, windowWidth/40-windowWidth/30, windowWidth/1.55, windowWidth, cachedValues.neueHoehe);
   }
   pop();
 
