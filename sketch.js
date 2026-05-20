@@ -185,7 +185,7 @@ function updateCachedValues() {
     titelDeepfakeX: windowWidth / 33,
     titelDeepfakeY: windowWidth / 19.160305,
     definitionX: windowWidth / 29.8,
-    definitionY: windowWidth / 12.3,
+    definitionY: windowWidth / 11,
     diagramTitelSize: windowWidth / 68.5,
     diagram1TitelY: windowWidth / 4.35,
     percentSize: windowWidth / 28.8,
@@ -383,7 +383,7 @@ function drawStaticElements() {
     image(pfeil2, cachedValues.pfeilX3b, 0, windowWidth, cachedValues.neueHoehe);
   }
   if(showDiagram3 && diagram3_99_percent_clicked) {
-    image(pfeil3, cachedValues.pfeilX3, -windowHeight/80, windowWidth, cachedValues.neueHoehe);
+    image(pfeil3, cachedValues.pfeilX3, 0, windowWidth, cachedValues.neueHoehe);
   }
 }
 
@@ -401,7 +401,7 @@ function drawTexts() {
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext);
   textLeading(cachedValues.textLeading);
-  text("A deepfake is a piece of media - such as a photo, audio or video, that has been altered,\ngenerated or falsified using generative A.I, to convincingly replace\none persons face or voice.\nAs a result, it creates images of people and events that do not exist or that did not actually occur.",
+  text("A deepfake is a piece of media - such as a photo, audio or video, that has been altered,\ngenerated or falsified using generative A.I, to convincingly replace one persons face or voice.\nAs a result, it creates images of people and events that do not exist or that did not actually occur.\n\nCreating deepfake videos has become extremely easy. There are countless online apps\nand software that allow you to replace faces, lip-sync and generate images almost\nautomatically, directly from your smartphone.",
   cachedValues.definitionX, cachedValues.definitionY);
   
   // Diagramm 1 Texte (mit Opacity)
@@ -425,7 +425,7 @@ function drawTexts() {
     textSize(cachedValues.smallTextSize);
     push();
     textLeading(windowWidth / 90);
-    text('Political, entertainment,\nfraud and scams, fake news\nand false information.', windowWidth/2.982, windowWidth/3.55);
+    text('Political, entertainment,\nfraud and scams, fake news\nand false information.', windowWidth/2.982, windowWidth/3.5);
     pop();
     pop();
   }
@@ -754,7 +754,7 @@ function drawpage2() {
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext);
   textLeading(cachedValues.textLeading);
-  text("For years, women have faced sexual harassment. With the rise of artificial intelligence, it's only\ngetting worse.Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and videos of\nreal people in fake situations, are routinely used against women. Data reveals very strong global growth in\ndeepfake pornography videos, particularly those created without consent. The total number of deepfakes\nonline was projected to rise from approximately 500,000 in 2023 to around 8 million in 2025, representing\nexponential global growth. Some reports indicate that the volume of deepfakes roughly doubles every six months.",
+  text("For years, women have faced sexual harassment. With the rise of artificial intelligence, it's only getting\n worse. Deepfakes, which use A.I. to create manipulated, but hyper-realistic images and\nvideos of real people in fake situations, are routinely used against women. Data reveals very\nstrong global growth in deepfake pornography videos, particularly those created without\nconsent. The total number of deepfakes online was projected to rise from approximately 500,000\nin 2023 to around 8 million in 2025, representing exponential global growth.Some reports\nindicate that the volume of deepfakes roughly doubles every six months.",
   windowWidth/1.935, windowWidth/1.4);
 
   textFont(headline);
