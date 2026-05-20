@@ -98,9 +98,6 @@ let margin;
 let startX;
 let buttonY;
 
-
-
-
 // ========== SEITE 2 VARIABLEN ==========
 let aktuellerButton = 0; // 
 let buttonHover = -1; //-1 
@@ -117,6 +114,12 @@ let zitate = [
   
   '"My life has been overwhelmed by a wave of hatred and violence. It all started with a photo of me,\nwhich was Photoshopped, removing my clothes and adding a bare breast, transforming it into something\nthat doesnt exist. A false sexual image, yet one that bears my face. From that moment on, hell began to\nbreak loose; that photo began to circulate everywhere.\nMy dignity was trampled upon, stripped away."'
 ];
+
+// ========== AUTO-RESET VARIABLEN ==========
+let letzteAktivitaet = 0;
+let resetVerzoegerung = 60000; // 60 Sekunden
+let resetAktiv = true;
+// ==========================================
 
 // ==========================================
 
@@ -155,10 +158,63 @@ function preload() {
   frau5= loadImage("seite2/woman5.webp");
   tinypeople= loadImage("seite2/tiny people.png");
 
-
   for (let i = 1; i <= 12; i++) {
     arrowFrames[i-1] = loadImage(`assets/Arrows/arrows${i}.png`);
   }
+}
+
+function resetAlles() {
+  console.log("Reset wird ausgeführt...");
+  
+  // Diagramm-Status zurücksetzen
+  diagram1_2_percent_clicked = false;
+  diagram1_98_percent_clicked = false;
+  diagram2_2_percent_clicked = false;
+  diagram2_98_percent_clicked = false;
+  diagram3_1_percent_clicked = false;
+  diagram3_99_percent_clicked = false;
+  
+  // Text-Opacities zurücksetzen
+  textOpacity1_2 = 0;
+  textOpacity1_98 = 0;
+  textOpacity2_2 = 0;
+  textOpacity2_98 = 0;
+  textOpacity3_1 = 0;
+  textOpacity3_99 = 0;
+  
+  // Diagramm-Sichtbarkeit zurücksetzen
+  showDiagram1 = false;
+  showDiagram2 = false;
+  showDiagram3 = false;
+  animationAbgeschlossen = false;
+  
+  // Arrow-Animation komplett zurücksetzen (NICHT starten!)
+  arrowAnimationAktiv = false;
+  animationEinmalAbgespielt = false;
+  arrowSichtbar = false;
+  aktuellerArrowFrame = 0;
+  animationStartZeit = 0;
+  
+  // Hover-Status zurücksetzen
+  currentHoverSegment1 = -1;
+  currentHoverSegment2 = -1;
+  currentHoverSegment3 = -1;
+  
+  // Fade-In Status komplett zurücksetzen (wie beim ersten Laden)
+  diagram1Opacity = 0;
+  diagram1FadeAktiv = true;
+  diagram1Sichtbar = false;
+  diagram1FadeStart = millis() + 2000;  // Neuer Countdown startet
+  
+  // Seite 2 zurücksetzen
+  aktuellerButton = 1;
+  buttonHover = -1;
+  
+  // WICHTIG: KEINE startePfeilAnimation() hier!
+  // Die Animation soll nur starten, wenn der Benutzer das 98% Segment klickt
+  
+  // Reset-Timer zurücksetzen
+  letzteAktivitaet = millis();
 }
 
 function setup() {
@@ -170,6 +226,9 @@ function setup() {
   
   diagram1FadeStart = millis() + 2000;  
   diagram1FadeAktiv = true;
+  
+  // Initialisiere Reset-Timer
+  letzteAktivitaet = millis();
 }
 
 function updateCachedValues() {
@@ -200,21 +259,13 @@ function updateCachedValues() {
     startX: windowWidth/4.085,
     buttonY:  windowWidth/1.048,
 
-
-
-
-
-
     diagram1: {
       arcX: windowWidth / 5.67,
       arcY: windowWidth / 2.67,
       arcS: windowWidth / 2.886044,
-      //arcS: windowWidth / 4.33,
-      rotation: HALF_PI / 1.525,
+      rotation: HALF_PI / 1.42,
       imgX: windowWidth / 41.833333 - windowWidth/16,
       imgY: windowWidth / 10.4
-      //imgX: windowWidth / 41.833333,
-      //imgY: 0
     },
     diagram2: {
       arcX: windowWidth / 1.46,
@@ -246,6 +297,12 @@ function updateCachedValues() {
 }
 
 function draw() {
+  // ========== AUTO-RESET CHECK ==========
+  if (resetAktiv && millis() - letzteAktivitaet >= resetVerzoegerung) {
+    resetAlles();
+  }
+  // ======================================
+  
   background(47, 45, 45);
   
   // ========== FADE-IN LOGIK DIAGRAMM 1 ==========
@@ -499,7 +556,7 @@ function drawPiechartone() {
   
   // Hitbox-Bögen 
   if (!cachedSegments1) {
-    let werte = [0.02, 0.98];
+    let werte = [0.03, 0.97];
     cachedSegments1 = [];
     let startwinkel = -d.rotation;
     for (let i = 0; i < werte.length; i++) {
@@ -628,6 +685,9 @@ function getHoverSegment(arcX, arcY, arcS, segmente, rotation) {
 }
 
 function mouseMoved() {
+  // Reset-Timer zurücksetzen bei Benutzeraktivität
+  letzteAktivitaet = millis();
+  
   if (showDiagram1 && cachedSegments1 && diagram1Sichtbar) {
     let d1 = cachedValues.diagram1;
     currentHoverSegment1 = getHoverSegment(d1.arcX, d1.arcY, d1.arcS, cachedSegments1, d1.rotation);
@@ -664,6 +724,9 @@ function mouseMoved() {
 }
 
 function mousePressed() {
+  // Reset-Timer zurücksetzen bei Benutzeraktivität
+  letzteAktivitaet = millis();
+  
   if(showDiagram1 && cachedSegments1 && diagram1Sichtbar) {
     let d1 = cachedValues.diagram1;
     let hoverSegment1 = getHoverSegment(d1.arcX, d1.arcY, d1.arcS, cachedSegments1, d1.rotation);
