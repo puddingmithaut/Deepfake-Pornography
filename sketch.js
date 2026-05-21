@@ -137,17 +137,17 @@ function preload() {
   pfeil4 = loadImage("assets/5a.webp");
   pfeil5 = loadImage("assets/6a.webp");
 
-  kreisdiagramm3 = loadImage("assets/kreisdiagramme/Diagram 3 a.webp");
-  kreisdiagramm3big_clicked = loadImage("assets/kreisdiagramme/Diagram 3 big pie piece clicked a.webp");
-  kreisdiagramm3small_clicked = loadImage("assets/kreisdiagramme/Diagram 3 little pie piece clicked a.webp");
+  kreisdiagramm3 = loadImage("assets/kreisdiagramme/Diagram3a.webp");
+  kreisdiagramm3big_clicked = loadImage("assets/kreisdiagramme/Diagram3bigpiepiececlickeda.webp");
+  kreisdiagramm3small_clicked = loadImage("assets/kreisdiagramme/Diagram3littlepiepiececlickeda.webp");
 
-  kreisdiagramm1 = loadImage("assets/kreisdiagramme/Diagram 1 purple no clicked.webp");
-  kreisdiagramm1big_clicked = loadImage("assets/kreisdiagramme/Diagram 1 big pie piece clicked.webp");
-  kreisdiagramm1small_clicked = loadImage("assets/kreisdiagramme/Diagram 1 little pie piece clicked.webp");
+  kreisdiagramm1 = loadImage("assets/kreisdiagramme/Diagram1purplenoclicked.webp");
+  kreisdiagramm1big_clicked = loadImage("assets/kreisdiagramme/Diagram1bigpiepiececlicked.webp");
+  kreisdiagramm1small_clicked = loadImage("assets/kreisdiagramme/Diagram1littlepiepiececlicked.webp");
 
   kreisdiagramm2 = loadImage("assets/kreisdiagramme/button2.webp");
-  kreisdiagramm2small_clicked = loadImage("assets/kreisdiagramme/Diagram 2 little pie piece clicked.webp");
-  kreisdiagramm2big_clicked = loadImage("assets/kreisdiagramme/Diagram 2 big pie piece clicked.webp");
+  kreisdiagramm2small_clicked = loadImage("assets/kreisdiagramme/Diagram2littlepiepiececlicked.webp");
+  kreisdiagramm2big_clicked = loadImage("assets/kreisdiagramme/Diagram2bigpiepiececlicked.webp");
 
   //Seite 2
   weißerkasten= loadImage("seite2/weißer kasten.png");
@@ -156,7 +156,7 @@ function preload() {
   frau3= loadImage("seite2/woman3.webp");
   frau4= loadImage("seite2/woman4.webp");
   frau5= loadImage("seite2/woman5.webp");
-  tinypeople= loadImage("seite2/tiny people.png");
+  tinypeople= loadImage("seite2/tinypeople.png");
 
   for (let i = 1; i <= 12; i++) {
     arrowFrames[i-1] = loadImage(`assets/Arrows/arrows${i}.png`);
