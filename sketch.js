@@ -458,7 +458,7 @@ function drawTexts() {
   textFont(fließtext);
   textSize(cachedValues.textSizeFließtext);
   textLeading(cachedValues.textLeading);
-  text("A deepfake is a piece of media - such as a photo, audio or video, that has been altered,\ngenerated or falsified using generative A.I, to convincingly replace one persons face or voice.\nAs a result, it creates images of people and events that do not exist or that did not actually occur.\n\nCreating deepfake videos has become extremely easy. There are countless online apps\nand software that allow you to replace faces, lip-sync and generate images almost\nautomatically, directly from your smartphone.",
+  text("A deepfake is a piece of media - such as a photo, audio or video, that has been altered,\ngenerated or falsified using generative A.I, to convincingly replace one person's face or voice.\nAs a result, it creates images of people and events that do not exist or that did not actually occur.\n\nCreating deepfake videos has become extremely easy. There are countless online apps\nand software that allow you to replace faces, lip-sync and generate images almost\nautomatically, directly from your smartphone.",
   cachedValues.definitionX, cachedValues.definitionY);
   
   // Diagramm 1 Texte (mit Opacity)
