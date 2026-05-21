@@ -141,7 +141,7 @@ function preload() {
   kreisdiagramm3big_clicked = loadImage("assets/kreisdiagramme/Diagram 3 big pie piece clicked a.webp");
   kreisdiagramm3small_clicked = loadImage("assets/kreisdiagramme/Diagram 3 little pie piece clicked a.webp");
 
-  //kreisdiagramm1 = loadImage("assets/kreisdiagramme/Diagram 1 purple no clicked.webp");
+  kreisdiagramm1 = loadImage("assets/kreisdiagramme/Diagram 1 purple no clicked.webp");
   kreisdiagramm1big_clicked = loadImage("assets/kreisdiagramme/Diagram 1 big pie piece clicked.webp");
   kreisdiagramm1small_clicked = loadImage("assets/kreisdiagramme/Diagram 1 little pie piece clicked.webp");
 
@@ -583,7 +583,7 @@ function drawPiechartone() {
   } else if (currentHoverSegment1 === 1) {
     image(kreisdiagramm1big_clicked, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
   } else {
-   // image(kreisdiagramm1, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
+    image(kreisdiagramm1, d.imgX, d.imgY, windowWidth, cachedValues.neueHoehe);
   }
   noTint();
   pop();
