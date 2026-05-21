@@ -333,7 +333,7 @@ function draw() {
   pop();
   push();
   scale(0.91);
-  image(großerkreis,-windowWidth/3.15,windowHeight/3.70,windowWidth,cachedValues.neueHoehe);
+  image(großerkreis,-windowWidth/3.15,windowWidth/7.4,windowWidth,cachedValues.neueHoehe);
   pop();
   
   //=================SEITE 1=========================//
